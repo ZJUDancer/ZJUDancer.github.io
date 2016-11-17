@@ -7,12 +7,12 @@ title: ZJUDancer's Blog
 subtitle:
 description:
 author: ZJUDancer
-language: en-US
+language: en
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://zjudancer.github.io
+url: http://www.zjudancer.club
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -26,6 +26,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - README.md
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -71,3 +72,9 @@ deploy:
   type: git
   repo: https://github.com/ZJUDancer/ZJUDancer.github.io.git
   branch: master
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
