@@ -1,0 +1,3 @@
+[submodule "themes/Material"]
+	path = themes/Material
+	url = https://github.com/ZJUDancer/hexo-theme-material.git
