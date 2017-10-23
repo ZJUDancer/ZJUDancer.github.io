@@ -70,7 +70,7 @@ theme: Material
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/ZJUDancer/ZJUDancer.github.io.git
+  repo: git@github.com:ZJUDancer/ZJUDancer.github.io.git
   branch: master
 
 feed:
