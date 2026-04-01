@@ -16,7 +16,7 @@ const DOCUMENTS_NAV = [
         title: "Behavior",
         children: [
           {
-            title: "第二版",
+            title: "behavior",
             file: "docs/documents/Behavior_module.md",
             docId: "behavior-module-v3"
           }
