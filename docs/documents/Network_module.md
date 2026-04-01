@@ -1,109 +1,110 @@
+# Network Module
+
+## 1. 模块概述
+
+`dnetwork` 是整个机器人系统（ZJUDancer）的网络通信中枢。
+* **对内（ROS 节点）：** 它是各个本地算法模块（视觉 Vision、动作 Motion、行为 Behavior）的信息聚合器和分发器。
+* **对外（UDP 网络）：** 它是机器人与外界（队友机器人、裁判盒、外部监控端）进行物理数据包交换的唯一接口。
+
+该模块高度依赖底层的两个基础库：
+* **`dprocess`：** 提供多线程和定时循环调度的能力。
+* **`dtransmit`：** 提供对底层 UDP Socket 的高度封装（异步接收、回调绑定、组播/单播发送）。
 
 ---
 
-# Network module
+## 2. 目录结构与核心入口
 
-## dtransmit
+`dnetwork` 的核心文件包含头文件与源文件两部分，核心依赖标准 RoboCup 的协议头文件：
 
-### Socket (注意 S 大写) 现在机器人上这个类叫 Foo
-封装过的 UDP socket，它的成员除了 socket 本身之外还包含回调函数 readHandler、接收缓冲区 recvBuffer、数据来源 remoteEndpoint (ip和端口号)。
+```text
+dnetwork/
+├── include/dnetwork/
+│   ├── RoboCup/RoboCupGameControlData.h  # 国际 RoboCup 官方定义的裁判盒数据结构
+│   ├── gamecontroller.hpp                # 裁判盒通信类头文件
+│   └── team.hpp                          # 队内通信类头文件
+└── src/
+    ├── gamecontroller.cpp
+    ├── main.cpp                          # ROS 节点入口
+    └── team.cpp
+```
 
-通过 std::map，端口号可以对应到一个 Socket，进而也可以对应到 Socket 的成员。
-
-### Socket(boost::asio::io_service &service, PORT port)
-Socket 的构造函数，传入 io_service 和 port。socket 的异步接收由 service 统一管理，socket绑定到本机端口 port 上。
-
-## Dtransmit
-
-### 接收数据包：
-
-**void startRecv(PORT port, ReadHandler handler)**
-PORT 就是 int，ReadHandler 是模板占位符，不用管
-
-传入一个本机端口号和对应的 readHandler，用这个端口号对应的 socket 开始接收数据包，把数据来源 ip 和端口号保存在 Socket.remoteEndpoint 中，并把数据交给 readHandler 处理。
-
-这是异步操作，不阻塞主线程。
-
-**void addRawRecv(PORT port, std::function<void(void *, std::size_t)> callback)**
-传入一个本机端口号和回调函数 callback，用端口号新建一个 Socket，定义其 readHandler 功能为：只要从 socket 正常获取数据包，就把它交给回调函数 callback。
-
-随后调用 startRecv，开始接收并处理数据包。
-
-**void addRawRecvFiltered(PORT port, std::string remoteEndpoint, std::function<void(void *, std::size_t)> callback)**
-传入一个本机端口号、数据包来源 remoteEndpoint 和回调函数 callback，用端口号新建一个 Socket，定义其 readHandler 功能为：只要从 socket 正常获取来自 remoteEndpoint 的数据包，就把它交给回调函数 callback，过滤掉所有其他来源的数据包。
-
-随后调用 startRecv，开始接收并处理数据包。
-
-**void addRosRecv(PORT port, std::function<void(ROSMSG &)> callback)**
-传入一个本机端口号和回调函数 callback，用端口号新建一个 Socket，定义其 readHandler 功能为：把从 socket 获取的数据包翻译成 ROS message（但是好像不翻译也能用？），交给回调函数 callback。
-
-随后调用 startRecv，开始接收并处理数据包。
-
-### 发送数据包：
-
-**void createSendSocket(const std::string &addr, const PORT &port)**
-传入目标主机的 ip 地址 addr 和端口号 port，封装成一个 broadcastEndpoint 对象。新建一个 socket，通过 std::map，一个(addr, port)可以唯一对应到一个 socket，令这个 socket 与 broadcastEndpoint 建立连接。
-
-**void DTransmit::sendBuffer(boost::asio::ip::udp::socket *socket, const void *buffer, std::size_t size)**
-传入 createSendSocket 创建的 socket，数据缓冲区地址，数据包大小，用这个 socket 把数据包发过去。
-
-**void sendRaw(PORT port, const void *buffer, std::size_t size)**
-传入端口号，数据缓冲区地址，数据包大小。调用 broadcast_addresses_ 获取数据要发到的所有 ip 地址，调用 createSendSocket 创建每个地址对应的 socket（端口号都是传入的 port），调用 sendBuffer 把数据包发到这些地址。
-
-**void DTransmit::sendRos(PORT port, ROSMSG &rosmsg)**
-传入目标主机端口号和 rosmsg，将 rosmsg 序列化（变为可以用 socket 发出的格式，但是好像不变也能发？），放入 buffer 中，调用 sendRaw 发出去。
+### 2.1 模块启动 (`main.cpp`)
+作为独立的 ROS 节点，程序入口非常简洁。初始化 ROS 后，实例化 `Team` 和 `GameController`。由于它们均继承自 `dprocess::DProcess`，调用 `spin()` 后会分别在独立的子线程中启动网络监听和定时发送的循环，最后主线程通过 `join()` 阻塞等待。
 
 ---
 
-## dprocess
-Network module 的“进程”类，Team 和 GameController 的父类，负责新建一个线程，线程中循环调用 Team 和 GameController 的发包函数。
+## 3. Team 类：队内通信机制详解
 
-循环频率、是否采用 SCHED_FIFO 的线程调度策略均可修改。
+`Team` 类的主要职责是实现多台机器人之间的状态同步（队友在哪、是否看到球、当前处于什么战术角色），并将本机的状态暴露给外部监控。其运行频率设定为 `NETWORK_FREQ = 30Hz`。
 
----
+### 3.1 接收数据（从队友到本机）
+在构造函数中，通过 `dtransmit` 的 `addRawRecv` 绑定了对广播地址 `dconstant::network::TeamInfoBroadcastAddress` 的监听。
+**处理逻辑（回调函数）：**
+* **尺寸校验：** 检查收到的数据包大小是否严格等于 `dmsgs::TeamInfo` 结构体的大小。
+* **阵营过滤：** 解析数据包，判断 `team_number` 是否与本机所属队伍相符（过滤掉场上敌方机器人的干扰包）。
+* **ROS 转发：** 符合条件的队友消息，会被打上当前时间戳 `recv_timestamp`，并通过 `/dnetwork_n/TeamInfo` 发布到本地 ROS 总线供 Behavior 等决策模块使用。
 
-## dnetwork
-所有机器人用于队内通信的端口号均为 57335，定义在
-workspaces\core\src\dconfig\include\dconfig\dconstant.hpp
+### 3.2 收集本机状态（ROS 订阅）
+`Team` 类在本地订阅了三个核心话题，利用回调函数（带有 `std::mutex` 线程锁保证数据安全）更新内部的 `info_` 结构体：
+* **MotionInfo：** 获取机器人是否处于稳定状态 (`unstable_`)。如果摔倒，则标记为失去比赛能力 (`incapacitated = true`)。
+* **BehaviorInfo：** 获取机器人的当前角色（前锋/后卫等）、战术状态、目标点。**特别注意：** 这里对 `voronoi` (维诺图) 数据做了截断处理，限制最大长度为 6 (`MAX_VORONOI_SIZE`)，防止数组越界。
+* **VisionInfo：** 获取机器人当前视野信息（是否看到球/球门、球的全局/相对坐标）。
+* **GCInfo：** 从本地获取经过 `GameController` 模块解析好的裁判盒状态（是否被罚下）。
 
-所有机器人用于和裁判盒通信的端口号均为 3838，裁判盒用于和机器人通信的端口号为 3939，定义在
-workspaces\core\src\dnetwork\include\dnetwork\RoboCup\RoboCupGameControlData.h
+### 3.3 发送数据与动态频率控制 (`tick()` 函数)
+这是 `Team` 类的核心亮点。由于网络带宽有限，程序实现了**动态发包频率控制 (Dynamic Frequency Control)**：
+* **高频 (15Hz / 0.067s)：** 如果本机是**持球机器人** (`BALL_HANDLING`)，需要将球的位置极速同步给队友。
+* **中高频 (10Hz ~ 2.5Hz)：** 如果本机**看到了球**，根据球距离机器人的远近决定发包频率。距离越近（<1m），发包越快（10Hz）；距离远（>3m），发包降为 2.5Hz。
+* **低频 (1Hz / 1.0s)：** 如果没有看到球，且不持球，处于“盲人”状态，仅维持 1Hz 的心跳包。
 
----
-
-## Team
-
-### 本机内 ROS 通信
-订阅 vision, motion, behavior, gamecontroller，向 /dbehavior_n/BehaviorInfo (n 为本机编号) 发布消息。
-
-### 收消息
-调用 DTransmit 的 addRawRecv 方法，回调函数为：
-
-先根据条件筛选：
-1) 数据包的大小与 TeamInfo 一致
-2) 是本队的消息
-3) 不是自己发出的消息
-
-如果都满足，则向 /dbehavior_n/TeamInfo 发布。
-
-### 发消息
-通过 tick() 方法实现。
-
-从 vision, motion, behavior, gamecontroller 获取信息后更新在 info_ 中，调用 DTransmit 的 sendRaw 方法把 info_ 发给局域网内所有主机的 57335 端口。
+**发送通道：**
+* **局域网广播 (Broadcast)：** 通过 `transmitter_->sendRaw` 将 `info_` 广播给所有队友。发送前提是 `behaviorReady_` 必须为 true（确保有最新决策数据）。
+* **UDP 单播监控 (Unicast Monitor)：** 通过原生的 Socket 编程（`socket()`, `sendto()`），以固定的 1.0s 周期，将 `info_` 单播发送到配置文件中指定的 `UnicastTargetAddress` 和 `UnicastTargetPort`，主要用于场外监控。
 
 ---
 
-## GameController
+## 4. GameController 类：裁判盒通信机制详解
 
-### 本机内 ROS 通信
-没有订阅。
+`GameController` 负责与比赛官方的裁判盒系统（GameController Server）对接。运行频率较低，为 `FREQ = 2Hz`。
 
-通过 tick() 方法（和 Team 中的 tick 不同），向 /dbehavior_n/GCInfo (n 为本机编号) 发布消息，消息内容为 info_。
+### 4.1 接收数据（从裁判盒到本机）
+在构造函数中，通过 `dtransmit` 的 `addRawRecvFiltered` 绑定监听端口 3838（`GAMECONTROLLER_DATA_PORT`）。过滤条件更严格，仅处理大小为 `sizeof(RoboCupGameControlData)` 的包，并在拿到锁后调用 `ParseData()`。
 
-### 收消息
-调用 DTransmit 的 addRawRecvFiltered 方法，回调函数为：筛选掉不来自裁判盒的数据包和大小不符合 RoboCupGameControlData 数据类型的数据包，正常的数据包交给 ParseData 方法处理。
+**`IsValidData()` 数据有效性严格校验：**
+* **Header 校验：** 前 4 个字节必须是 `"RGme"`。
+* **比赛归属校验：** 检查数据包中包含的两个队伍的 `teamNumber`，其中必须有一个是本机的队伍编号。
+* 如果一切通过，更新 `last_valid_packet_timestamp_`。
 
-通过 ParseData 和其他方法，逐步筛选出发给本队（有没有精确到本机？）的数据包，如果相比之前一个有更新，则更新在 info_ 中。
+### 4.2 数据解析与转换 (`tick()` 函数)
+裁判盒发来的原始数据 (`RoboCupGameControlData`) 结构非常庞大。`tick()` 函数将其剥离并转化为内部紧凑的 `dmsgs::GCInfo`：
+* **连接状态监控：** 通过判断当前时间与 `last_valid_packet_timestamp_` 的差值。如果超过 3 秒没有收到合法数据包，判定为断开连接 (`connected_ = false`)。
+* **阵营判定：** 根据 `teamNumber_` 自动区分解析包里的 `ourTeam`（己方）和 `enemyTeam`（敌方）。
+* **复杂比赛状态拆解：**
+    * 将 `gameData.state` 拆解为针对当前阶段的 `setPlayReady` (允许走位) 和 `setPlayFreeze` (必须静止)。
+    * 判断具体的定位球类型（任意球、点球、角球、球门球、界外球），并精确区分是己方的球权还是敌方的球权 (`ourDirectFreeKick`, `enemyDirectFreeKick` 等)。
+* **惩罚状态提取：** 读取 `ourTeam->players[playerNumber_ - 1].penalty`，判断本机当前是否处于判罚/罚下状态 (`penalised_`)。
+* 最后，将整理好的 `info_` 通过 `/dnetwork_n/GCInfo` 发布给本地 ROS 其他节点。
 
-### 发消息
-调用 DTransmit 的 sendRaw 方法，把 ret_ 消息（包含队伍编号、机器人编号，表明白己在线的标记）发给发给局域网内所有主机的 3939 端口（但只有裁判盒会处理）。
+### 4.3 发送数据返回裁判盒 (`tick()` 函数尾部)
+按照 RoboCup 规则，机器人需要向裁判盒报告自己的状态（存活心跳、机器人位置、球的相对位置）。
+目前代码构建了 `RoboCupGameControlReturnData ret_` 结构体：
+* **发送目标：** 向配置参数 `gameControllerAddress_` 的 3939 端口 (`GAMECONTROLLER_RETURN_PORT`) 回传数据。
+* **底层实现：** 注意，这里因为裁判盒要求单播，代码没有使用 `transmitter_->sendRaw`，转而直接使用了底层的 Linux Socket API 创建 UDP Socket 发送 (`socket`, `inet_pton`, `sendto`, `close`)。
+
+---
+
+## 5. 模块数据流向图总结
+
+以下两个闭环可以帮助理解 `dnetwork`：
+
+**A. 队友协作闭环 (端口 57335):**
+```text
+[本地Vision/Behavior/Motion] --(ROS)--> [Team::tick] --(UDP 广播 57335)--> 局域网
+局域网 --(UDP 广播 57335)--> [Team::addRawRecv] --(ROS)--> [本地决策系统]
+```
+
+**B. 裁判盒调度闭环 (收 3838，发 3939):**
+```text
+裁判盒 --(UDP 广播 3838)--> [GC::addRawRecvFiltered] --> [GC::ParseData] --(ROS)--> [本地系统]
+[GC::tick生成回传数据 ret_] --(UDP 单播 3939)--> 裁判盒 
+```

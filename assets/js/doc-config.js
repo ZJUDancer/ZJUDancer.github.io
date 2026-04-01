@@ -22,16 +22,7 @@ const DOCUMENTS_NAV = [
           }
         ]
       },
-      {
-        title: "Network",
-        children: [
-          {
-            title: "Network Module",
-            file: "docs/documents/Network_module.md",
-            docId: "network-module"
-          }
-        ]
-      },
+
 
     ]
   },
@@ -60,6 +51,14 @@ const DOCUMENTS_NAV = [
   {
     title: "其他代码阅读",
     children: [
+        {
+
+            title: "Network Module",
+            file: "docs/documents/Network_module.md",
+            docId: "network-module"
+          
+        
+      },
       {
         title: "IO",
         file: "docs/documents/IO_module.md",
