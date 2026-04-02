@@ -229,41 +229,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  async function renderMarkdown(file) {
-    contentRoot.className = "doc-content markdown-body";
+async function renderMarkdown(file) {
+  contentRoot.className = "doc-content markdown-body";
+  contentRoot.innerHTML = `
+    ${createDocToolbar(file, "Download Markdown")}
+    <p>Loading markdown...</p>
+  `;
+
+  try {
+    const response = await fetch(file);
+    if (!response.ok) throw new Error("Failed to load markdown");
+
+    const text = await response.text();
+
     contentRoot.innerHTML = `
       ${createDocToolbar(file, "Download Markdown")}
-      <p>Loading markdown...</p>
+      <div class="doc-markdown-body">
+        ${marked.parse(text)}
+      </div>
     `;
 
-    try {
-      const response = await fetch(file);
-      if (!response.ok) throw new Error("Failed to load markdown");
+    const markdownBody = contentRoot.querySelector(".doc-markdown-body");
 
-      const text = await response.text();
+    renderMathInContent(markdownBody);
+    assignHeadingIds(markdownBody);
+    await renderMermaidInContent(markdownBody);
+    buildTOC(markdownBody);
+    bindZoomableMedia(markdownBody, viewerInstance);
 
-      contentRoot.innerHTML = `
-        ${createDocToolbar(file, "Download Markdown")}
-        <div class="doc-markdown-body">
-          ${marked.parse(text)}
-        </div>
-      `;
-
-      const markdownBody = contentRoot.querySelector(".doc-markdown-body");
-
-      assignHeadingIds(markdownBody);
-      await renderMermaidInContent(markdownBody);
-      buildTOC(markdownBody);
-      bindZoomableMedia(markdownBody, viewerInstance);
-
-    } catch (error) {
-      contentRoot.innerHTML = `
-        ${createDocToolbar(file, "Download Markdown")}
-        <p>Failed to load document: ${error.message}</p>
-      `;
-      hideTOC();
-    }
+  } catch (error) {
+    contentRoot.innerHTML = `
+      ${createDocToolbar(file, "Download Markdown")}
+      <p>Failed to load document: ${error.message}</p>
+    `;
+    hideTOC();
   }
+}
+
 
   function renderPDF(file) {
     hideTOC();
@@ -625,4 +627,17 @@ function setupMermaidZoom(wrapper) {
   );
 
   applyTransform();
+}
+function renderMathInContent(root) {
+  if (!root || !window.renderMathInElement) {
+    console.warn("KaTeX auto-render is not loaded.");
+    return;
+  }
+
+  window.renderMathInElement(root, {
+    delimiters: [
+      { left: "$$", right: "$$", display: true }
+    ],
+    throwOnError: false
+  });
 }
