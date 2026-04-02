@@ -1,306 +1,148 @@
 ***
 
-# Config module
+# Config Module
 
-## Overview
+---
 
-`dconfig` 是机器人系统的配置模块，负责管理所有模块的参数配置。
+## 一、概述
 
-### 核心组件
+`dconfig` 是我们的集中配置仓库，承担两项核心职责：
 
-*   `core`: 核心配置管理，负责参数的加载、存储与访问
-*   `parser`: 配置文件解析器，支持多种格式
-*   `server`: 参数服务器，提供运行时参数调整
-*   `util`: 工具函数与辅助类
+1. **静态常量定义**：通过 C++ 头文件 `dconstant.hpp` 提供编译期可用的场地几何参数与网络参数。
+2. **动态配置热更新**：通过 Python 脚本 `config_watchdog.py` 监听配置文件目录，在 YAML 文件发生变化时自动调用 `rosparam load` 并向对应模块发布通知。
 
-### 工作流程
+模块的目录结构如下：
 
-0. 初始化：加载默认配置文件，初始化配置管理器
-1. 解析：解析配置文件，存储到内部数据结构
-2. 服务启动：启动参数服务器，提供查询与修改接口
-3. 参数访问：其他模块获取所需参数
-4. 动态调整：运行中支持参数调整并实时生效
-5. 持久化：保存修改后的参数到配置文件
-
-## Core
-
-core 组件是配置模块的核心，负责参数的管理与访问，采用树形结构组织配置数据。
-
-### 核心类
-
-*   `ConfigManager`: 配置管理核心类，负责全局配置的管理
-*   `ConfigNode`: 配置树中的节点，可包含子节点或值
-*   `ConfigValue`: 配置值基类，支持多种数据类型
-
-### 配置树结构
-
-配置数据采用树形结构组织，根节点是 `ConfigManager`，下面是各个配置节点，叶子节点是具体的配置值。
-
-```mermaid
-graph TD
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-    classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
-    classDef L5 fill:#F8F2E5,color:#000,stroke:#333,stroke-width:1px;
-    classDef L6 fill:#D9C8B4,color:#000,stroke:#333,stroke-width:1px;
-    classDef L7 fill:#BEC0B4,color:#000,stroke:#333,stroke-width:1px;
-
-    ConfigManager[ConfigManager] --> ConfigNode1[ConfigNode: robot]
-    ConfigManager --> ConfigNode2[ConfigNode: hardware]
-    ConfigManager --> ConfigNode3[ConfigNode: behavior]
-    ConfigManager --> ConfigNode4[ConfigNode: vision]
-    ConfigManager --> ConfigNode5[ConfigNode: motion]
-    
-    ConfigNode1 --> ConfigValue1[StringValue: name = 'dancer']
-    ConfigNode1 --> ConfigValue2[StringValue: type = 'humanoid']
-    ConfigNode1 --> ConfigValue3[StringValue: version = '1.0']
-    
-    ConfigNode2 --> ConfigNode21[ConfigNode: motors]
-    ConfigNode21 --> ConfigValue211[IntValue: count = 20]
-    ConfigNode21 --> ConfigValue212[FloatValue: max_torque = 10.0]
-    
-    ConfigNode2 --> ConfigNode22[ConfigNode: sensors]
-    ConfigNode22 --> ConfigNode221[ConfigNode: imu]
-    ConfigNode221 --> ConfigValue2211[StringValue: type = 'mpu6050']
-    ConfigNode221 --> ConfigValue2212[IntValue: update_rate = 100]
-    
-    ConfigNode3 --> ConfigNode31[ConfigNode: roles]
-    ConfigNode31 --> ConfigNode311[ConfigNode: 0]
-    ConfigNode311 --> ConfigValue3111[StringValue: name = 'striker']
-    ConfigNode311 --> ConfigValue3112[IntValue: priority = 1]
-
-    class ConfigManager L1;
-    class ConfigNode1,ConfigNode2,ConfigNode3,ConfigNode4,ConfigNode5 L2;
-    class ConfigNode21,ConfigNode22,ConfigNode31 L3;
-    class ConfigNode221,ConfigNode311 L4;
-    class ConfigValue1,ConfigValue2,ConfigValue3,ConfigValue211,ConfigValue212,ConfigValue2211,ConfigValue2212,ConfigValue3111,ConfigValue3112 L5;
+```text
+dconfig/
+├── include/dconfig/
+│   └── dconstant.hpp          # 编译期常量（场地几何 + 网络参数）
+├── launch/
+│   └── dconfig.launch         # 启动 config_watchdog 节点
+├── matlab/                    # MATLAB 脚本
+├── scripts/
+│   └── config_watchdog.py     # 配置热更新守护进程
+├── global.yml                 # 全局运行参数
+└── 1/ 2/ 3/ 4/ 5/ 6/ 10/     # 各机器人个体配置目录
+    ├── dancer_io/             
+    ├── dmotion/               
+    └── dvision/               
 ```
 
-## Parser
+---
 
-parser 组件负责解析不同格式的配置文件，支持多种格式，提供统一的解析接口。
+## 二、静态常量：`dconstant.hpp`
 
-### 支持的格式
+该头文件使用 `#pragma once` 保护，定义了两个命名空间下的编译期 `const` 常量。
 
-*   **YAML**: 人类友好的数据序列化标准
-*   **JSON**: 轻量级的数据交换格式
-*   **XML**: 可扩展标记语言
-*   **INI**: 简单的键值对配置格式
+### 2.1 场地几何常量 (`dconstant::geometry`)
 
-### 解析器类
+所有尺寸单位为厘米（cm）。
 
-*   `YamlParser`: 解析 YAML 格式
-*   `JsonParser`: 解析 JSON 格式
-*   `XmlParser`: 解析 XML 格式
-*   `IniParser`: 解析 INI 格式
+| 常量名 | 值 |
+|---|---|
+| `fieldLength` | 900 |
+| `fieldWidth` | 600 |
+| `goalDepth` | 60 |
+| `goalWidth` | 260 |
+| `goalHeight` | 180 |
+| `goalAreaLength` | 100 |
+| `goalAreaWidth` | 300 |
+| `penaltyAreaLength` | 200 |
+| `penaltyAreaWidth` | 500 |
+| `penaltyMarkDistance` | 150 |
+| `centerCircleDiameter` | 150 |
+| `borderStripWidth` | 70 |
+| `lineWidth` | 5 |
+| `ballDiameter` | 13 |
+| `robotWidth` | 30 |
+| `robotHeight` | 20 |
 
-### 解析流程
+以下派生常量通过右移位运算（`>> 1`，即除以 2）或加法计算：
 
-```mermaid
-flowchart TD
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-    classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
-    classDef L5 fill:#F8F2E5,color:#000,stroke:#333,stroke-width:1px;
-    classDef L6 fill:#D9C8B4,color:#000,stroke:#333,stroke-width:1px;
-    classDef L7 fill:#BEC0B4,color:#000,stroke:#333,stroke-width:1px;
+| 派生常量名 | 计算来源 |
+|---|---|
+| `field_length_half` | `fieldLength >> 1` |
+| `field_width_half` | `fieldWidth >> 1` |
+| `goal_area_width_half` | `goalAreaWidth >> 1` |
+| `goal_width_half` | `goalWidth >> 1` |
+| `center_circle_radius` | `centerCircleDiameter >> 1` |
+| `wholeWidth` | `fieldLength + borderStripWidth * 2` |
+| `wholeHeight` | `fieldWidth + borderStripWidth * 2` |
 
-    Start[开始解析] --> ReadFile[读取配置文件]
-    ReadFile --> DetectFormat[检测文件格式]
-    DetectFormat --> YAML{是否YAML?}
-    YAML -->|是| ParseYAML[解析YAML]
-    YAML -->|否| JSON{是否JSON?}
-    JSON -->|是| ParseJSON[解析JSON]
-    JSON -->|否| XML{是否XML?}
-    XML -->|是| ParseXML[解析XML]
-    XML -->|否| INI{是否INI?}
-    INI -->|是| ParseINI[解析INI]
-    INI -->|否| Error[格式错误]
-    
-    ParseYAML --> BuildTree[构建配置树]
-    ParseJSON --> BuildTree
-    ParseXML --> BuildTree
-    ParseINI --> BuildTree
-    
-    BuildTree --> Validate[验证配置]
-    Validate --> End[结束解析]
-    Error --> End
+### 2.2 网络常量 (`dconstant::network`)
 
-    class Start L1;
-    class ReadFile L2;
-    class DetectFormat L3;
-    class YAML,JSON,XML,INI L4;
-    class ParseYAML,ParseJSON,ParseXML,ParseINI,Error L5;
-    class BuildTree L6;
-    class Validate L7;
-    class End L7;
+| 常量名 | 值 |
+|---|---|
+| `NUM_ROBOT` | 6 |
+| `robotBroadcastAddressBase` | 48175 |
+| `robotCannyBase` | 10329 |
+| `robotGuiBase` | 7236 |
+| `robotMotionBase` | 13892 |
+| `monitorBroadcastAddressBase` | 26333 |
+| `TeamInfoBroadcastAddress` | 10017 |
+| `NETWORK_FREQ` | 30 |
+
+---
+
+## 三、全局运行参数：`global.yml`
+
+`global.yml` 位于 `dconfig/` 根目录，包含以下配置：
+
+```yaml
+ZJUDancer:
+    Simulation: false
+    OfflineRecord: false
+    OfflineReplay: false
+
+    Role: GCDefender
+
+    AttackRight: False
+    AlongGrass: False
+
+    UseGameController: True
+    GameControllerAddress: 192.168.50.30
+    TeamNumber: 17
+    TeamCyan: true
+    UnicastTargetAddress: 192.168.1.150
+    UnicastTargetPort: 10017
+
+    MotionSimdelay: 5000
+    udpBroadcastAddress: "255.255.255.255"
+    BroadcastMVInfo: False
+    VisionOnlyMode: False
 ```
 
-### 自动格式检测
+---
 
-解析器可根据文件扩展名或内容自动检测配置文件格式：
+## 四、动态配置热更新：`config_watchdog.py`
 
-| 文件扩展名 | 格式 |
-|------------|------|
-| .yaml, .yml | YAML |
-| .json | JSON |
-| .xml | XML |
-| .ini | INI |
+### 4.1 节点启动
 
-## Server
+`dconfig.launch` 以 ROS 节点方式启动 `config_watchdog.py`，并通过环境变量 `ZJUDANCER_ROBOTID` 注入机器人 ID：
 
-server 组件提供运行时参数的动态调整能力，支持多种通信协议。
-
-### 核心功能
-
-*   参数的实时查询与修改
-*   参数变更的通知机制
-*   参数的持久化存储
-*   权限控制
-*   审计日志
-
-### 服务器架构
-
-```mermaid
-graph TD
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-    classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
-    classDef L5 fill:#F8F2E5,color:#000,stroke:#333,stroke-width:1px;
-    classDef L6 fill:#D9C8B4,color:#000,stroke:#333,stroke-width:1px;
-    classDef L7 fill:#BEC0B4,color:#000,stroke:#333,stroke-width:1px;
-
-    Client[客户端模块] -->|查询/修改| Server[参数服务器]
-    Server -->|读取/写入| ConfigManager[配置管理器]
-    Server -->|通知变更| Client
-    Server -->|持久化| FileSystem[文件系统]
-    Server -->|记录日志| AuditLog[审计日志]
-    
-    subgraph 服务器接口
-        HTTP[HTTP接口]
-        ROS[ROS参数服务]
-        Local[本地API]
-        Socket[Socket接口]
-    end
-    
-    Client --> HTTP
-    Client --> ROS
-    Client --> Local
-    Client --> Socket
-    
-    HTTP --> Server
-    ROS --> Server
-    Local --> Server
-    Socket --> Server
-
-    class Client L1;
-    class HTTP,ROS,Local,Socket L2;
-    class Server L3;
-    class ConfigManager,FileSystem,AuditLog L4;
+```xml
+<node pkg="dconfig" name="config_watchdog_node" type="config_watchdog.py"
+      output="screen" respawn="false" cwd="node">
+    <param name="RobotId" value="$(env ZJUDANCER_ROBOTID)"/>
+</node>
 ```
 
-### 接口详情
+### 4.2 监听目录与配置分类
 
-*   **HTTP 接口**：通过 HTTP 协议访问配置参数，默认端口 8080
-*   **ROS 参数服务**：通过 ROS 参数服务访问配置参数，命名空间 /dancer/config
-*   **本地 API**：通过 C++ API 访问配置参数，高性能，无网络开销
-*   **Socket 接口**：通过 Socket 协议访问配置参数
+节点启动后，读取 `RobotId` 参数，构造监听路径 `../{RobotId}`，并使用 `watchdog` 库的 `Observer` 递归监听该目录下所有文件的变化。
 
-## Util
+配置文件按所属模块分为三类，每类对应独立的 ROS Topic：
 
-util 组件提供了一系列工具函数与辅助类，用于配置相关的辅助功能。
+| 配置分类 | 监听文件列表 | 加载命名空间 | 发布 Topic |
+|---|---|---|---|
+| **运动配置** | `motion.yml`, `motor.yml`, `kick.yml`, `fastkick.yml`, `sidekick.yml`, `setup.yml`, `pvhipY.yml`, `goalie.yml` | `dmotion_{RobotId}` | `/humanoid/ReloadMotionConfig` |
+| **视觉配置** | `amcl.yml`, `misc.yml`, `camera.yml`, `localization.yml` | `dvision_{RobotId}` | `/humanoid/ReloadVisionConfig` |
+| **行为配置** | `move.yml` | `dbehavior_{RobotId}` | `/humanoid/ReloadBehaviorConfig` |
 
-### 工具类
+### 4.3 热更新流程
 
-*   `ConfigTemplateGenerator`: 根据默认值生成配置模板文件
-*   `ConfigDiff`: 比较两个配置文件的差异
-*   `ConfigBackup`: 备份当前配置，在需要时恢复
-*   `EnvParser`: 从环境变量中读取配置
-*   `ConfigValidator`: 验证配置的有效性
-
-### 工具流程
-
-```mermaid
-graph TD
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-    classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
-    classDef L5 fill:#F8F2E5,color:#000,stroke:#333,stroke-width:1px;
-
-    Util[Util工具] --> ConfigTemplateGenerator[配置模板生成]
-    Util --> ConfigDiff[配置差异比较]
-    Util --> ConfigBackup[配置备份与恢复]
-    Util --> EnvParser[环境变量解析]
-    Util --> ConfigValidator[配置验证]
-
-    ConfigTemplateGenerator --> GenerateTemplate[生成模板文件]
-    ConfigDiff --> CompareConfigs[比较配置差异]
-    ConfigBackup --> SaveBackup[保存备份]
-    ConfigBackup --> RestoreBackup[恢复备份]
-    EnvParser --> LoadFromEnv[从环境变量加载]
-    ConfigValidator --> AddRules[添加验证规则]
-    ConfigValidator --> ValidateConfig[验证配置]
-
-    class Util L1;
-    class ConfigTemplateGenerator,ConfigDiff,ConfigBackup,EnvParser,ConfigValidator L2;
-    class GenerateTemplate,CompareConfigs,SaveBackup,RestoreBackup,LoadFromEnv,AddRules,ValidateConfig L3;
-```
-
-## 配置文件结构
-
-配置文件采用分层结构，按照功能模块组织配置项。
-
-### 配置层次结构
-
-```mermaid
-graph TD
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-    classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
-    classDef L5 fill:#F8F2E5,color:#000,stroke:#333,stroke-width:1px;
-
-    Config[配置文件] --> Robot[机器人配置]
-    Config --> Hardware[硬件配置]
-    Config --> Behavior[行为配置]
-    Config --> Vision[视觉配置]
-    Config --> Motion[步态配置]
-    Config --> Planner[规划配置]
-    Config --> Communication[通信配置]
-    Config --> Debug[调试配置]
-    Config --> Safety[安全配置]
-
-    Hardware --> Motors[电机配置]
-    Hardware --> Sensors[传感器配置]
-    Behavior --> Roles[角色配置]
-    Behavior --> Strategies[策略配置]
-    Vision --> Detectors[检测器配置]
-    Vision --> Tracking[跟踪配置]
-    Vision --> Localization[定位配置]
-    Motion --> Walk[步行配置]
-    Motion --> Kick[踢球配置]
-    Motion --> Stand[站立配置]
-
-    class Config L1;
-    class Robot,Hardware,Behavior,Vision,Motion,Planner,Communication,Debug,Safety L2;
-    class Motors,Sensors,Roles,Strategies,Detectors,Tracking,Localization,Walk,Kick,Stand L3;
-```
-
-## 配置访问接口
-
-配置模块提供了多种访问接口，满足不同场景的需求。
-
-### 访问接口类型
-
-*   **C++ API**：模块内部直接访问配置，高性能，类型安全
-*   **Python API**：通过 Python 访问配置，方便脚本使用
-*   **命令行工具**：通过命令行访问配置，快速查看和修改配置
-
-### 访问流程
+当 `watchdog` 检测到文件修改事件（`on_modified`）时，执行以下流程：
 
 ```mermaid
 graph TD
@@ -309,35 +151,217 @@ graph TD
     classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
     classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
 
-    Access[配置访问] --> CppAPI[C++ API]
-    Access --> PythonAPI[Python API]
-    Access --> CommandLine[命令行工具]
+    A[文件系统事件触发] --> B{是否为目录事件?}
+    B -->|是| Z[忽略]
+    B -->|否| C{扩展名是否为 yml/yaml?}
+    C -->|否| W[logwarn 非 YAML 文件]
+    C -->|是| D{文件名匹配哪个配置类?}
+    D -->|运动配置| E["rosparam load → dmotion_{RobotId}"]
+    D -->|视觉配置| F["rosparam load → dvision_{RobotId}"]
+    D -->|行为配置| G["rosparam load → dbehavior_{RobotId}"]
+    E --> H[sleep 1s]
+    F --> H
+    G --> H
+    H --> I[发布消息到对应 Topic]
 
-    CppAPI --> LoadConfig[加载配置]
-    CppAPI --> GetValue[获取值]
-    CppAPI --> SetValue[设置值]
-    CppAPI --> SaveConfig[保存配置]
-
-    PythonAPI --> LoadConfigPy[加载配置]
-    PythonAPI --> GetValuePy[获取值]
-    PythonAPI --> SetValuePy[设置值]
-    PythonAPI --> SaveConfigPy[保存配置]
-
-    CommandLine --> ListConfig[列出配置]
-    CommandLine --> GetConfig[获取配置]
-    CommandLine --> SetConfig[设置配置]
-    CommandLine --> SaveConfigCLI[保存配置]
-
-    class Access L1;
-    class CppAPI,PythonAPI,CommandLine L2;
-    class LoadConfig,GetValue,SetValue,SaveConfig,LoadConfigPy,GetValuePy,SetValuePy,SaveConfigPy,ListConfig,GetConfig,SetConfig,SaveConfigCLI L3;
+    class A L1;
+    class B,C,D L2;
+    class E,F,G L3;
+    class H,I L4;
 ```
 
-## 运行时参数调整
+---
 
-配置模块支持运行时动态调整参数，无需重启模块即可生效。
+## 五、机器人个体配置目录结构
 
-### 实时参数更新流程
+每个机器人（ID 为 1、2、3、4、5、6、10）拥有独立的配置目录，结构基本相同。以 ID=1 为例：
+
+```text
+1/
+├── dancer_io/          
+│   ├── fastkick.yml
+│   ├── goalie.yml
+│   ├── kick.yml
+│   ├── motion.yml
+│   ├── motor.yml
+│   ├── pvhipY.yml
+│   ├── setup.yml
+│   └── sidekick.yml
+├── dmotion/            
+│   ├── parameters/
+│   │   └── motion_hub_param.yaml   
+│   ├── walk_param/
+│   │   └── foot_z.yml              
+│   ├── climb_param/
+│   │   ├── back_climb.txt          
+│   │   └── forward_climb.txt       
+│   ├── ankle_pitch_param.yml       
+│   ├── ankle_roll_param.yml        
+│   ├── ankle_x_param.yml           
+│   ├── ankle_y_param.yml           
+│   ├── ankle_yaw_param.yml         
+│   ├── ankle_z_param.yml           
+│   ├── com_x_param.yml             
+│   ├── com_y_param.yml             
+│   ├── com_z_param.yml             
+│   ├── fastkick.yml
+│   ├── goalie.yml
+│   ├── kick.yml
+│   ├── motion.yml
+│   ├── motor.yml
+│   ├── pvhipY.yml
+│   ├── setup.yml
+│   └── sidekick.yml
+└── dvision/            
+    ├── camera.yml      
+    ├── localization.yml 
+    └── misc.yml        
+```
+
+### 5.1 运动动作参数（`dancer_io/` 与 `dmotion/`）
+
+动作参数文件均以 `dmotion:` 为根键。
+
+#### `motor.yml` — 电机硬件映射
+
+定义 18 个舵机的 ID、初始角度、方向符号、分辨率及关节名称。
+
+```yaml
+dmotion:
+    motor:
+      num: 18
+      id:   [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 21, 22]
+      init: [180, 157.5, 169.5, ...]   
+      zf:   [1, -1, -1, ...]           
+      k:    [4096, 4096, ...]          
+      lb/ub:                           
+      name: ["right_arm_upper", "right_hip_pitch", ...]
+```
+
+> 发现：`motor.yml` 在 `dancer_io/` 与 `dmotion/` 根目录下均存在，且两者的 `init` 和 `zf` 数组存在差异。
+> 发现：`dconfig\1\dmotion\motor.yml` 有未提交的更改（包含 Git 冲突标记）。
+
+#### `kick.yml` / `fastkick.yml` / `sidekick.yml` — 踢球动作参数
+
+每个文件定义左右脚的踢球参数，格式统一：
+
+```yaml
+dmotion:
+    leftKick:          # 或 leftFastKick / leftSideKick
+        data: [...]    
+        row: 17        
+        hip: -52       
+        knee: -55      
+        ankle: -58     
+        ratio: 0.5     
+        debug: false
+```
+
+`data` 数组按 `row` 行展开，每列包含 17 个对应的参数。
+
+#### `pvhipY.yml`
+
+存储 5 组（`row: 5`）数据，每组 56 个采样点。
+
+#### `goalie.yml` — 守门员扑救动作
+
+定义守门员扑救动作的矩阵（`row: 11`）。
+
+#### `setup.yml` — 起身动作
+
+定义 `frontDown`（前倒起身）和 `backDown`（后倒起身）两组动作的矩阵（`row: 10`）。
+
+### 5.2 步态核心参数（`dmotion/parameters/motion_hub_param.yaml`）
+
+该文件包含步态系统的数值参数：
+
+| 参数组 | 关键参数 |
+|---|---|
+| `OneFootLanding` | `upper_leg_length: 12.3`, `lower_leg_length: 13.0`, `half_hip_width: 4.5` |
+| `PendulumWalk` | `tao: 0.33`, `tick_num: 33`, `com_h: 37.0`, `y_half_amplitude: 3.0` |
+| `PendulumWalk` | `max_step_x: 11.0`, `max_step_y_out: 4.0`, `max_step_yaw: 25.0` |
+| `Climb` | `whole_time: 0.5`, `not_leg_only_number: 17` |
+| `Kick` | `right_kick_x: -15.0`, `right_kick_y: 14.0` |
+| `Status` | `adjust_max_x: 4`, `adjust_max_y: 2.5`, `adjust_max_yaw: 10` |
+| `Status` | `stop_walk_dis: 30`, `one_step_y_out: 4.5` |
+
+### 5.3 关节轨迹参数（`dmotion/*.yml`）
+
+`ankle_*_param.yml`、`com_*_param.yml` 等文件存储各关节轴向的数据，格式统一为 `data: [...]` 数组。
+
+### 5.4 攀爬轨迹数据（`dmotion/climb_param/*.txt`）
+
+`back_climb.txt` 与 `forward_climb.txt` 以空格分隔的数值矩阵形式存储数据。
+
+### 5.5 视觉参数（`dvision/`）
+
+#### `camera.yml` — 相机硬件与标定参数
+
+```yaml
+dvision:
+  camera:                        
+    device: /dev/Camera
+    width: 1280 / height: 720
+    exposure_absolute: 150
+    whitebalance_absolute: 3730
+
+  projection:                    
+    fx: 773.5550 / fy: 773.2200
+    cx: 640.9000 / cy: 351.4925
+    dist_coeff: [...]            # 14 个畸变系数
+
+    extrinsic_para: [...]        # 16 个外参
+```
+
+#### `misc.yml` — 场地模型参数
+
+```yaml
+dvision:
+  field_model:
+    field_length: 900 / field_width: 600
+    goal_width: 260 / goal_height: 180
+    penalty_mark_distance: 210   
+    center_circle_diameter: 150
+    ball_diameter: 15
+```
+
+> 发现：`misc.yml` 中的 `penalty_mark_distance` 为 **210**，而 `dconstant.hpp` 中对应常量为 **150**，两者存在差异。
+
+#### `localization.yml` — 定位算法参数
+
+```yaml
+dvision:
+  object_detector:
+    input_model_file: '/home/nvidia/robocup_ws/core/src/dvision/vision_model/exported_model/model.engine'
+    input_names_file: '/home/nvidia/robocup_ws/core/src/dvision/vision_model/exported_model/hum.names'
+  field_detector:
+    h0: 30 / h1: 108 / s0: 113 / v0: 22   
+  line_detector:
+    h0: 20 / h1: 77 / s0: 25 / v0: 64     
+```
+
+---
+
+## 六、MATLAB 脚本（`matlab/`）
+
+`matlab/` 目录包含以下文件：
+
+| 文件名 |
+|---|
+| `calc_error.m` |
+| `calc_extrinsic.m` |
+| `calc_xy.m` |
+| `dtranslate.m` |
+| `errorfunc.m` |
+| `main.m` |
+| `projection.m` |
+| `rotateX.m` / `rotateY.m` / `rotateZ.m` |
+| `test.m` |
+| `transform.m` |
+
+---
+
+## 七、模块间依赖关系
 
 ```mermaid
 graph TD
@@ -346,123 +370,21 @@ graph TD
     classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
     classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
 
-    Modify[修改参数] --> UpdateTree[更新内部配置树]
-    UpdateTree --> NotifyListeners[通知注册的监听器]
-    NotifyListeners --> Persist[持久化到配置文件]
+    dconfig[dconfig 模块] --> dconstant[dconstant.hpp]
+    dconfig --> global_yml[global.yml]
+    dconfig --> watchdog[config_watchdog.py]
+    dconfig --> robot_dirs[1~6, 10 目录]
 
-    class Modify L1;
-    class UpdateTree L2;
-    class NotifyListeners L3;
-    class Persist L4;
-```
+    global_yml -->|rosparam load| ros_param[ROS 参数服务器\n/ZJUDancer/*]
 
-### 参数变更通知
+    watchdog -->|rosparam load +\nTopic 通知| dmotion_mod[dmotion 模块]
+    watchdog -->|rosparam load +\nTopic 通知| dvision_mod[dvision 模块]
+    watchdog -->|rosparam load +\nTopic 通知| dbehavior_mod[dbehavior 模块]
 
-模块可以注册配置变更监听器，当特定配置项变更时收到通知。
+    robot_dirs -->|由 watchdog 加载| watchdog
 
-### 参数持久化
-
-配置模块支持自动或手动持久化配置变更：
-*   **自动持久化**：当参数变更时自动保存到配置文件
-*   **手动持久化**：通过 API 或命令手动保存配置
-
-## 配置模块与其他模块的关系
-
-配置模块是机器人系统的基础服务，为其他所有模块提供配置支持。
-
-```mermaid
-graph LR
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-    classDef L4 fill:#D8D8D8,color:#000,stroke:#333,stroke-width:1px;
-
-    ConfigModule[配置模块] -->|提供配置| BehaviorModule[行为模块]
-    ConfigModule -->|提供配置| VisionModule[视觉模块]
-    ConfigModule -->|提供配置| MotionModule[步态模块]
-    ConfigModule -->|提供配置| PlannerModule[规划模块]
-    ConfigModule -->|提供配置| CommunicationModule[通信模块]
-    ConfigModule -->|提供配置| SafetyModule[安全模块]
-    
-    BehaviorModule -->|读取参数| ConfigModule
-    VisionModule -->|读取参数| ConfigModule
-    MotionModule -->|读取参数| ConfigModule
-    PlannerModule -->|读取参数| ConfigModule
-    CommunicationModule -->|读取参数| ConfigModule
-    SafetyModule -->|读取参数| ConfigModule
-    
-    subgraph 配置源
-        File[配置文件]
-        ROSParam[ROS参数]
-        HTTP[HTTP请求]
-        EnvVar[环境变量]
-        CommandLine[命令行]
-    end
-    
-    File -->|加载| ConfigModule
-    ROSParam -->|修改| ConfigModule
-    HTTP -->|修改| ConfigModule
-    EnvVar -->|覆盖| ConfigModule
-    CommandLine -->|修改| ConfigModule
-    
-    ConfigModule -->|持久化| File
-
-    class File,ROSParam,HTTP,EnvVar,CommandLine L1;
-    class ConfigModule L2;
-    class BehaviorModule,VisionModule,MotionModule,PlannerModule,CommunicationModule,SafetyModule L3;
-```
-
-### 配置优先级
-
-配置模块支持多种配置源，按照以下优先级从高到低：
-1. 命令行参数
-2. 环境变量
-3. HTTP/ROS 参数服务
-4. 配置文件
-5. 默认值
-
-## 常见问题与解决方案
-
-### 常见问题
-
-*   **配置加载失败**：文件格式错误、路径不存在、权限不足、依赖库缺失
-*   **参数不生效**：参数路径错误、模块未监听配置变更、模块有缓存机制、参数类型不匹配
-*   **配置冲突**：多个配置源设置了相同的参数、配置优先级不明确、配置文件格式不一致
-*   **性能问题**：配置树结构复杂、频繁的配置读写操作、配置文件过大
-
-### 解决方案
-
-```mermaid
-graph TD
-    classDef L1 fill:#2B3A35,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L2 fill:#6C9A8C,color:#fff,stroke:#333,stroke-width:1px;
-    classDef L3 fill:#A3C3B2,color:#000,stroke:#333,stroke-width:1px;
-
-    Problems[常见问题] --> LoadFailure[配置加载失败]
-    Problems --> NotEffective[参数不生效]
-    Problems --> Conflict[配置冲突]
-    Problems --> Performance[性能问题]
-
-    LoadFailure --> CheckFormat[检查文件格式]
-    LoadFailure --> CheckPath[确认文件路径]
-    LoadFailure --> CheckPermission[检查文件权限]
-    LoadFailure --> InstallDependencies[安装依赖库]
-
-    NotEffective --> CheckPathParam[检查参数路径]
-    NotEffective --> RegisterListener[注册配置变更监听器]
-    NotEffective --> RefreshCache[刷新模块缓存]
-    NotEffective --> CheckType[确认参数类型]
-
-    Conflict --> ClearPriority[明确配置优先级]
-    Conflict --> UnifiedInterface[统一配置管理接口]
-    Conflict --> ConsistentFormat[确保配置文件格式一致]
-
-    Performance --> OptimizeStructure[优化配置树结构]
-    Performance --> UseLocalAPI[使用本地API访问]
-    Performance --> SplitConfig[分割大型配置文件]
-    Performance --> UseCache[使用配置缓存]
-
-    class Problems L1;
-    class LoadFailure,NotEffective,Conflict,Performance L2;
-    class CheckFormat,CheckPath,CheckPermission,InstallDependencies,CheckPathParam,RegisterListener,RefreshCache,CheckType,ClearPriority,UnifiedInterface,ConsistentFormat,OptimizeStructure,UseLocalAPI,SplitConfig,UseCache L3;
+    class dconfig L1;
+    class dconstant,global_yml,watchdog,robot_dirs L2;
+    class dmotion_mod,dvision_mod,dbehavior_mod L3;
+    class ros_param L4;
 ```
