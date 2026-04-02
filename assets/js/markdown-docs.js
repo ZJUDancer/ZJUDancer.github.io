@@ -228,6 +228,34 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   }
+function normalizeMathDelimiters(markdown) {
+  // 1. 处理块级公式：独占一行的 $$...$$ 保留
+  // 2. 处理行内公式：把同一行中的 $$...$$ 转成 \( ... \)
+
+  const lines = markdown.split("\n");
+  const result = [];
+  let inBlockMath = false;
+
+  for (let line of lines) {
+    const trimmed = line.trim();
+
+    // 遇到单独一行的 $$，认为进入/退出块级公式
+    if (trimmed === "$$") {
+      inBlockMath = !inBlockMath;
+      result.push(line);
+      continue;
+    }
+
+    if (!inBlockMath) {
+      // 只处理非块级区域中的行内 $$...$$
+      line = line.replace(/\$\$([^$\n]+?)\$\$/g, "\\($1\\)");
+    }
+
+    result.push(line);
+  }
+
+  return result.join("\n");
+}
 
 async function renderMarkdown(file) {
   contentRoot.className = "doc-content markdown-body";
@@ -240,7 +268,9 @@ async function renderMarkdown(file) {
     const response = await fetch(file);
     if (!response.ok) throw new Error("Failed to load markdown");
 
-    const text = await response.text();
+    const rawText = await response.text();
+    const text = normalizeMathDelimiters(rawText);
+
 
     contentRoot.innerHTML = `
       ${createDocToolbar(file, "Download Markdown")}
@@ -634,10 +664,12 @@ function renderMathInContent(root) {
     return;
   }
 
-  window.renderMathInElement(root, {
-    delimiters: [
-      { left: "$$", right: "$$", display: true }
-    ],
-    throwOnError: false
-  });
+window.renderMathInElement(root, {
+  delimiters: [
+    { left: "$$", right: "$$", display: true },
+    { left: "\\(", right: "\\)", display: false }
+  ],
+  throwOnError: false
+});
+
 }
