@@ -55,7 +55,7 @@ graph TD
 在机器人处于稳定状态（`stable_ == true`）时，模块会更新里程计。
 
 - **偏航角处理**：记录接收到的第一个 IMU Yaw 角作为零点，并处理角度的环绕（Unwrap），计算出相对偏航角 `theta_rel_`。
-- **速度积分**：订阅 `/cmd_vel` 获取线速度 $$v_x$$ 和 $$v_y$$。代码中虽然声明了平均速度变量，但实际积分计算直接使用了当前速度，公式如下：
+- **速度积分**：订阅 `/cmd_vel` 获取线速度 $v_x$ 和 $v_y$。代码中虽然声明了平均速度变量，但实际积分计算直接使用了当前速度，公式如下：
 
 $$
 \dot{x} = v_x \cos(\theta_{rel} + \frac{\pi}{2}) - v_y \sin(\theta_{rel} + \frac{\pi}{2})
@@ -73,7 +73,7 @@ $$
 y_{new} = y_{old} + \dot{y} \cdot \Delta t
 $$
 
-- **TF 发布**：将计算得到的 $$x$$、$$y$$ 和 $$\theta_{rel}$$ 作为 `odom_frame` 到 `base_frame` 的 Transform 广播出去（受 `publish_tf_` 参数控制）。
+- **TF 发布**：将计算得到的 $x$、$y$ 和 $\theta_{rel}$ 作为 `odom_frame` 到 `base_frame` 的 Transform 广播出去（受 `publish_tf_` 参数控制）。
 
 
 ### 3. 指令桥接与保护 (Command Bridging & Protection)
