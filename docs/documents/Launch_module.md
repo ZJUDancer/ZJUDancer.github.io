@@ -11,34 +11,34 @@
 
 根据文件内部的标签结构与包含关系，可将这些启动文件划分为以下几类：
 
-### 1. 纯模块组合类 (`<include>` 主导)
+### 1. 纯模块组合 (`<include>` 主导)
 这类文件主要通过 `<include>` 标签加载其他包的启动文件，不显式声明具体的节点（`<node>`）参数：
-- **`game.launch`**：包含 `dvision/default.launch`、`dancer_io/motion_io.launch`、`dmotion/motion_hub.launch` 以及 `dnetwork/default.launch`。
-- **`piplus.launch`**：包含 `dvision/zed_default.launch`、`dio/dancer-io.launch`、`dplanner/default.launch`、`dnetwork/default.launch` 以及 `dbehavior/default.launch`。
-- **`mv.launch`**：包含 `dconfig/dconfig.launch`、`dvision/default.launch` 和 `dmotion/default.launch`。
-- **`sim_default.launch`**：包含 `dvision`、`dmotion`、`dnetwork` 的 `default.launch`，并设置参数 `/ZJUDancer/Simulation` 为 `true`。
-- **`get_image_180.launch`**：包含 `dconfig`、`dmotion`、`dvision`、`dnetwork` 的默认/基础启动文件，并加载 `global.yml`。
+- **`game.launch`**：包含 `dvision/launch/default.launch`、`dancer_io/launch/motion_io.launch`（`game.launch`中有引用，但robocup_ws中未直接包含）、`dmotion/launch/motion_hub.launch` （类似的，未直接包含源文件）以及 `dnetwork/launch/default.launch`。
+- **`piplus.launch`**：包含 `dvision/launch/zed_default.launch`、`dio/launch/dancer-io.launch`、`dplanner/launch/default.launch`、`dnetwork/launch/default.launch` 以及 `dbehavior/launch/default.launch`。
+- **`mv.launch`**：包含 `dconfig/dconfig.launch`、`dvision/launch/default.launch` 和 `dmotion/launch/default.launch`。
+- **`sim_default.launch`**：包含 `dvision/launch/default.launch`、`dmotion/launch/default.launch`、`dnetwork/launch/default.launch`，并设置参数 `/ZJUDancer/Simulation` 为 `true`。
+- **`get_image_180.launch`**：包含 `dconfig/launch/default.launch`、`dmotion/launch/default.launch`、`dvision/launch/default.launch`、`dnetwork/launch/default.launch`，并加载 `global.yml`。
 
-### 2. 仿真实例与集群编排类
+### 2. 仿真实例与集群编排
 通过参数服务器注入 `<param name="/ZJUDancer/Simulation" value="true"/>`，并组合特定编号的文件：
 - **单体实例 (`sim_1.launch` - `sim_6.launch`)**：分别包含 `dvision`、`dmotion` 和 `dnetwork` 目录下对应编号（1-6）的 `.launch` 文件，同时设置 `/ZJUDancer/BroadcastMVInfo` 为 `true`。
 - **集群组合 (`2.launch`, `3.launch`, `4.launch`)**：通过嵌套包含多个 `sim_X.launch` 文件来实现组合。例如 `4.launch` 内部直接包含了 `sim_1.launch` 到 `sim_4.launch`。
 
-### 3. 数据录制与回放类 (`rosbag`)
+### 3. 数据录制与回放 (`rosbag`)
 利用 `rosbag` 节点处理数据流，并通过参数标记状态：
-- **`record.launch`**：包含 `dvision`、`dconfig`、`dnetwork`、`dmotion/motion_hub` 和 `dancer-io/motion_io`。启动 `rosbag record` 节点，参数为 `-O $(env HOME)/test.bag dvision_$(env ZJUDANCER_ROBOTID)/cam_image /dmotion_$(env ZJUDANCER_ROBOTID)/MotionInfo`。设置参数 `OfflineRecord` 为 `true`，`OfflineReplay` 为 `false`。
-- **`replay.launch`**：包含 `dvision` 和 `dnetwork`。启动 `rosbag play` 节点，参数为 `$(env HOME)/test.bag`。设置参数 `OfflineRecord` 为 `false`，`OfflineReplay` 为 `true`。
+- **`record.launch`**：包含 `dvision/launch/default.launch`、`dconfig/launch/dconfig.launch`、`dnetwork/launch/default.launch`、`dmotion/launch/motion_hub.launch` 和 `dancer-io/launch/motion_io.launch`。启动 `rosbag record` 节点，参数为 `-O $(env HOME)/test.bag dvision_$(env ZJUDANCER_ROBOTID)/cam_image /dmotion_$(env ZJUDANCER_ROBOTID)/MotionInfo`。设置参数 `OfflineRecord` 为 `true`，`OfflineReplay` 为 `false`。
+- **`replay.launch`**：包含 `dvision/launch/default.launch`、`dnetwork/launch/default.launch`。启动 `rosbag play` 节点，参数为 `$(env HOME)/test.bag`。设置参数 `OfflineRecord` 为 `false`，`OfflineReplay` 为 `true`。
 
-### 4. 节点参数与配置注入类 (`<node>` 与 `dbehavior`)
-显式拉起特定节点，并结合环境变量注入参数和 YAML 配置文件：
-- **`demomain.launch`**：拉起 `dbehavior` 的 `main.py` 节点，传入参数 `skill="DemoMain"` 和 `RobotId=$(env ZJUDANCER_ROBOTID)`，并根据 `ZJUDANCER_ROBOTID` 环境变量加载对应的 `constant.yml`、`robot_config.yml` 和 `behaviour.yml`。
-- **`get_image.launch`**：拉起 `dbehavior` 的 `main.py` 节点，传入参数 `role="GetImage"`，并加载相关 YAML 配置。
-- **`get_ext_data.launch`**：包含 `dancer-io.launch`，拉起 `dbehavior` 节点，传入参数 `role="GetImage"`。
-- **`get_image_behavior.launch`**：拉起 `dbehavior` 节点，传入参数 `role="GetImage180"`。
-- **`joy.launch`**：拉起 `joy_node`，同时拉起 `dbehavior` 节点并传入参数 `skill="SmartDoll"`。
-- **`fake.launch`**：包含 `dvision` 和 `dmotion`，拉起 `joy_node`。
-- **`dviz.launch`**：拉起 `dviz` 节点，传入参数 `RobotId="0"`。
-- **`debug.launch`**：包含 `dconfig` 和 `dbehavior`。
+### 4. 节点参数与配置注入 (`<node>` 与 `dbehavior`)
+这些启动文件（.launch）的作用是运行特定的程序模块（节点），并根据当前机器人的编号和环境自动加载对应的设置
+- **`demomain.launch`**：启动并配置 `dbehavior` 的 `main.py` 节点，传入参数 `skill="DemoMain"` 和 `RobotId=$(env ZJUDANCER_ROBOTID)`，并根据 `ZJUDANCER_ROBOTID` 环境变量加载对应的 `constant.yml`、`robot_config.yml` 和 `behaviour.yml`。
+- **`get_image.launch`**：启动并配置 `dbehavior` 的 `main.py` 节点，传入参数 `role="GetImage"`，并加载相关 YAML 配置。
+- **`get_ext_data.launch`**：包含 `dancer-io.launch`，启动并配置 `dbehavior` 节点，传入参数 `role="GetImage"`。
+- **`get_image_behavior.launch`**：启动并配置 `dbehavior` 节点，传入参数 `role="GetImage180"`。
+- **`joy.launch`**：启动并配置 `joy_node`，同时拉起 `dbehavior` 节点并传入参数 `skill="SmartDoll"`。
+- **`fake.launch`**：包含 `dvision/launch/default.launch`、`dmotion/launch/default.launch`，启动并配置 `joy_node`节点。
+- **`dviz.launch`**：启动并配置 `dviz_node` 节点，传入参数 `RobotId="0"`。
+- **`debug.launch`**：包含 `dconfig/launch/default.launch`、`dbehavior/launch/default.launch`。
 
 ---
 
