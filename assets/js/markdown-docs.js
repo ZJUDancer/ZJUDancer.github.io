@@ -676,4 +676,86 @@ function renderMathInContent(root) {
     throwOnError: false
   });
 }
+// 表格修缮
+function enhanceTables(root) {
+  const tables = root.querySelectorAll("table");
 
+  tables.forEach((table) => {
+    wrapSingleTable(table);
+    applyAutoColumnWidths(table);
+  });
+}
+
+function wrapSingleTable(table) {
+  if (table.parentElement?.classList.contains("table-wrapper")) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "table-wrapper";
+  table.parentNode.insertBefore(wrapper, table);
+  wrapper.appendChild(table);
+}
+
+function applyAutoColumnWidths(table) {
+  const rows = Array.from(table.querySelectorAll("tr"));
+  if (!rows.length) return;
+
+  const firstRowCells = rows[0].children;
+  const colCount = firstRowCells.length;
+  if (!colCount) return;
+
+  const colStats = Array.from({ length: colCount }, () => ({
+    totalLength: 0,
+    codeLikeCount: 0,
+    textCount: 0
+  }));
+
+  rows.forEach((row) => {
+    Array.from(row.children).forEach((cell, index) => {
+      const text = (cell.innerText || "").trim();
+      if (!text) return;
+
+      colStats[index].totalLength += text.length;
+      colStats[index].textCount += 1;
+
+      if (
+        text.includes("/") ||
+        text.includes("::") ||
+        text.includes("_") ||
+        cell.querySelector("code")
+      ) {
+        colStats[index].codeLikeCount += 1;
+      }
+    });
+  });
+
+  const avgLengths = colStats.map((stat) =>
+    stat.textCount ? stat.totalLength / stat.textCount : 0
+  );
+
+  let weights = avgLengths.map((len, index) => {
+    let weight = Math.max(1, len);
+
+    const stat = colStats[index];
+    const codeRatio = stat.textCount ? stat.codeLikeCount / stat.textCount : 0;
+
+    if (codeRatio > 0.6) weight *= 1.15;
+    if (len > 40) weight *= 1.35;
+    if (len < 12) weight *= 0.8;
+
+    return weight;
+  });
+
+  const total = weights.reduce((sum, w) => sum + w, 0);
+  weights = weights.map((w) => (w / total) * 100);
+
+  const colgroup = document.createElement("colgroup");
+  weights.forEach((width) => {
+    const col = document.createElement("col");
+    col.style.width = `${width.toFixed(2)}%`;
+    colgroup.appendChild(col);
+  });
+
+  const oldColgroup = table.querySelector("colgroup");
+  if (oldColgroup) oldColgroup.remove();
+  table.insertBefore(colgroup, table.firstChild);
+}

@@ -35,9 +35,9 @@ dconfig/
 
 该头文件使用 `#pragma once` 保护，定义了两个命名空间下的编译期 `const` 常量。
 
-### 2.1 场地几何常量 (`dconstant::geometry`)
+### 2.1 场地几何常量 
 
-所有尺寸单位为厘米（cm）。
+命名空间为`dconstant::geometry`，所有尺寸单位为厘米（cm）。
 
 | 常量名 | 值 |
 |---|---|
@@ -70,8 +70,8 @@ dconfig/
 | `wholeWidth` | `fieldLength + borderStripWidth * 2` |
 | `wholeHeight` | `fieldWidth + borderStripWidth * 2` |
 
-### 2.2 网络常量 (`dconstant::network`)
-
+### 2.2 网络常量 
+命名空间为`dconstant::network`，包含多个网络相关参数，其中大部分是端口号。
 | 常量名 | 值 |
 |---|---|
 | `NUM_ROBOT` | 6 |
@@ -218,13 +218,13 @@ graph TD
     └── misc.yml        
 ```
 
-### 5.1 运动动作参数（`dancer_io/` 与 `dmotion/`）
+### 5.1 运动动作参数
 
-动作参数文件均以 `dmotion:` 为根键。
+囊括在`dancer_io/` 与 `dmotion/` 目录下，其中动作参数文件均以 `dmotion:` 为根键。
 
-#### `motor.yml` — 电机硬件映射
+#### `motor.yml`
 
-定义 18 个舵机的 ID、初始角度、方向符号、分辨率及关节名称。
+代表电机硬件的映射，定义 18 个舵机的 ID、初始角度、方向符号、分辨率及关节名称。
 
 ```yaml
 dmotion:
@@ -239,9 +239,9 @@ dmotion:
 ```
 
 > 发现：`motor.yml` 在 `dancer_io/` 与 `dmotion/` 根目录下均存在，且两者的 `init` 和 `zf` 数组存在差异。
-> 发现：`dconfig\1\dmotion\motor.yml` 有未提交的更改（包含 Git 冲突标记）。
+> 发现：`dconfig/1/dmotion/motor.yml` 有未提交的更改（包含 Git 冲突标记）。
 
-#### `kick.yml` / `fastkick.yml` / `sidekick.yml` — 踢球动作参数
+#### `kick.yml` / `fastkick.yml` / `sidekick.yml` 
 
 每个文件定义左右脚的踢球参数，格式统一：
 
@@ -263,17 +263,17 @@ dmotion:
 
 存储 5 组（`row: 5`）数据，每组 56 个采样点。
 
-#### `goalie.yml` — 守门员扑救动作
+#### `goalie.yml` 
 
 定义守门员扑救动作的矩阵（`row: 11`）。
 
-#### `setup.yml` — 起身动作
+#### `setup.yml` 
 
 定义 `frontDown`（前倒起身）和 `backDown`（后倒起身）两组动作的矩阵（`row: 10`）。
 
-### 5.2 步态核心参数（`dmotion/parameters/motion_hub_param.yaml`）
+### 5.2 步态核心参数
 
-该文件包含步态系统的数值参数：
+存放在`dmotion/parameters/motion_hub_param.yaml`文件中，包含步态系统的数值参数：
 
 | 参数组 | 关键参数 |
 |---|---|
@@ -285,17 +285,20 @@ dmotion:
 | `Status` | `adjust_max_x: 4`, `adjust_max_y: 2.5`, `adjust_max_yaw: 10` |
 | `Status` | `stop_walk_dis: 30`, `one_step_y_out: 4.5` |
 
-### 5.3 关节轨迹参数（`dmotion/*.yml`）
+### 5.3 关节轨迹参数
+* **文件路径**: `dmotion/` 目录（如 `ankle_*_param.yml`、`com_*_param.yml` 等）
+* **存储内容**: 各关节轴向的数据
+* **格式**: 统一为 `data: [...]` 数组
 
-`ankle_*_param.yml`、`com_*_param.yml` 等文件存储各关节轴向的数据，格式统一为 `data: [...]` 数组。
+### 5.4 攀爬轨迹数据
+* **文件路径**: `dmotion/climb_param/` 目录
+* **包含文件**: `back_climb.txt`、`forward_climb.txt`
+* **格式**: 以空格分隔的数值矩阵
 
-### 5.4 攀爬轨迹数据（`dmotion/climb_param/*.txt`）
-
-`back_climb.txt` 与 `forward_climb.txt` 以空格分隔的数值矩阵形式存储数据。
-
-### 5.5 视觉参数（`dvision/`）
-
-#### `camera.yml` — 相机硬件与标定参数
+### 5.5 视觉参数
+* **文件名**: `camera.yml`
+* **文件路径**: `dvision/` 目录
+* **存储内容**: 相机硬件配置与标定参数
 
 ```yaml
 dvision:

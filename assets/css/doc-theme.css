@@ -590,3 +590,86 @@
 #doc-nav .doc-nav-item {
   margin-bottom: 0.2rem;
 }
+/* 表格修缮 */
+.doc-markdown-body .table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+
+.doc-markdown-body table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0;
+  background: #fff;
+  border: 1px solid #e6ebf2;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  table-layout: fixed;
+}
+
+.doc-markdown-body thead th {
+  background: #f8fbff;
+  color: #23324a;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #e6ebf2;
+}
+
+.doc-markdown-body tbody td {
+  padding: 0.85rem 1rem;
+  vertical-align: top;
+  color: #3a4a62;
+  border-bottom: 1px solid #edf2f7;
+  border-right: 1px solid #edf2f7;
+}
+
+.doc-markdown-body tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.doc-markdown-body thead th:last-child,
+.doc-markdown-body tbody td:last-child {
+  border-right: none;
+}
+
+.doc-markdown-body tbody tr:nth-child(even) {
+  background: #fcfdff;
+}
+
+.doc-markdown-body tbody tr:hover {
+  background: #f7fbff;
+}
+
+.doc-markdown-body table th,
+.doc-markdown-body table td {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+/* 长文本优先换行 */
+.doc-markdown-body table td,
+.doc-markdown-body table th {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+/* 优先适配长间距 */
+.doc-markdown-body table td.is-long-text,
+.doc-markdown-body table th.is-long-text {
+  line-height: 1.85;
+}
+/* 辅助移动端表格 */
+.doc-markdown-body .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.doc-markdown-body table {
+  min-width: 640px;
+}
