@@ -18,21 +18,31 @@
 
 0. 初始化，读取 Parameter Server 中的参数，并设定初始 Role
 1. 通过 ROS Topic 的订阅，接收视觉、步态、裁判盒以及队友的信息，并保存于 `DBlackboard` 中
-2. 若下位机已经开机，则根据当前的 Role 与 `DBlackboard` 中的信息，执行对应的 Skill
+2. 若下位机已经开机，则根据当前的 Role 与 `DBlackboard` 中的信息，执行对应的 Skill。
 3. Skill 在执行完毕之后，会产生对应的身体动作 `BodyCommand` 与头部动作 `HeadCommand`，两者合成 `ActionCommand`，并通过 ROS Topic 发送给步态模块 `dancer-motion`
 4. 一个运行周期结束，重复步骤 1-4
 
+补充说明
+1. **Voronoi 区域计算**  
+   通过 `voronoi_region` 属性计算机器人在场上的最优区域，用于辅助团队协作与位置分配。
+2. **团队协作**  
+   通过 `update_team_info` 和 `check_team_info` 方法实现团队信息共享与任务分配，提升整体协同效率。
+3. **状态管理**  
+   通过 `set_state` 方法管理不同的行为状态，以支持机器人在不同场景下的动作切换。
+4. **异常处理**  
+   对下位机连接状态、球的可见性等关键运行信息进行监控和处理，确保系统运行的稳定性与可靠性。
+
 ## Behavior Tree
 
-参照 [Wiki](https://github.com/libgdx/gdx-ai/wiki/Behavior-Trees)。btree 是该文章的完整实现。
+**📘 参考 Wiki：**  
+**[Behavior Trees Wiki（点击查看）](https://github.com/libgdx/gdx-ai/wiki/Behavior-Trees)**
+`btree` 是该文章的完整实现。
+在 Wiki 中需要重点关注的概念主要有：
+1. **Leaf Task**：`Action` 与 `Condition`
+2. **Branch Task**：`Sequence`、`Selector` 与 `Parallel`
+3. **Decorator**
+了解了基本概念之后，可以查看 `dancer-behavior/src/dbehavior/btree` 中的示例。
 
-在 Wiki 需要关注的概念主要有：
-
-*   Leaf task: Action 与 Condition
-*   Branch task: Sequence、Selector 与 Parallel
-*   Decorator
-
-了解了基本概念之后，可以看 `dancer-behavior/src/dbehavior/btree` 中的示例。
 
 ## Core
 
@@ -55,6 +65,7 @@ role 组件中主要有以下角色：
 *   Foo:
 *   Fake:
 *   PenaltyKicker:
+*   Normal：
 
 ## Skill
 
@@ -119,11 +130,12 @@ graph TD
 *   `gc_status`
     *   裁判盒发不同指令的情形
 *   `team_status`
-    *   队友状态
-    *   至少有一个队员看到球
+    *   MateAttacking：队友正在进攻
+    *   MateBallHandling：队友正在处理球
+    *   TeamBallSeen：至少有一个队员看到球
 *   `field_status`
-    *   看到中圈
-    *   看到球门？
+    *  CircleSeen：看到中圈
+    *  GoalSeen：看到球门
 
 ### DBlackboard (dblackboard.py)
 
@@ -553,7 +565,7 @@ graph TD
 **Properties:**
 *   在一个点的停留时间 `timeout`
 *   计时器 `timer = Timer(timeout)`
-*   扫描点列表 `gaze_plats = [VecPos(15, 90), VecPos(15, 0), VecPos(15, -90)]`
+*   gaze_plats：扫描点列表，实际为 [VecPos(15, 75), VecPos(15, 50), VecPos(15, 25), VecPos(15, 0), VecPos(15, -25), VecPos(15, -50), VecPos(15, -75)]
 *   迭代器 `iter`
 *   当前扫描点 `cur_plat`
 *   是否保持观察 `keep`
@@ -665,7 +677,7 @@ graph TD
 
 `class KickHead(Skill)`
 踢球时头部动作。
-看向 pitch=15, yaw=0 的位置，同时将自己的 `team_play_state` 设为 KICKING (未实现)
+看向 pitch=15, yaw=0 的位置，同时调用 self.bb.set_state('kicking')。
 
 `class GoKick(Skill)`
 朝球走过去并踢球。
@@ -674,8 +686,7 @@ graph TD
 1. From vision: 球的全局位置 `ball_global`
 
 **Method:**
-从 `dblackboard` 获取进攻目标点 `attack_target`。计算 `ball->target` 矢量及其方位角，方位角作为踢球方向。将球的位置和踢球方向用 `action_generator.kick`_ball` 打包好生成动作指令。
-
+从 `dblackboard` 获取进攻目标点 `attack_target`。计算 `ball->target` 矢量及其方位角，方位角作为踢球方向。将球的位置和踢球方向用 `action_generator.dribble` 生成动作指令.
 `class KickSide(Skill)` (未被调用)
 朝左/右踢球(传给队友)
 
@@ -710,7 +721,7 @@ graph TD
 `buffered_set_state(self, state)` 向状态队列里添加新状态
 
 `class BallInDanger(ConditionLeaf)` 测一下场地上球的加速度？
-默认草地上球的加速度为 `-40cm/s^2` (可以灵活调整，加速度绝对值越小 BallInDanger 越容易为 True)
+默认草地上球的加速度为 `70cm/s^2` (可以灵活调整，加速度绝对值越小 BallInDanger 越容易为 True)
 计算出机器人在 2s 反应时间后作出反应时球到达的 x 位置，若 x 为负，则返回 True。
 
 `class GoalieReadyToSave(ConditionLeaf, GoalKeeperBase)`
@@ -722,7 +733,7 @@ graph TD
 if ballv.x > -15:
     return Status.RUNNING
 ```
-通过球的速度和在机器人坐标系中的位置，计算出球到机器人坐标系 y 轴时的 y 坐标，来决定向左倒/向右倒/正面防守。倒的条件或许可以严格一点，因为 Attack 也有防守效果且可把球踢出；正面防守没有动作，结束 Saveball，DGS 会接着选取 Attack 来防守。
+通过球的速度和在机器人坐标系中的位置，计算出球到机器人坐标系 y 轴时的 y 坐标，来决定向左倒/向右倒/正面防守。如果 y 坐标大于 2000，执行向左倒，如果 y 坐标小于 -2000，执行向右倒，否则，执行正面防守，正面防守会调用 goalie_mid() 动作。结束 Saveball，DGS 会接着选取 Attack 来防守。
 
 **Graph1 SaveBall**
 ```mermaid
@@ -739,7 +750,7 @@ graph TD
 ```
 
 `class BallInGoalieAttackZone(ConditionLeaf)`
-用球在机器人坐标系中的位置算
+判断球是否在守门员的攻击区域，在condition()方法中，主要使用球的全局位置做判断。
 
 `class BallOutOfGoalieAttackZone(ConditionLeaf)`
 用球的全局位置算
@@ -819,7 +830,7 @@ graph TD
 回到待命点。
 
 `class GotGoalKeeperHomePos(ConditionLeaf, GoalKeeperBase)`
-在待命点且面朝球门外侧。
+主要检查距离和角度是否在允许范围内。
 
 `class GotOutOfGoalKeeperHomePos(ConditionLeaf, GoalKeeperBase)`
 不在待命点或面朝球门内侧。
