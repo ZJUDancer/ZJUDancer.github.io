@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/doc-theme.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 </head>
 
 <body class="is-preload" data-page="tutorials">
@@ -31,7 +37,6 @@
   </header>
 
   <section id="documentation" class="wrapper style1">
-
     <div class="inner doc-container">
       <div class="doc-layout">
 
@@ -45,20 +50,48 @@
             <p>Loading tutorial...</p>
           </div>
         </main>
+
         <aside class="doc-toc">
           <div class="doc-toc-inner">
             <div class="doc-toc-title">目录</div>
             <div id="doc-toc-list"></div>
           </div>
         </aside>
+
       </div>
     </div>
   </section>
+
+  <div id="image-viewer" class="image-viewer" aria-hidden="true">
+    <div class="image-viewer-backdrop"></div>
+
+    <div class="image-viewer-toolbar">
+      <button type="button" class="viewer-btn" data-action="zoom-in">＋</button>
+      <button type="button" class="viewer-btn" data-action="zoom-out">－</button>
+      <button type="button" class="viewer-btn" data-action="reset">重置</button>
+      <button type="button" class="viewer-btn" data-action="close">关闭</button>
+    </div>
+
+    <div class="image-viewer-stage-wrap">
+      <div class="image-viewer-stage"></div>
+    </div>
+  </div>
 
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="assets/js/doc-config.js"></script>
   <script src="assets/js/markdown-docs.js"></script>
+
+  <script type="module">
+    import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    window.mermaid = mermaid;
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: "default",
+      securityLevel: "loose"
+    });
+  </script>
+
 </body>
 </html>

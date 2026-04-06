@@ -1,10 +1,21 @@
-# Getting Started
+# 快速开始
 
-This tutorial helps you quickly set up the project.
+欢迎来到 ZJUDancer 操作指导页面。本页面汇总了机器人使用、调试、测试与比赛相关的常用说明文档，帮助团队成员以及各位访客快速查找所需流程并按规范完成操作。
 
-## Step 1
+这里收录的内容包括基础功能测试、软件安装、比赛流程、操作规范以及常见任务说明。无论是新成员入门，还是日常维护、赛前准备与现场操作，都可以在这里找到对应的参考文档。
 
-Clone the repository:
+建议根据左侧目录选择相应主题进行阅读，并按照文档中的步骤依次执行，以减少操作失误并提高协作效率。
+
+## 使用说明
+
+本页面目前分为两个部分：
+- 操作流程
+- 辅助测试
+
+可以先找到参考文档，再进行实际操作。
+
+
+## 克隆仓库
 
 ```bash
 git clone https://github.com/water-da/ZJUDancer-website

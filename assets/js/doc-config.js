@@ -94,32 +94,32 @@ const TUTORIALS_NAV = [
     ]
   },
   {
-    title: "Beginner",
+    title: "操作流程",
     children: [
       {
-        title: "Tutorial 1",
-        file: "docs/tutorials/tutorial1.md",
-        docId: "tutorial1"
+        title: "点球规则及操作流程",
+        file: "docs/tutorials/点球规则及操作流程.md",
+        docId: "pointball-rule"
       },
       {
-        title: "Tutorial 2",
-        file: "docs/tutorials/tutorial2.md",
-        docId: "tutorial2"
+        title: "足球赛标准操作流程",
+        file: "docs/tutorials/足球赛标准操作流程.md",
+        docId: "football-rule"
       }
     ]
   },
   {
-    title: "Advanced",
+    title: "辅助测试",
     children: [
       {
-        title: "Motion Control",
-        file: "docs/tutorials/motion.md",
-        docId: "motion"
+        title: "机器人基础视觉功能测试",
+        file: "docs/tutorials/机器人基础视觉功能测试.md",
+        docId: "vision"
       },
       {
-        title: "Vision",
-        file: "docs/tutorials/vision.md",
-        docId: "vision"
+        title: "机器人上常用软件安装",
+        file: "docs/tutorials/机器人上常用软件安装.md",
+        docId: "software"
       }
     ]
   }
