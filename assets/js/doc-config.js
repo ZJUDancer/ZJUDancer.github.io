@@ -97,13 +97,13 @@ const TUTORIALS_NAV = [
     title: "操作流程",
     children: [
       {
-        title: "点球规则及操作流程",
-        file: "docs/tutorials/点球规则及操作流程.md",
+        title: "维护中",
+        file: "docs/tutorials/1.md",
         docId: "pointball-rule"
       },
       {
-        title: "足球赛标准操作流程",
-        file: "docs/tutorials/足球赛标准操作流程.md",
+        title: "维护中",
+        file: "docs/tutorials/2.md",
         docId: "football-rule"
       }
     ]
@@ -112,13 +112,13 @@ const TUTORIALS_NAV = [
     title: "辅助测试",
     children: [
       {
-        title: "机器人基础视觉功能测试",
-        file: "docs/tutorials/机器人基础视觉功能测试.md",
-        docId: "vision"
+        title: "维护中",
+        file: "docs/tutorials/3.md",
+        docId: "highengine"
       },
       {
-        title: "机器人上常用软件安装",
-        file: "docs/tutorials/机器人上常用软件安装.md",
+        title: "维护中",
+        file: "docs/tutorials/4.md",
         docId: "software"
       }
     ]
