@@ -13,7 +13,7 @@ const DOCUMENTS_NAV = [
     title: "策略代码阅读",
     children: [
       {
-        title: "Behavior",
+        title: "Behavior 行为控制模块",
         children: [
           {
             title: "behavior",
@@ -31,7 +31,7 @@ const DOCUMENTS_NAV = [
     title: "步态代码阅读",
     children: [
       {
-        title: "Planner",
+        title: "Planner 路径规划模块",
         file: "docs/documents/Planner_module.md",
         docId: "planner-module-overview"
       }
@@ -41,7 +41,7 @@ const DOCUMENTS_NAV = [
     title: "视觉代码阅读",
     children: [
       {
-        title: "Vision_module",
+        title: "Vision 视觉处理模块",
         file: "docs/documents/Vision_module.md",
         docId: "vision-module-overview"
       },
@@ -53,24 +53,24 @@ const DOCUMENTS_NAV = [
     children: [
         {
 
-            title: "Network Module",
+            title: "Network 网络通信模块",
             file: "docs/documents/Network_module.md",
             docId: "network-module"
           
         
       },
       {
-        title: "IO",
+        title: "IO 输入输出模块",
         file: "docs/documents/IO_module.md",
         docId: "other-module-overview"
       },
       {
-        title: "Config",
+        title: "Config 配置管理模块",
         file: "docs/documents/Config_module.md",
         docId: "config-module-overview"
       },
       {
-        title: "Launch",
+        title: "Launch 启动脚本模块",
         file: "docs/documents/Launch_module.md",
         docId: "launch-module-overview"
       }
@@ -112,8 +112,8 @@ const TUTORIALS_NAV = [
     title: "安装教程",
     children: [
       {
-        title: "高擎历程安装",
-        file: "docs/tutorials/高擎历程安装.md",
+        title: "高擎例程安装",
+        file: "docs/tutorials/高擎例程安装.md",
         docId: "highengine"
       },
       {
