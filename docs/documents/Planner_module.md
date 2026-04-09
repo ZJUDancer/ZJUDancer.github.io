@@ -1,9 +1,6 @@
-
----
-
 # Planner Module
 
-先明确这些变量的意义：
+## 先明确这些变量的意义：
 
 代码块
 ```cpp
@@ -24,9 +21,9 @@ double ball_field_angle; //球在机器人坐标系下的角度
 double robot_angle_error = 0; // 朝向目标点 - 现在的朝向
 ```
 
-### 先看主函数：
+## 先看主函数：
 
-**1. 节点初始化与 ROS 通信配置 (Line 363 - 384)**
+### 1. 节点初始化与 ROS 通信配置 (Line 413 - 434)
 * **环境变量区分机器人**：通过读取环境变量 `ZJUDANCER_ROBOTID`，为话题 (Topic) 加上特定的前缀，从而在一台电脑或仿真环境中区分控制不同的机器人个体。
 * 有个DWA的实例，但还没用上
 * **发布与订阅 (Pub & Sub)**：
@@ -35,14 +32,14 @@ double robot_angle_error = 0; // 朝向目标点 - 现在的朝向
     * 发布速度指令 `cmd_vel` (`geometry_msgs::Twist`)：发布计算后的平移和旋转速度控制底盘（全向移动底盘）。
     * 发布手柄指令 `/joy_msg`：通过模拟手柄行为来发送诸如“左脚踢球”、“右脚踢球”、“向左扑救”等特殊动作触发指令。
 
-**2. 控制参数初始化 (Line 386 - 428)**
+### 2. 控制参数初始化 (Line 436 - 470)
 定义了一系列控制动作时使用的常量，包括：
 * **速度与容差参数**：最大/最小线速度、角速度，到达目标点的容差。
 * **盘球 (Dribble) 参数**：定义了找球、绕球调整朝向、前进带球这三个子阶段触发的距离和角度容差。
 * **踢球 (Kick) 参数**：定义了踢球时的期望身位偏移。
 * **扑救 (Goalie) 参数**：判定球在左侧还是右侧以决定扑救方向。
 
-**3. 主事件循环 (状态机) (Line 429 - 736)**
+### 3. 主事件循环 (状态机) (Line 485 - 827)
 不同的 `gait_type` 对应不同的行为：
 * **case 0 (站立待命)**
     * 所有的速度指令清零。
@@ -75,18 +72,18 @@ double robot_angle_error = 0; // 朝向目标点 - 现在的朝向
     * 评估传入的 `ball_velocity`，如果球处于几乎静止状态，不进行扑救。
     * 否则利用当前球场的相对Y坐标 (`last_y = parameters.stp.ball_field[1]`)，当球靠近左侧时模拟按下 `joy_msg.a = 1.0` （触发左扑动作），当球靠近右侧时按下 `joy_msg.b = 1.0` （触发右扑动作）。
 
-**4. 发布结果并休眠循环 (Line 724 - 735)**
+### 4. 发布结果并休眠循环 (Line 816 - 827)
 赋值计算好的结果至 `velocity_msg` 并向小车底层控制发布 `cmd_vel`；同时也向后发布可能存在按键操作的 `joy_msg`。进入下一轮判断周期。
 
 ---
 
-### 再看调用函数
+## 再看调用函数
 
-**1. double distanceToBallTargetLine () (Line 75 - 101)**
+### 1. double distanceToBallTargetLine () (Line 106 - 162)
 计算机器人到“球-目标点”直线的垂直距离。
 A点(球)，B点(目标点)，P点(机器人)，分别调用全局坐标系下的坐标，计算出向量AB(球到目标点)和AP(球到机器人)，利用叉乘公式|AB x AP| / |AB|计算出点P到AB的距离，即机器人到“球-目标点”直线的垂直距离。
 
-**2. void VisionCallBack(const dmsgs::VisionInfo::ConstPtr &msg) (Line 104 - 142)**
+### 2. void VisionCallBack(const dmsgs::VisionInfo::ConstPtr &msg) (Line 172 - 181)
 视觉信息回调
 * **更新机器人全局位姿**：其中除以100是单位换算，下面同理，不再赘述
 * **计算机器人的朝向误差**：通过机器人和目标点在全局坐标系下的坐标计算得出。
@@ -95,13 +92,13 @@ A点(球)，B点(目标点)，P点(机器人)，分别调用全局坐标系下�
 * **更新球相对机器人的距离/角度**
 * **重置踢球/盘球标志**：若球在机器人坐标系下的距离和角度满足条件，则机器人不进入踢球准备阶段和盘球阶段。
 
-**3. void ActionCallBack (Line 152 - 161)**
+### 3. void ActionCallBack (Line 172 - 181)
 动作指令回调（与上一个函数类似）
 * 更新全局坐标系下目标位姿
 * 更新步态类型：读取 `gait_type` 的信息
 * 重新计算朝向误差
 
-**4. void generate_velocity(const std::vector<double>& current_pose, const std::vector<double>& target_pose) (Line 180 - 266)**
+### 4. void generate_velocity(const std::vector<double>& current_pose, const std::vector<double>& target_pose) (Line 200 - 286)
 速度规划函数
 * **参数验证并提取**：确保位姿信息包含x, y, yaw三个元素。
 * **参数设置**：源代码中注释十分清楚
@@ -109,7 +106,7 @@ A点(球)，B点(目标点)，P点(机器人)，分别调用全局坐标系下�
 * **计算X和Y方向速度及角速度**：需要注意的是，这里面的速度为比例增益 `Kp` 和在X/Y方向上的机器人坐标系重点局部误差 `e_x/y_local` 乘积，同理角速度为YAW比例增益 `Kp_YAW` 和角度局部误差 `angle_error` 之积定义。
 * **更新速度命令**
 
-**整体数据流：**
+## 整体数据流：
 
 ```mermaid
 graph TD
@@ -121,17 +118,17 @@ graph TD
     F --> G["vel_cmd = [Vx, Vy, Wz]"]
 ```
 
-**5. initJoyMsg (Line 268 - 298)**
+### 5. initJoyMsg (Line 288 - 316)
 遥控器消息初始化
 ~~`joy_msg.lt = 1.0` 为什么这么定义似乎是手册上面写的？~~
 
-**6. double kick_cost(int kick_type) (Line 309 - 337)**
+### 6. double kick_cost(int kick_type) (Line 329 - 357)
 踢球代价计算，在主函数中调用决定踢球动作
 * 先将X,Y,YAW三个方向的代价权重归一化
 * 提取该踢球类型的期望参数并计算误差
 * 计算代价
 
-**7. int decide_kick_type() (Line 339 - 359)**
+### 7. int decide_kick_type() (Line 359 - 379)
 最优踢球类型选择
 * 若当前踢球类型代价足够小，不切换
 * 遍历所有踢球类型，找代价最小的
