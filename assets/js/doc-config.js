@@ -109,7 +109,7 @@ const TUTORIALS_NAV = [
     ]
   },
   {
-    title: "辅助测试",
+    title: "安装教程",
     children: [
       {
         title: "高擎历程安装",
@@ -120,6 +120,11 @@ const TUTORIALS_NAV = [
         title: "机器人上常用软件安装",
         file: "docs/tutorials/机器人上常用软件安装.md",
         docId: "software"
+      },
+      {
+        title: "裁判盒",
+        file: "docs/tutorials/裁判盒.md",
+        docId: "referee"
       }
     ]
   }
