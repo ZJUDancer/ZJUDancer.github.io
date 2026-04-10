@@ -117,8 +117,8 @@ const TUTORIALS_NAV = [
         docId: "config"
       },
       {
-        title: "机器人上开关机及手柄操作",
-        file: "docs/tutorials/机器人上开关机及手柄操作.md",
+        title: "机器人开关机及手柄操作",
+        file: "docs/tutorials/机器人开关机及手柄操作.md",
         docId: "power-on"
       },      
       {
