@@ -112,20 +112,26 @@ const TUTORIALS_NAV = [
     title: "安装教程",
     children: [
       {
-        title: "高擎例程安装",
-        file: "docs/tutorials/高擎例程安装.md",
-        docId: "highengine"
+        title: "新机器人基础配置指南",
+        file: "docs/tutorials/新机器人基础配置指南.md",
+        docId: "config"
       },
       {
-        title: "机器人上常用软件安装",
-        file: "docs/tutorials/机器人上常用软件安装.md",
-        docId: "software"
-      },
+        title: "机器人上开关机及手柄操作",
+        file: "docs/tutorials/机器人上开关机及手柄操作.md",
+        docId: "power-on"
+      },      
       {
         title: "裁判盒",
         file: "docs/tutorials/裁判盒.md",
         docId: "referee"
-      }
+      },
+
+      {
+        title: "高擎例程安装",
+        file: "docs/tutorials/高擎例程安装.md",
+        docId: "highengine"
+      },
     ]
   }
 ];
