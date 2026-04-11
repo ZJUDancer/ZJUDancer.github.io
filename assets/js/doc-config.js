@@ -101,32 +101,56 @@ const TUTORIALS_NAV = [
         file: "docs/tutorials/足球赛标准操作流程.md",
         docId: "football-rule"
       },
-      {
-        title: "点球规则及操作流程",
-        file: "docs/tutorials/点球规则及操作流程.md",
-        docId: "football-rule"
-      }
     ]
   },
   {
     title: "安装教程",
     children: [
       {
-        title: "新机器人基础配置指南",
-        file: "docs/tutorials/新机器人基础配置指南.md",
+        title: "1.新机器人基础配置指南",
+        file: "docs/tutorials/维护中文件.md",
         docId: "config"
       },
       {
-        title: "机器人开关机及手柄操作",
+        title: "2.使用todesk连接机器人",
+        file: "docs/tutorials/维护中文件.md",
+        docId: "connect"
+      },
+      {
+        title: "3.用SSH连接机器人",
+        file: "docs/tutorials/维护中文件.md",
+        docId: "ssh"
+      }, 
+      {
+        title: "4.git基础知识",
+        file: "docs/tutorials/维护中文件.md",
+        docId: "git"
+      },
+      {
+        title: "5.编译lib和core",
+        file: "docs/tutorials/维护中文件.md",
+        docId: "compile"
+      },
+      {
+        title: "6.机器人开关机及手柄操作",
         file: "docs/tutorials/机器人开关机及手柄操作.md",
         docId: "power-on"
-      },      
+      },
       {
-        title: "裁判盒",
+        title: "7.调试启动",
+        file: "docs/tutorials/维护中文件.md",
+        docId: "debug"
+      },     
+      {
+        title: "8.裁判盒",
         file: "docs/tutorials/裁判盒.md",
         docId: "referee"
       },
-
+      {
+        title: "9.比赛启动",
+        file: "docs/tutorials/维护中文件.md",
+        docId: "start"
+      },
       {
         title: "高擎例程安装",
         file: "docs/tutorials/高擎例程安装.md",
