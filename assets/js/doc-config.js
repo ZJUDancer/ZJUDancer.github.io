@@ -108,12 +108,12 @@ const TUTORIALS_NAV = [
     children: [
       {
         title: "1.新机器人基础配置指南",
-        file: "docs/tutorials/维护中文件.md",
+        file: "docs/tutorials/新机器人基础配置指南.md",
         docId: "config"
       },
       {
         title: "2.使用todesk连接机器人",
-        file: "docs/tutorials/维护中文件.md",
+        file: "docs/tutorials/使用todesk连接机器人.md",
         docId: "connect"
       },
       {
