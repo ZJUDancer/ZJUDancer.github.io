@@ -118,7 +118,7 @@ const TUTORIALS_NAV = [
       },
       {
         title: "3.用SSH连接机器人",
-        file: "docs/tutorials/维护中文件.md",
+        file: "docs/tutorials/用SSH连接机器人.md",
         docId: "ssh"
       }, 
       {
