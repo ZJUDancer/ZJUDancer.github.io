@@ -123,7 +123,7 @@ const TUTORIALS_NAV = [
       }, 
       {
         title: "4.git基础知识",
-        file: "docs/tutorials/git基础知识/git基础知识.md",
+        file: "docs/tutorials/git基础知识/git基础知识/Git基本知识.md",
         docId: "git"
       },
       {
