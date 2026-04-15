@@ -108,7 +108,7 @@ const TUTORIALS_NAV = [
     children: [
       {
         title: "1.新机器人基础配置指南",
-        file: "docs/tutorials/新机器人基础配置指南.md",
+        file: "docs/tutorials/新机器人基础配置指南/新机器人基础配置指南.md",
         docId: "config"
       },
       {
