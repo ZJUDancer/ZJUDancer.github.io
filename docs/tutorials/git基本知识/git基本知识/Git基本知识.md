@@ -1,4 +1,3 @@
-
 ---
 
 # Git 基本知识
@@ -14,7 +13,8 @@
 git config --global user.name "你的名字"
 git config --global user.email "你的邮箱@example.com"
 ```
-![终端截图](/docs/tutorials/git基本知识/git基本知识/image-2.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-2.png" alt="终端截图" />
+
 ### 1.2 生成与添加 SSH 密钥
 1. **生成密钥**：在终端中运行以下命令，遇到提示时直接回车即可，不需要输入任何额外内容：
    ```bash
@@ -25,12 +25,11 @@ git config --global user.email "你的邮箱@example.com"
    cat ~/.ssh/id_rsa.pub
    ```
 
-![SSH密钥生成成功](/docs/tutorials/git基本知识/git基本知识/image-5.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-5.png" alt="SSH密钥生成成功" />
 
 3. **添加到托管平台**：登录团队的 GitHub 或 GitLab，进入 `Settings` -> `SSH and GPG keys`，点击 `New SSH key`，将复制的内容粘贴进去并保存。
 
-
-![SSH密钥导入成功](/docs/tutorials/git基本知识/git基本知识/image-3.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-3.png" alt="SSH密钥导入成功" />
 
 ---
 
@@ -38,12 +37,13 @@ git config --global user.email "你的邮箱@example.com"
 将云端的代码仓库下载到本地，是参与项目开发的前置步骤。
 
 1. 在 GitHub/GitLab 上找到项目仓库，点击 `Code` 按钮，复制 **SSH 链接**（请勿复制 HTTPS 链接，否则后续操作仍需频繁输入密码）。
-![Code界面](/docs/tutorials/git基本知识/git基本知识/image-6.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-6.png" alt="Code界面" />
+
 2. 打开 VSCode，点击左侧活动栏的 **源代码管理 (Source Control)** 图标（外观为分支节点样式）。
 3. 点击 `克隆仓库 (Clone Repository)`，在上方弹出的输入框中粘贴刚刚复制的 SSH 链接并回车。
 4. 选择一个本地文件夹保存代码，克隆完成后，VSCode 会提示是否打开该仓库，点击 `打开 (Open)`。
 
-![克隆仓库](/docs/tutorials/git基本知识/git基本知识/image-7.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-7.png" alt="克隆仓库" />
 
 ---
 
@@ -62,7 +62,8 @@ graph LR
 
 ### 3.1 暂存更改
 修改文件并保存后，左侧的“源代码管理”图标会出现数字角标。
-![修改](/docs/tutorials/git基本知识/git基本知识/image-8.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-8.png" alt="修改" />
+
 - 请先将鼠标悬停在需要提交的文件上，点击右侧的 **`+` (暂存更改)** 号。文件会从“更改”列表移动到“暂存的更改”列表中。
 - 若未点击 `+` 号直接点击提交，VSCode 会弹出警告框询问是否自动暂存。为保证提交内容的准确性，请养成先手动确认并暂存文件的习惯。
 
@@ -72,7 +73,7 @@ graph LR
 **特别注意：提交信息 (Commit Message) 是必填项。** 
 部分新手会误以为它是选填项，在输入框为空的情况下直接点击“提交”。此时，VSCode 并不会弹出明显的必填错误提示，而是可能毫无反应，或者打开一个名为 `COMMIT_EDITMSG` 的文本文件，导致代码并未成功提交。
 正确的做法是：每次提交前，必须在输入框中简要描述本次修改的内容（例如：`修复了机器人走路不稳的问题`、`调整了视觉识别参数`），然后再点击提交按钮。
-![提交信息](/docs/tutorials/git基本知识/git基本知识/image-9.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-9.png" alt="提交信息" />
 
 ---
 
@@ -83,7 +84,7 @@ graph LR
 - **推送 (Push)**：将本地的提交上传到云端。点击 `...` -> `推送 (Push)`。
 - **同步更改 (Sync Changes)**：面板上通常会提供一个蓝色的“同步更改”按钮，点击它会自动执行“先拉取再推送”的操作，是日常开发中最便捷的同步方式。
 
-![三个按钮](/docs/tutorials/git基本知识/git基本知识/image-10.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-10.png" alt="三个按钮" />
 
 ---
 
@@ -94,11 +95,12 @@ graph LR
 2. **创建与切换分支**：
    - 点击左下角的分支名称。
    - 在顶部弹出的菜单中选择 `+ 创建新分支 (Create new branch)`。
-![展示分支](/docs/tutorials/git基本知识/git基本知识/image-11.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-11.png" alt="展示分支" />
+
    - 输入新分支的名称（例如 `feature-new-kick`）并回车。
 3. **发布分支 (Publish Branch)**：
    - 当你在本地新建了一个分支并完成提交后，第一次点击“同步更改”时，VSCode 会提示“发布分支 (Publish Branch)”。这是因为云端仓库尚未创建该分支，点击确认发布即可，之后便可正常进行推送和拉取。
-![发布分支](/docs/tutorials/git基本知识/git基本知识/image-12.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-12.png" alt="发布分支" />
 
 ---
 
@@ -112,11 +114,10 @@ graph LR
 | **A** | Added (已添加) | 新文件已经被暂存（已点击 `+`），等待提交。 |
 | **C** | Conflict (冲突) | 合并代码时产生了冲突，需要手动解决。 |
 
-![展示后缀](/docs/tutorials/git基本知识/git基本知识/image-13.png)
+<img src="/docs/tutorials/git基本知识/git基本知识/image-13.png" alt="展示后缀" />
 
 **代码冲突 (C) 的处理方式：**
 当多人同时修改了同一行代码并尝试同步时，就会产生冲突。VSCode 提供了清晰的冲突解决界面：
 1. 打开带有 `C` 标记的冲突文件。
 2. 冲突的代码块会被高亮标记，VSCode 在冲突上方提供了快捷操作选项：`采用当前更改 (Accept Current Change)`、`采用传入的更改 (Accept Incoming Change)` 或 `保留双方更改 (Accept Both Changes)`。
 3. 根据实际的代码逻辑点击合适的选项。处理完毕后保存文件，**重新点击 `+` 暂存该文件，并填写提交信息再次提交**，即可完成冲突解决。
-
