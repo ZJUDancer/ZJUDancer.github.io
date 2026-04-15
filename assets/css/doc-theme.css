@@ -674,7 +674,7 @@
   min-width: 640px;
 }
 img {
-  max-width: 650px !important;
+  max-width: 600px !important;
   width: auto !important;
   height: auto !important;
   display: block;
