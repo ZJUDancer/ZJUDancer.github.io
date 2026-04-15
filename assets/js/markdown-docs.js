@@ -260,6 +260,21 @@ function normalizeMathDelimiters(markdown) {
   return result.join("\n");
 }
 
+function applyMarkdownImageStyles(root) {
+  if (!root) return;
+
+  const images = root.querySelectorAll("img");
+  images.forEach((img) => {
+    img.removeAttribute("width");
+    img.removeAttribute("height");
+
+    img.style.setProperty("max-width", "600px", "important");
+    img.style.setProperty("width", "auto", "important");
+    img.style.setProperty("height", "auto", "important");
+    img.style.setProperty("display", "block", "important");
+    img.style.setProperty("margin", "16px auto", "important");
+  });
+}
 
 async function renderMarkdown(file) {
   contentRoot.className = "doc-content markdown-body";
@@ -287,6 +302,7 @@ async function renderMarkdown(file) {
     renderMathInContent(markdownBody);
     assignHeadingIds(markdownBody);
     await renderMermaidInContent(markdownBody);
+    applyMarkdownImageStyles(markdownBody);
     buildTOC(markdownBody);
     bindZoomableMedia(markdownBody, viewerInstance);
 
@@ -298,8 +314,6 @@ async function renderMarkdown(file) {
     hideTOC();
   }
 }
-
-
 
   function renderPDF(file) {
     hideTOC();
