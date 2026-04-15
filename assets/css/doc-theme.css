@@ -673,11 +673,11 @@
 .doc-markdown-body table {
   min-width: 640px;
 }
-.main-content img {
-  max-width: 550px;
-  width: 100%;
-  height: auto;
+img {
+  max-width: 650px !important;
+  width: auto !important;
+  height: auto !important;
   display: block;
   margin: 16px auto;
-  border-radius: 8px;
 }
+
