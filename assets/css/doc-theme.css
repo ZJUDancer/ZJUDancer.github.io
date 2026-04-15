@@ -674,14 +674,4 @@
   min-width: 640px;
 }
 
-main img,
-article img,
-p > img {
-  max-width: 600px !important;
-  width: auto !important;
-  height: auto !important;
-  display: block !important;
-  margin: 16px auto !important;
-}
-
 
