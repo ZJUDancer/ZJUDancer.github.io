@@ -128,7 +128,7 @@ const TUTORIALS_NAV = [
       },
       {
         title: "5.编译lib和core",
-        file: "docs/tutorials/维护中文件.md",
+        file: "docs/tutorials/编译lib和core.md",
         docId: "compile"
       },
       {
@@ -138,7 +138,7 @@ const TUTORIALS_NAV = [
       },
       {
         title: "7.调试启动",
-        file: "docs/tutorials/维护中文件.md",
+        file: "docs/tutorials/调试启动.md",
         docId: "debug"
       },     
       {
