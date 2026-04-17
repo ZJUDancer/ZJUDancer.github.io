@@ -83,29 +83,25 @@ const DOCUMENTS_NAV = [
 ];
 
 const TUTORIALS_NAV = [
-  {
-    title: "Overview",
-    children: [
+  
+    
       {
         title: "Overview",
         file: "docs/tutorials/index.md",
         docId: "overview"
-      }
-    ]
-  },
-  {
-    title: "操作流程",
-    children: [
+      },
+    
+
+  
+    
       {
         title: "足球赛标准操作流程",
         file: "docs/tutorials/足球赛标准操作流程.md",
         docId: "football-rule"
       },
-    ]
-  },
-  {
-    title: "安装教程",
-    children: [
+    
+  
+  
       {
         title: "1.新机器人基础配置指南",
         file: "docs/tutorials/新机器人配置指南/新机器人基础配置指南.md",
@@ -152,10 +148,15 @@ const TUTORIALS_NAV = [
         docId: "start"
       },
       {
+        title: "10.标定内外参",
+        file: "docs/tutorials/标定内外参/标定内外参.md",
+        docId: "calibration"
+      },
+      {
         title: "高擎例程安装",
         file: "docs/tutorials/高擎例程安装.md",
         docId: "highengine"
       },
-    ]
-  }
+    
+  
 ];
