@@ -18,12 +18,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return file.split("/").pop();
   }
 
+  function getFreshFileUrl(file) {
+    if (!window.ZJUDancerCacheControl || !window.ZJUDancerCacheControl.freshUrl) {
+      return file;
+    }
+
+    return window.ZJUDancerCacheControl.freshUrl(file);
+  }
+
   function createDocToolbar(file, label = "Download File") {
     const fileName = getFileName(file);
+    const freshFile = getFreshFileUrl(file);
     return `
       <div class="doc-toolbar">
-        <a href="${file}" target="_blank" class="button small">Open File</a>
-        <a href="${file}" download="${fileName}" class="button small">${label}</a>
+        <a href="${freshFile}" target="_blank" class="button small">Open File</a>
+        <a href="${freshFile}" download="${fileName}" class="button small">${label}</a>
       </div>
     `;
   }
@@ -284,7 +293,7 @@ async function renderMarkdown(file) {
   `;
 
   try {
-    const response = await fetch(file);
+    const response = await fetch(getFreshFileUrl(file), { cache: "no-store" });
     if (!response.ok) throw new Error("Failed to load markdown");
 
     const rawText = await response.text();
@@ -321,10 +330,10 @@ async function renderMarkdown(file) {
     contentRoot.className = "doc-content";
     contentRoot.innerHTML = `
       <div class="doc-toolbar">
-        <a href="${file}" target="_blank" class="button small">Open PDF in New Tab</a>
-        <a href="${file}" download="${getFileName(file)}" class="button small">Download PDF</a>
+        <a href="${getFreshFileUrl(file)}" target="_blank" class="button small">Open PDF in New Tab</a>
+        <a href="${getFreshFileUrl(file)}" download="${getFileName(file)}" class="button small">Download PDF</a>
       </div>
-      <iframe class="pdf-frame" src="${file}"></iframe>
+      <iframe class="pdf-frame" src="${getFreshFileUrl(file)}"></iframe>
     `;
   }
 
@@ -343,8 +352,8 @@ async function renderMarkdown(file) {
       contentRoot.className = "doc-content";
       contentRoot.innerHTML = `
         <div class="doc-toolbar">
-          <a href="${item.file}" target="_blank" class="button small">Open File</a>
-          <a href="${item.file}" download="${getFileName(item.file)}" class="button small">Download File</a>
+          <a href="${getFreshFileUrl(item.file)}" target="_blank" class="button small">Open File</a>
+          <a href="${getFreshFileUrl(item.file)}" download="${getFileName(item.file)}" class="button small">Download File</a>
         </div>
         <p>This file type is not previewable in the current page.</p>
       `;
