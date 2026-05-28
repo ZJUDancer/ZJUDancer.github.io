@@ -1,0 +1,9 @@
+[
+  {
+    "title": "环境搭建",
+    "desc": "Windows/Ubuntu 基础环境、依赖与常见问题",
+    "file": "01-environment-setup.pdf",
+    "tags": ["Setup", "Beginner"],
+    "updated": "2026-03-18"
+  }
+]
