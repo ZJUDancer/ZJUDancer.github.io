@@ -1,0 +1,121 @@
+{{ $author:= hugo.Data.author }}
+{{ if (index hugo.Data site.Language.Lang).author }}
+{{ $author = (index hugo.Data site.Language.Lang).author }}
+{{ end }}
+
+{{ $name:="Jane Doe" }}
+{{ if $author.nickname }}
+{{ $name = $author.nickname }}
+{{ else if $author.name }}
+{{ $name = $author.name }}
+{{ end }}
+
+{{ $sections:= hugo.Data.sections }}
+{{ if (index hugo.Data site.Language.Lang).sections }}
+{{ $sections = (index hugo.Data site.Language.Lang).sections }}
+{{ end }}
+
+{{ $authorImage:= "/images/default-avatar.png" }}
+{{ if $author.image }}
+{{ $authorImage = $author.image }}
+{{ end }}
+{{ $authorImage := resources.Get $authorImage }}
+
+{{/* apply image processing. don't use "Fit" in svg or gif because its not supported */}}
+{{ if and $authorImage (and (ne $authorImage.MediaType.SubType "svg") ( ne $authorImage.MediaType.SubType "gif")) }}
+{{ $authorImage = $authorImage.Fit "148x148" }}
+{{ end }}
+
+{{/* Rotating homepage background images. Each is resized to webp at a few
+     responsive widths so the browser only downloads the size it needs. */}}
+{{ $backgrounds := site.Params.backgrounds }}
+
+<div class="container-fluid home" id="home">
+  <style>
+    #homePageBackgroundImageDivStyled {
+      position: relative;
+    }
+    #homePageBackgroundImageDivStyled .bg-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      will-change: opacity;
+    }
+    {{ range $i, $path := $backgrounds }}
+    {{ $img := resources.Get $path }}
+    {{ if $img }}
+    #homePageBackgroundImageDivStyled .bg-slide-{{ add $i 1 }} {
+      background-image: url('{{ ($img.Resize "480x webp q70").RelPermalink }}');
+    }
+    @media (min-width: 481px) and (max-width: 800px) {
+      #homePageBackgroundImageDivStyled .bg-slide-{{ add $i 1 }} {
+        background-image: url('{{ ($img.Resize "800x webp q70").RelPermalink }}');
+      }
+    }
+    @media (min-width: 801px) {
+      #homePageBackgroundImageDivStyled .bg-slide-{{ add $i 1 }} {
+        background-image: url('{{ ($img.Resize "1200x webp q70").RelPermalink }}');
+      }
+    }
+    {{ end }}
+    {{ end }}
+
+    /* two images crossfading every 5s (10s full cycle) */
+    #homePageBackgroundImageDivStyled .bg-slide-1 {
+      animation: homeBgCrossfadeA 10s linear infinite;
+    }
+    #homePageBackgroundImageDivStyled .bg-slide-2 {
+      animation: homeBgCrossfadeB 10s linear infinite;
+    }
+
+    @keyframes homeBgCrossfadeA {
+      0%, 40% { opacity: 1; }
+      50%, 90% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes homeBgCrossfadeB {
+      0%, 40% { opacity: 0; }
+      50%, 90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+  <span class="on-the-fly-behavior"></span>
+  <div id="homePageBackgroundImageDivStyled" class="background container-fluid">
+    <div class="bg-slide bg-slide-1"></div>
+    <div class="bg-slide bg-slide-2"></div>
+  </div>
+  <div class="container content text-center">
+    <img src="{{ $authorImage.RelPermalink }}" class="mx-auto d-block img-fluid" alt="Author Image" />
+    <h1 class="greeting"> {{ $author.greeting }} {{ $name }}</h1>
+    {{ if $author.subtitle }}
+    <h2 class="greeting-subtitle">{{ $author.subtitle }}</h2>
+    {{ end }}
+    <div class="typing-carousel">
+      <span id="typed" class="typed"></span>
+      <span class="ityped-cursor"></span>
+    </div>
+    <ul id="typing-carousel-data">
+      {{ if $author.summary }}
+      {{ range $author.summary }}
+      <li>{{ . }}</li>
+      {{ end}}
+      {{ end }}
+    </ul>
+    {{ if $sections }}
+    {{ range first 1 (where (sort $sections "section.weight") ".section.enable" true) }}
+    {{ $sectionID := replace (lower .section.name) " " "-" }}
+    {{ if .section.id }}
+    {{ $sectionID = .section.id }}
+    {{ end }}
+    <a href="#{{ $sectionID }}" class="arrow-center" aria-label="{{ i18n "read" }} {{ i18n "more" }} - {{ $name }}"> <i
+        class="arrow bounce fa fa-chevron-down"></i></a>
+    {{ end }}
+    {{ end }}
+  </div>
+</div>
