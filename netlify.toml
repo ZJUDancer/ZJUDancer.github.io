@@ -1,0 +1,16 @@
+[build]
+command = "mise install && mise run build -b $DEPLOY_URL"
+publish = "public"
+
+[build.environment]
+HUGO_ENABLEGITINFO = "true"
+
+[context.production.environment]
+HUGO_ENV = "production"
+
+
+[context.deploy-preview]
+command = "mise install && mise run build --buildFuture -b $DEPLOY_PRIME_URL"
+
+[context.branch-deploy]
+command = "mise install && mise run build -b $DEPLOY_PRIME_URL"

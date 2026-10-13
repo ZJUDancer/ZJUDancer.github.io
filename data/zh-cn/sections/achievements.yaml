@@ -1,0 +1,24 @@
+# section information
+section:
+  name: 奖项
+  id: achievements
+  enable: false
+  weight: 10
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# Your achievements achievements
+achievements:
+- title: 最佳演讲者
+  image: /images/sections/achievements/presenter.jpg
+  summary: 2020 XYZ 会议最佳演讲者。
+- title: 冠军
+  image: /images/sections/achievements/sport.jpg
+  summary: 2020 年城市间自行车锦标赛冠军。
+- title: 毕业
+  image: /images/sections/achievements/graduation-cap.jpg
+  summary: 获得 XYZ 大学计算机科学与工程理学学士学位。
+- title: 获奖者
+  image: /images/sections/achievements/woman-winner.jpg
+  summary: 在 2020 年 IEE 会议上获得最佳论文奖。

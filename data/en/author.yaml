@@ -1,0 +1,19 @@
+# some information about you
+name: "ZJUDancer"
+nickname: "ZJUDancer"
+# greeting message before your name. it will default to "Hi! I am" if not provided
+greeting: "Hi, We are"
+image: "images/author/zjudancer.png"
+# give your some contact information. they will be used in the footer
+contactInfo:
+  email: "yiran.robotics@gmail.com"
+  phone: "+86 "
+  github: ZJUDancer
+
+# some summary about what you do
+summary:
+  - one of the best teams in the 
+  - RoboCup HSL
+  - I love servers
+  - I work on open-source projects
+  - I love to work with some fun projects
