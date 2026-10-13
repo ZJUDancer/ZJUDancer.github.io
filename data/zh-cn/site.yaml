@@ -24,6 +24,6 @@ customMenus:
 openGraph:
   title: ZJUDancer
   type: website
-  description: John Doe 的个人作品集与博客。
+  description: ZJUDancer战队官网
   image: images/author/zjudancer.png
   url: https://toha-preview.hugo-themes.com

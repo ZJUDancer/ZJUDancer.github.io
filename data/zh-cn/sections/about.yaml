@@ -28,13 +28,8 @@ socialLinks:
   icon: "fab fa-github"
   url: "https://www.github.com/example"
 
-# You can put custom buttons to link your relevant resources.
-# For example, you can put link for your resume.
-resourceLinks:
-- title: "我的简历"
-  url: "files/resume.pdf"
-
 # 赞助商 logo（白底倒角卡片 + webp 格式）
+# size: large = 横跨整行的大卡片（主赞助商）；不写 size 则使用统一尺寸的普通卡片
 badges:
 - type: sponsor
   name: ZJUCSE
@@ -43,7 +38,11 @@ badges:
   size: large
 
 - type: sponsor
+  name: HIGH TORQUE
+  url: "https://www.booster.tech/cn" 
+  logo: /images/sponsors/HIGHTORQUE.png
+
+- type: sponsor
   name: Booster
-  url: "" # TODO: 填上 Booster 的官网链接
+  url: "https://www.booster.tech/cn" 
   logo: /images/sponsors/Booster.webp
-  size: small

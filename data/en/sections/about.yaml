@@ -36,6 +36,8 @@ socialLinks:
 # Show your badges
 # You can show your verifiable certificates from https://www.credly.com.
 # You can also show a circular bar indicating the level of expertise on a certain skill
+# Sponsor logos: `size: large` spans the full row with a bigger card (main
+# sponsor); without `size` the logo uses a normal, uniform-sized card.
 badges:
 - type: sponsor
   name: ZJUCSE
@@ -47,13 +49,11 @@ badges:
   name: HIGH TORQUE
   url: "https://www.booster.tech/cn" 
   logo: /images/sponsors/HIGHTORQUE.png
-  size: small
 
 - type: sponsor
   name: Booster
   url: "https://www.booster.tech/cn" 
   logo: /images/sponsors/Booster.webp
-  size: small
 
 # you can also provide color code instead of the color name
 # - type: soft-skill-indicator
