@@ -1,6 +1,6 @@
 # section information
 section:
-  name: 组别
+  name: 工作组
   id: skills
   enable: true
   weight: 2

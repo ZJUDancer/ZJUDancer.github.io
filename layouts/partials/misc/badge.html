@@ -1,18 +1,19 @@
 {{ if eq .type "sponsor" }}
-  {{/* 赞助商 logo：白底倒角卡片，webp 格式；large 全宽，small 为 large 的 1/2 宽 */}}
+  {{/* 赞助商 logo：白底倒角卡片，webp 格式，logo 等比缩放居中。
+       size: large 的赞助商横跨整行、卡片更大；其余使用统一尺寸的普通卡片。*/}}
   {{ $logo := resources.Get .logo }}
   {{ if $logo }}
     {{ $isLarge := eq .size "large" }}
-    {{ $logoWebp := $logo.Resize (cond $isLarge "1000x webp" "500x webp") }}
-    {{ $colClass := cond $isLarge "col-12" "col-6" }}
-    <div class="{{ $colClass }} p-2">
+    {{ $logoWebp := $logo.Resize (cond $isLarge "1200x webp" "600x webp") }}
+    {{ $cardClass := cond $isLarge "sponsor-card sponsor-card-large" "sponsor-card" }}
+    <div class="{{ cond $isLarge "col-12" "col-6" }} p-2">
       {{ if .url }}
-        <a href="{{ .url }}" target="_blank" rel="noopener" title="{{ .name }}" style="display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.10);">
-          <img class="img-fluid" src="{{ $logoWebp.RelPermalink }}" alt="{{ .name }}" />
+        <a class="{{ $cardClass }}" href="{{ .url }}" target="_blank" rel="noopener" title="{{ .name }}">
+          <img src="{{ $logoWebp.RelPermalink }}" alt="{{ .name }}" />
         </a>
       {{ else }}
-        <div style="display:flex;align-items:center;justify-content:center;background:#fff;border-radius:14px;padding:18px 22px;box-shadow:0 1px 4px rgba(0,0,0,0.10);">
-          <img class="img-fluid" src="{{ $logoWebp.RelPermalink }}" alt="{{ .name }}" />
+        <div class="{{ $cardClass }}" title="{{ .name }}">
+          <img src="{{ $logoWebp.RelPermalink }}" alt="{{ .name }}" />
         </div>
       {{ end }}
     </div>
