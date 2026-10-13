@@ -32,36 +32,6 @@ socialLinks:
   icon: "fab fa-github"
   url: "https://www.github.com/example"
 
-- name: Stackoverflow
-  icon: "fab fa-stack-overflow"
-  url: "#"
-
-- name: LinkedIn
-  icon: "fab fa-linkedin"
-  url: "#"
-
-- name: Twitter
-  icon: "fab fa-twitter"
-  url: "#"
-
-- name: Facebook
-  icon: "fab fa-facebook"
-  url: "#"
-
-- name: Mastadon
-  icon: "fab fa-mastodon"
-  url: "#"
-  rel: "me noopener"
-
-- name: ResearchGate
-  icon: "fab fa-researchgate"
-  url: "https://www.researchgate.net/profile/john-doe"
-
-# You can put custom buttons to link your relevant resources.
-# For example, you can put link for your resume.
-resourceLinks:
-- title: "My Resume"
-  url: "files/resume.pdf"
 
 # Show your badges
 # You can show your verifiable certificates from https://www.credly.com.
@@ -74,8 +44,14 @@ badges:
   size: large
 
 - type: sponsor
+  name: HIGH TORQUE
+  url: "https://www.booster.tech/cn" 
+  logo: /images/sponsors/HIGHTORQUE.png
+  size: small
+
+- type: sponsor
   name: Booster
-  url: "" # TODO: 填上 Booster 的官网链接
+  url: "https://www.booster.tech/cn" 
   logo: /images/sponsors/Booster.webp
   size: small
 

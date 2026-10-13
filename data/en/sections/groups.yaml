@@ -1,0 +1,42 @@
+# section information
+section:
+  name: Groups
+  id: skills
+  enable: true
+  weight: 2
+  showOnNavbar: true
+  filter: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# filter buttons
+buttons:
+- name: All
+  filter: "all"
+- name: Hardware
+  filter: "hardware"
+- name: Software
+  filter: "software"
+
+# Our team is organized into a hardware group and a software group.
+# Each group is composed of several directions, listed below.
+skills:
+- name: Mechanical
+  summary: "Takes part in developing our self-built bipedal robots, covering mechanical structure design, custom part fabrication, full robot assembly, and routine maintenance — keeping the robot's skeleton light, strong, and reliable."
+  categories: ["hardware"]
+
+- name: Electrical
+  summary: "Designs, develops, maintains, and optimizes the robot's electrical systems, including PCB design and power management, so every component runs stably and efficiently."
+  categories: ["hardware"]
+
+- name: Visual Perception
+  summary: "Fully exploits the stereo camera's depth perception and trains neural-network visual odometry, giving the robot a more accurate understanding of what is happening on the field."
+  categories: ["software"]
+
+- name: Motion Control
+  summary: "Trains the robot's locomotion with reinforcement learning, dramatically improving both its walking speed and stability on the field."
+  categories: ["software"]
+
+- name: Behavior Decision
+  summary: "Adapts the robot's decision-making logic to the sweeping changes in the 2026 rules and keeps refining high-level tactics — there is still plenty of strategic room in the new season."
+  categories: ["software"]

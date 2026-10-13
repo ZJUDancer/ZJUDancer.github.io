@@ -1,5 +1,5 @@
 # Copyright Notice
-copyright: © 2020 版权所有.
+copyright: © 2026 版权所有.
 
 # A disclaimer notice for the footer. Make sure you have set "params.footer.disclaimer.enable: true" in your `config.yaml` file.
 disclaimer: "本主题基于 MIT 许可证。因此，您可以将其用于非商业、商业或私人用途。
@@ -7,7 +7,7 @@ disclaimer: "本主题基于 MIT 许可证。因此，您可以将其用于非�
 但是，主题作者不对该主题的任何问题提供任何保证或承担任何责任。"
 
 # Meta description for your site.  This will help the search engines to find your site.
-description: John Doe 的个人作品集与博客。
+description: ZJUDancer 战队官网。
 
 # specify the list of custom menus that you want to show in the top navbar.
 # they will be separated by a divider from the main menus.
