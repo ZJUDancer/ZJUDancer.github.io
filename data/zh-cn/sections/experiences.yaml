@@ -1,0 +1,73 @@
+# section information
+section:
+  name: 工作经历
+  id: experiences
+  enable: true
+  weight: 3
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# Your experiences
+experiences:
+- company:
+    name: Example Co.
+    url: "https://www.example.com"
+    location: 达卡分部
+    logo: /images/sections/experiences/company1.jpg
+    # Can optionally show a different logo for dark theme
+    # darkLogo: /images/sections/experiences/company1.jpg
+    # company overview
+    overview: Example Co. 是一家广受认可的云原生开发公司，为 Kubernetes 构建工具。
+  positions:
+  - designation: 高级软件工程师
+    start: Nov 2019
+    # don't provide end date if you are currently working there. It will be replaced by "Present"
+    # end: Dec 2020
+    # give some points about what was your responsibilities at the company.
+    responsibilities:
+    - 为 ABC 任务设计和开发 XYZ 工具
+    - 设计、开发并管理灾难恢复工具 [Xtool](https://www.example.com)，用于备份 Kubernetes 卷、数据库和集群的资源定义。
+    - 领导后端团队。
+
+  - designation: 初级软件工程师
+    start: Nov 2017
+    end: Oct 2019
+    responsibilities:
+    - 为 abc 工具实现并测试 xyz 功能。
+    - 为 abc 工具提供客户支持。
+    - 学习用于 xyz 的 k、d、w 技术。
+
+- company:
+    name: PreExample Co.
+    url: "https://www.example.com"
+    location: 无处
+    logo: /images/sections/experiences/company2.jpg
+    # Can optionally show a different logo for dark theme
+    # darkLogo: /images/sections/experiences/company2.jpg
+    overview: PreExample Co. 是进入 Example Co. 的跳板公司。所以这里没什么特别的。
+  positions:
+  - designation: 软件工程师
+    start: March 2016
+    end: May 2017
+    responsibilities:
+    - 编写大量示例代码。
+    - 阅读大量示例。
+    - 观看大量示例视频。
+
+- company:
+    name: Intern Counting Company (ICC).
+    url: "https://www.example.com"
+    location: 实习之地
+    logo: /images/sections/experiences/company3.jpg
+    # Can optionally show a different logo for dark theme
+    # darkLogo: /images/sections/experiences/company3.jpg
+    overview: Intern Counting Company (ICC) 负责统计全球的实习生工程师。
+  positions:
+  - designation: 实习生
+    start: Jun 2015
+    end: Jan 2016
+    responsibilities:
+    - 统计大量实习生。
+    - 统计更多实习生。
+    - 把自己也算作一名实习生。

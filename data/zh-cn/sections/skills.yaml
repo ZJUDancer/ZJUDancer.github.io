@@ -1,0 +1,71 @@
+# section information
+section:
+  name: 技能
+  id: skills
+  enable: true
+  weight: 2
+  showOnNavbar: true
+  filter: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# filter buttons
+buttons:
+- name: 全部
+  filter: "all"
+- name: 基础
+  filter: "basic"
+- name: 语言
+  filter: "language"
+- name: 容器
+  filter: "container"
+- name: 其他
+  filter: "others"
+
+# Your Skills.
+# Give a summary of you each skill in the summary section.
+skills:
+- name: Kubernetes
+  logo: /images/sections/skills/kubernetes.png
+  summary: "能够在 Kubernetes 上部署和管理应用。有编写 CRD 的 Kubernetes 控制器经验。"
+  categories: ["container"]
+  url: "https://kubernetes.io/"
+
+- name: Go 开发
+  logo: /images/sections/skills/go.png
+  summary: "作为专业开发的主要语言使用。能够编写可扩展、可测试、易维护的程序。"
+  categories: ["basic", "language"]
+  url: "https://golang.org/"
+
+- name: 云计算
+  logo: /images/sections/skills/cloud.png
+  summary: "使用过 GCP、AWS、Azure 等大多数主流云平台。"
+  categories: ["others"]
+
+- name: Docker
+  logo: /images/sections/skills/docker.svg
+  summary: "将大多数程序编写为 Docker 容器。熟悉多阶段、多架构的构建流程。"
+  categories: ["container"]
+  url: "https://www.docker.com/"
+
+- name: Prometheus
+  logo: /images/sections/skills/prometheus.png
+  summary: "能够搭建和配置 Prometheus 监控。熟悉 PromQL、AlertManager。也有编写指标导出器的经验。"
+  categories: ["basic"]
+  url: "https://prometheus.io/"
+
+- name: Linux
+  logo: /images/sections/skills/linux.png
+  summary: "作为主要操作系统使用。能够编写 bash/shell 脚本。"
+  categories: ["others"]
+
+- name: Git
+  logo: /images/sections/skills/git.png
+  summary: "熟悉基于 Git 的开发流程。主要使用 GitHub，也有使用 GitLab 的经验。"
+  categories: ["basic"]
+  url: "https://git-scm.com/"
+
+- name: C++
+  logo: /images/sections/skills/c++.png
+  summary: "了解基础的 C/C++ 编程。用于竞赛编程和问题求解。"
+  categories: ["basic", "language"]

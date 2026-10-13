@@ -1,0 +1,44 @@
+# section information
+section:
+  name: 成就
+  id: accomplishments
+  enable: true
+  weight: 9
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+
+# Your accomplishments
+accomplishments:
+- name: Linux Foundation System Administrator
+  timeline: "March 2018 - March 2019"
+  organization:
+    name: Linux Foundation
+    url: https://www.linuxfoundation.org
+  courseOverview: 本课程帮助理解网络、存储、安全、维护、日志与监控、应用生命周期、故障排查、API 对象原语等关键概念。它还能帮助提升为最终用户建立基础用例的能力。
+  certificateURL: "https://example.com"
+
+- name: Machine Learning
+  timeline: "Jun 2020 - Jan 2021"
+  organization:
+    name: Coursera
+    url: https://www.coursera.org
+  courseOverview: "本课程对机器学习、数据挖掘和统计模式识别进行了广泛介绍。主题包括：(i) 监督学习（参数/非参数算法、支持向量机、核方法、神经网络）。(ii) 无监督学习（聚类、降维、推荐系统、深度学习）。(iii) 机器学习的最佳实践（偏差/方差理论；机器学习和 AI 中的创新流程）。"
+  certificateURL: "https://example.com"
+
+- name: Grokking the System Design Interview
+  timeline: "Jan 2018 - Sept 2018"
+  organization:
+    name: educative
+    url: https://www.educative.io
+  courseOverview: 本课程是精通系统设计面试的完整指南。它由曾在 Google、Facebook、Microsoft 和 Amazon 工作的招聘经理编写。我们精心挑选了一系列问题，这些问题不仅在顶尖公司中被反复问到，而且能提供处理任何系统设计问题的完整经验。
+  certificateURL: "https://example.com"
+
+- name: Mastering Multithreading Programming with Go (Golang)
+  timeline: "Nov 2017 - Mar 2018"
+  organization:
+    name: Udemy
+    url: https://www.udemy.com
+  courseOverview: 了解如何创建响应式、高性能的软件。使用 Golang 开发高并发、并行化的程序。通过更高级的多线程主题提升你的 Go 编程技能。
+  certificateURL: "https://example.com"

@@ -1,0 +1,29 @@
+# Copyright Notice
+copyright: © 2020 版权所有.
+
+# A disclaimer notice for the footer. Make sure you have set "params.footer.disclaimer.enable: true" in your `config.yaml` file.
+disclaimer: "本主题基于 MIT 许可证。因此，您可以将其用于非商业、商业或私人用途。
+您可以在无需获得主题作者任何许可的情况下修改或分发该主题。
+但是，主题作者不对该主题的任何问题提供任何保证或承担任何责任。"
+
+# Meta description for your site.  This will help the search engines to find your site.
+description: John Doe 的个人作品集与博客。
+
+# specify the list of custom menus that you want to show in the top navbar.
+# they will be separated by a divider from the main menus.
+customMenus:
+- name: 文档
+  url: https://toha-docs.hugo-themes.com/posts/
+  # specify whether to hide the menu item from top navbar or not.
+  hideFromNavbar: false
+  # specify whether to show the menu item in footer or not.
+  # if you set it to true, make sure you have set `footer.navigation.customMenus: true` in your config.yaml
+  showOnFooter: false
+
+# Specify OpenGraph Headers
+openGraph:
+  title: ZJUDancer
+  type: website
+  description: John Doe 的个人作品集与博客。
+  image: images/author/zjudancer.png
+  url: https://toha-preview.hugo-themes.com
