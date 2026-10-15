@@ -1,0 +1,89 @@
+{{ $sectionID := replace (lower .section.name) " " "-"  }}
+{{ if .section.id }}
+  {{ $sectionID = .section.id }}
+{{ end }}
+
+<div class="container-fluid anchor pb-5 accomplishments-section">
+  {{ if not (.section.hideTitle) }}
+    <h1 class="text-center">
+        <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
+  {{ else }}
+    <h1 class="text-center" style="display: none">
+        <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
+  {{ end }}
+
+  <div class="container">
+    {{ with .intro }}
+      <p class="awards-intro text-center">{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{/* 统计各奖项数量，用于表格外的「奖项总计」 */}}
+    {{ $gold := 0 }}
+    {{ $silver := 0 }}
+    {{ $bronze := 0 }}
+    {{ range .competitions }}
+      {{ if eq .result "gold" }}{{ $gold = add $gold 1 }}
+      {{ else if eq .result "silver" }}{{ $silver = add $silver 1 }}
+      {{ else if eq .result "bronze" }}{{ $bronze = add $bronze 1 }}{{ end }}
+    {{ end }}
+    {{ $total := len .competitions }}
+    {{ $other := sub $total (add $gold (add $silver $bronze)) }}
+
+    <div class="awards-summary">
+      <span class="award-total">
+        {{ partial "misc/medal.html" (dict "type" "gold") }}
+        <span class="award-label">{{ .labels.gold }}</span>
+        <strong class="award-count">{{ $gold }}</strong>
+      </span>
+      <span class="award-total">
+        {{ partial "misc/medal.html" (dict "type" "silver") }}
+        <span class="award-label">{{ .labels.silver }}</span>
+        <strong class="award-count">{{ $silver }}</strong>
+      </span>
+      <span class="award-total">
+        {{ partial "misc/medal.html" (dict "type" "bronze") }}
+        <span class="award-label">{{ .labels.bronze }}</span>
+        <strong class="award-count">{{ $bronze }}</strong>
+      </span>
+      {{ if gt $other 0 }}
+        <span class="award-total">
+          {{ partial "misc/medal.html" (dict "type" "other") }}
+          <span class="award-label">{{ .labels.other }}</span>
+          <strong class="award-count">{{ $other }}</strong>
+        </span>
+      {{ end }}
+      <span class="award-total award-total-all">
+        <span class="award-label">{{ .labels.total }}</span>
+        <strong class="award-count">{{ $total }}</strong>
+      </span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="awards-table">
+        <thead>
+          <tr>
+            <th scope="col" class="col-date">{{ .labels.date }}</th>
+            <th scope="col" class="col-competition">{{ .labels.competition }}</th>
+            <th scope="col" class="col-award">{{ .labels.award }}</th>
+            <th scope="col" class="col-note">{{ .labels.note }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range sort .competitions "date" "desc" }}
+            <tr>
+              <td class="award-date">{{ .date }}</td>
+              <td class="award-competition">{{ .name }}</td>
+              <td class="award-result">
+                <span class="award-result-inner">
+                  {{ partial "misc/medal.html" (dict "type" (.result | default "other")) }}
+                  <span>{{ .award }}</span>
+                </span>
+              </td>
+              <td class="award-note">{{ .note }}</td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

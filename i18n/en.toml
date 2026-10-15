@@ -1,0 +1,4 @@
+# Override the theme wording: in the team-history timeline the bullets are not
+# "responsibilities" any more.
+[responsibilities]
+other = "Details:"

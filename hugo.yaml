@@ -98,9 +98,10 @@ params:
     portfolio:
       enable: true
 
+    # 博文（posts）关闭：本站不提供博客，只在导航保留「文档」
     # Enable and configure blog posts
     blog:
-      enable: true
+      enable: false
       showAuthor: true # shows the author of post (defaults true)
       # Share post on different social media
       shareButtons:
@@ -115,9 +116,10 @@ params:
         # diaspora: true
         # mastodon: true
 
-        # Enable & configure "Notes" features
+    # 笔记（notes）关闭：本站不提供笔记
+    # Enable & configure "Notes" features
     notes:
-      enable: true
+      enable: false
 
     # Enable comment feature. There, should be only one of them.
     comment:

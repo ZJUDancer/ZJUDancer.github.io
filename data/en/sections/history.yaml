@@ -1,0 +1,42 @@
+# section information
+section:
+  name: History
+  id: history
+  enable: true
+  weight: 3
+  showOnNavbar: true
+  # Reuse the theme's timeline template (the data key stays `experiences`)
+  template: sections/experiences.html
+  # Can optionally hide the title in sections
+  # hideTitle: true 
+
+# Team history (timeline)
+# Each entry is a phase or a season:
+#   company.name                  phase/season title, e.g. "2026 Season"
+#   company.location              place
+#   company.logo                  optional image, path relative to assets/images
+#   company.overview              summary of the phase
+#   positions[].designation       key event title
+#   positions[].start / end       time range; omit `end` to display "present"
+#   positions[].responsibilities  event details, Markdown supported
+# TODO: the two entries below are examples — replace them with the real team history
+experiences:
+- company:
+    name: In-house Development
+    location: Zhejiang University
+    overview: Founded at the State Key Laboratory of Industrial Control Technology and ZJU's Robotics Science and Education Practice Base, ZJUDancer has designed and built its own bipedal robots from scratch.
+  positions:
+  - designation: Team founded; motion control, visual perception and behaviour decision modules built up
+    start: "2006"
+    responsibilities:
+    - Designs and manufactures its own robots.
+
+- company:
+    name: 2026 Season
+    location: RoboCup China Open / Incheon, Korea
+    overview: Walking, kicking and getting-up motions are now trained with reinforcement learning, and the tactics were adapted to the new 2026 rules.
+  positions:
+  - designation: RoboCup 2026 season
+    start: "2026"
+    responsibilities:
+    - "TODO: competitions, results and highlights."

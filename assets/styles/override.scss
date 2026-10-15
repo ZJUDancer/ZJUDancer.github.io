@@ -52,3 +52,149 @@ html[data-theme='dark'] {
     padding: 1.25rem 2rem;
   }
 }
+
+// Awards: one statistics table plus a totals summary, no cards.
+.accomplishments-section {
+  .awards-intro {
+    max-width: 46rem;
+    margin: 0.5rem auto 0;
+    opacity: 0.85;
+  }
+
+  // 表格外的「奖项总计」
+  .awards-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem 2rem;
+    margin: 1.5rem 0 2rem;
+    font-size: 1.05rem;
+
+    .award-total {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+
+      .award-label {
+        opacity: 0.85;
+      }
+
+      .award-count {
+        font-size: 1.35rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+    }
+
+    .award-total-all {
+      padding-left: 2rem;
+      border-left: 1px solid rgba(get-light-color('muted-text-color'), 0.4);
+    }
+  }
+
+  .awards-table {
+    min-width: 34rem;
+    margin-bottom: 0;
+
+    th,
+    td {
+      vertical-align: middle;
+      padding: 0.5rem 0.6rem;
+    }
+
+    .col-date {
+      width: 10%;
+    }
+
+    .col-competition {
+      width: 30%;
+    }
+
+    .col-award {
+      width: 16%;
+    }
+
+    .col-note {
+      width: 44%;
+    }
+
+    .award-date {
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .award-competition {
+      font-weight: 500;
+    }
+
+    .award-result-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      white-space: nowrap;
+    }
+
+    .award-note {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+  }
+
+  @include media('<=medium') {
+    .awards-summary {
+      gap: 0.5rem 1.25rem;
+      font-size: 1rem;
+    }
+
+    .award-total-all {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+}
+
+// 奖牌图标：金色 / 银色 / 铜色圆牌 + 绶带
+.medal-icon {
+  flex: 0 0 auto;
+  width: 1.15rem;
+  height: 1.15rem;
+
+  .medal-ribbon {
+    fill: get-light-color('accent-color');
+  }
+
+  .medal-disc {
+    fill: currentColor;
+  }
+
+  .medal-ring {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.6);
+    stroke-width: 1.1;
+  }
+
+  &.medal-gold {
+    color: #d9a520;
+  }
+
+  &.medal-silver {
+    color: #aeb7c4;
+  }
+
+  &.medal-bronze {
+    color: #c47a3d;
+  }
+}
+
+.medal-flag {
+  flex: 0 0 auto;
+  color: get-light-color('muted-text-color');
+  font-size: 0.95rem;
+}
+
+html[data-theme='dark'] {
+  .medal-flag {
+    color: get-dark-color('muted-text-color');
+  }
+}
