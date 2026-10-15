@@ -1,0 +1,13 @@
+{{/* 奖牌图标：gold / silver / bronze 渲染成奖牌，其他名次渲染成格子旗。
+     用法：{{ partial "misc/medal.html" (dict "type" "gold") }} */}}
+{{ $type := .type | default "other" }}
+{{ if eq $type "other" }}
+  <i class="fa-solid fa-flag-checkered medal-flag" aria-hidden="true"></i>
+{{ else }}
+  <svg class="medal-icon medal-{{ $type }}" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+    <path class="medal-ribbon" d="M6.4 2.2h3.2l3 8.6H9.4z" />
+    <path class="medal-ribbon" d="M17.6 2.2h-3.2l-3 8.6h3.2z" />
+    <circle class="medal-disc" cx="12" cy="15.6" r="6.2" />
+    <circle class="medal-ring" cx="12" cy="15.6" r="4.1" />
+  </svg>
+{{ end }}

@@ -1,0 +1,42 @@
+# section information
+section:
+  name: 队伍历史
+  id: history
+  enable: true
+  weight: 3
+  showOnNavbar: true
+  # 复用主题的时间线模板（数据键名仍为 experiences）
+  template: sections/experiences.html
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# 队伍历史（时间线）
+# 每个条目 = 一个阶段或一个赛季，字段含义：
+#   company.name                  阶段/赛季标题，例如「2026 赛季」
+#   company.location              地点
+#   company.logo                  可选配图，路径相对于 assets/images
+#   company.overview              阶段概述
+#   positions[].designation       关键事件标题
+#   positions[].start / end       起止时间，不写 end 会显示为「现在」
+#   positions[].responsibilities  事件细节，支持 Markdown
+# TODO: 下面两个条目为示例，请替换为真实的队伍历史
+experiences:
+- company:
+    name: 自主研发阶段
+    location: 浙江大学
+    overview: ZJUDancer 依托工业控制技术国家重点实验室、浙江大学机器人科教实践基地成立，从零开始自主研发双足机器人。
+  positions:
+  - designation: 队伍成立，逐步搭建运动控制、视觉感知、行为决策等模块
+    start: "2006"
+    responsibilities:
+    - 独立自主设计并制造机器人。
+
+- company:
+    name: 2026 赛季
+    location: 中国公开赛 / 韩国仁川
+    overview: 全面采用强化学习训练行走、踢球与倒地起身动作，并在战术层面适配 2026 新规则。
+  positions:
+  - designation: RoboCup 2026 赛季
+    start: "2026"
+    responsibilities:
+    - 待补充：参赛赛事、成绩与亮点。

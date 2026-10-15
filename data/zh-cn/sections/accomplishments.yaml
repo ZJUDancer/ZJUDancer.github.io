@@ -1,44 +1,96 @@
 # section information
 section:
-  name: 成就
+  name: 获奖记录
   id: accomplishments
   enable: true
   weight: 9
   showOnNavbar: true
+  # 本地模板：以统计表 + 奖牌图标展示，不再使用卡片
+  template: sections/accomplishments.html
   # Can optionally hide the title in sections
   # hideTitle: true
 
+# 表格上方的一句话说明
+intro: ZJUDancer 自 2006 年建队以来参加的主要比赛与获奖情况。
 
-# Your accomplishments
-accomplishments:
-- name: Linux Foundation System Administrator
-  timeline: "March 2018 - March 2019"
-  organization:
-    name: Linux Foundation
-    url: https://www.linuxfoundation.org
-  courseOverview: 本课程帮助理解网络、存储、安全、维护、日志与监控、应用生命周期、故障排查、API 对象原语等关键概念。它还能帮助提升为最终用户建立基础用例的能力。
-  certificateURL: "https://example.com"
+# 表头与「奖项总计」文案
+labels:
+  date: 时间
+  competition: 比赛
+  award: 奖项
+  note: 说明
+  gold: 金牌
+  silver: 银牌
+  bronze: 铜牌
+  other: 其他名次
+  total: 合计参赛
 
-- name: Machine Learning
-  timeline: "Jun 2020 - Jan 2021"
-  organization:
-    name: Coursera
-    url: https://www.coursera.org
-  courseOverview: "本课程对机器学习、数据挖掘和统计模式识别进行了广泛介绍。主题包括：(i) 监督学习（参数/非参数算法、支持向量机、核方法、神经网络）。(ii) 无监督学习（聚类、降维、推荐系统、深度学习）。(iii) 机器学习的最佳实践（偏差/方差理论；机器学习和 AI 中的创新流程）。"
-  certificateURL: "https://example.com"
+# 比赛记录
+# result 取值：gold=冠军（一等奖）/ silver=亚军（二等奖）/ bronze=季军（三等奖）/ other=其他名次
+# 修改这里的数据，表格与上方的奖项总计会自动更新
+competitions:
+- date: "2026"
+  name: RoboCup 德国公开赛
+  award: 冠军
+  result: gold
+  note: 以 5 胜 1 平的不败战绩晋级决赛，4:1 击败上届冠军 Hamburg Bit-Bots，中国团队首次在该组别夺冠。
 
-- name: Grokking the System Design Interview
-  timeline: "Jan 2018 - Sept 2018"
-  organization:
-    name: educative
-    url: https://www.educative.io
-  courseOverview: 本课程是精通系统设计面试的完整指南。它由曾在 Google、Facebook、Microsoft 和 Amazon 工作的招聘经理编写。我们精心挑选了一系列问题，这些问题不仅在顶尖公司中被反复问到，而且能提供处理任何系统设计问题的完整经验。
-  certificateURL: "https://example.com"
+- date: "2025"
+  name: RoboCup 机器人世界杯（巴西）
+  award: 第四名
+  result: other
+  note: 完全依靠自主研发的机器人系统参赛，在高强度对抗中保持了稳定发挥。
 
-- name: Mastering Multithreading Programming with Go (Golang)
-  timeline: "Nov 2017 - Mar 2018"
-  organization:
-    name: Udemy
-    url: https://www.udemy.com
-  courseOverview: 了解如何创建响应式、高性能的软件。使用 Golang 开发高并发、并行化的程序。通过更高级的多线程主题提升你的 Go 编程技能。
-  certificateURL: "https://example.com"
+- date: "2023"
+  name: 亚太机器人世界杯天津国际邀请赛
+  award: 冠军
+  result: gold
+  note: 凭借稳定的动态步行、准确的视觉识别与高效的策略执行获得类人组冠军。
+
+- date: "2023"
+  name: 亚太机器人世界杯韩国平昌站
+  award: 季军
+  result: bronze
+  note: 在多支强队的竞争中取得季军，进一步巩固了在国际仿人机器人足球领域的竞争力。
+
+- date: "2019"
+  name: RoboCup 机器人世界杯（澳大利亚悉尼）
+  award: 亚军
+  result: silver
+  note: 一路闯入决赛，体现了视觉感知、运动控制与系统协同方面的整体提升。
+
+- date: "2017"
+  name: 伊朗公开赛
+  award: 冠军
+  result: gold
+  note: 凭借稳定的临场发挥和成熟的系统表现成功登顶。
+
+- date: "2017"
+  name: RoboCup 机器人世界杯（日本名古屋）
+  award: 亚军
+  result: silver
+  note: 在高水平对抗中稳步前进，最终获得亚军。
+
+- date: "2016"
+  name: RoboCup 机器人世界杯（德国莱比锡）
+  award: 亚军
+  result: silver
+  note: 机器人在复杂赛场环境下展现出良好的稳定性与执行力。
+
+- date: "2015"
+  name: RoboCup 机器人世界杯（中国合肥）
+  award: 亚军
+  result: silver
+  note: 凭借机器人控制能力与团队协同一路晋级，刷新了战队当时的历史最好成绩。
+
+- date: "2014"
+  name: RoboCup 机器人世界杯（巴西若昂佩索阿）
+  award: 季军
+  result: bronze
+  note: 经过激烈角逐取得季军，展现出持续上升的竞技状态。
+
+- date: "2013"
+  name: RoboCup 机器人世界杯（荷兰埃因霍温）
+  award: 季军
+  result: bronze
+  note: 战队在国际赛场上的重要突破，为后续成绩打下基础。
