@@ -1,0 +1,44 @@
+{{/* 队伍历史时间轴。
+     主题自带的 experiences.html 是「公司 / 职位」结构，这里改成「阶段 + 平台 / 型号 + 关键节点」，
+     所以项目里覆盖了这份模板（主题的 vertical-line / horizontal-line 子模板继续复用）。
+     数据格式见各语言 data 目录下的 sections/history.yaml。 */}}
+{{ $sectionID := replace (lower .section.name) " " "-" }}
+{{ if .section.id }}
+  {{ $sectionID = .section.id }}
+{{ end }}
+
+<div class="container-fluid anchor pb-5 experiences-section">
+  {{ if not (.section.hideTitle) }}
+    <h1 class="text-center">
+        <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
+  {{ else }}
+    <h1 class="text-center" style="display: none">
+        <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
+  {{ end }}
+
+  <div class="container timeline text-justify">
+    {{ with .intro }}
+      <p class="history-intro text-center">{{ . | markdownify }}</p>
+    {{ end }}
+
+    {{ $labels := .labels }}
+    {{ $totalExperiences := len .experiences }}
+    {{ range $index, $experience := .experiences }}
+      {{ $entry := dict "experience" $experience "labels" $labels }}
+      {{ if eq (mod $index 2) 0 }}
+        <div class="row align-items-center d-flex">
+          {{ partial "sections/experiences/vertical-line.html" $index }}
+          {{ partial "sections/history/entry.html" $entry }}
+        </div>
+      {{ else }}
+        <div class="row align-items-center justify-content-end d-flex">
+          {{ partial "sections/history/entry.html" $entry }}
+          {{ partial "sections/experiences/vertical-line.html" $index }}
+        </div>
+      {{ end }}
+      {{ if lt $index (sub $totalExperiences 1) }}
+        {{ partial "sections/experiences/horizontal-line.html" $index }}
+      {{ end }}
+    {{ end }}
+  </div>
+</div>
