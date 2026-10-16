@@ -1,0 +1,85 @@
+{{/*
+  首次访问时按访客的「系统语言」自动切到中文或英文，并给搜索引擎补上 hreflang。
+
+  为什么放在 <head> 最前面执行：脚本要在页面渲染前跑完，否则会先闪一下另一种语言。
+  为什么用系统语言而不是 IP：静态站点没有服务端，取 IP 归属地只能靠第三方接口在浏览器里查，
+  多一次请求、把访客 IP 交给第三方，而且国内常被墙；系统语言（Accept-Language）是浏览器直接
+  给的信号，更准也更省事。真要用 IP 归属地，得靠支持按国家重定向的托管平台（如 Netlify），
+  不是在主题里能解决的。
+
+  行为：
+    * 没有手动选过语言 → 按系统语言跳转一次（中英各一个版本，其它语言不动）；
+    * 点过右上角的语言切换 → 记住选择，之后不再自动跳转；
+    * 404 页不参与（避免把不存在的路径来回映射）。
+
+  想整体关掉：在 hugo.yaml 里设 params.autoLanguageSwitch: false。
+
+  对应的地址按「baseURL 的子路径 + 语言前缀 + 页面的语言无关路径」拼出来，
+  根目录部署和子路径部署（GitHub Pages 项目站点）都成立。
+*/}}
+{{ if and hugo.IsMultilingual (site.Params.autoLanguageSwitch | default true) }}
+  {{ if ne .Kind "404" }}
+    {{ $defaultLang := hugo.Sites.Default.Language.Lang }}
+    {{ $basePath := (urls.Parse site.BaseURL).Path | default "/" }}
+    {{ $relPath := path.Join "/" .Path }}
+    {{ $urls := dict }}
+    {{ range hugo.Sites }}
+      {{ $lang := .Language.Lang }}
+      {{ $segment := cond (eq $lang $defaultLang) "" $lang }}
+      {{ $u := path.Join $basePath $segment $relPath }}
+      {{/* 目录形式的地址补上结尾斜杠；"/" 和 404.html 这类保持不变 */}}
+      {{ if and (eq (path.Ext $u) "") (ne $u "/") }}
+        {{ $u = printf "%s/" $u }}
+      {{ end }}
+      {{ $urls = merge $urls (dict $lang $u) }}
+    {{ end }}
+
+    {{/* 两种语言各自的地址，供下面的脚本和 hreflang 使用 */}}
+    {{ $zhPath := index $urls "zh-cn" }}
+    {{ $enPath := index $urls "en" }}
+    {{ if and $zhPath $enPath }}
+    <link rel="alternate" hreflang="zh-CN" href="{{ $zhPath | absURL }}" />
+    <link rel="alternate" hreflang="en" href="{{ $enPath | absURL }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ $enPath | absURL }}" />
+    <script>
+      (function () {
+        var KEY = 'zjudancer-language';
+        try {
+          if (window.localStorage && localStorage.getItem(KEY)) { return; }
+        } catch (e) { /* 隐私模式等场景下 localStorage 不可用，按未选择处理 */ }
+
+        // 用户一旦自己点过语言切换，就不再自动跳转
+        document.addEventListener('click', function (event) {
+          var el = event.target;
+          while (el && el.nodeType === 1) {
+            if (String(el.className || '').indexOf('languages-item') > -1) {
+              try { localStorage.setItem(KEY, '1'); } catch (e) { }
+              return;
+            }
+            el = el.parentNode;
+          }
+        }, true);
+
+        var paths = { zh: '{{ $zhPath }}', en: '{{ $enPath }}' };
+        var langs = navigator.languages && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || ''];
+
+        var pick = '';
+        for (var i = 0; i < langs.length && !pick; i++) {
+          var tag = String(langs[i]).toLowerCase();
+          if (tag.indexOf('zh') === 0) { pick = 'zh'; }
+          else if (tag.indexOf('en') === 0) { pick = 'en'; }
+        }
+        if (!pick) { return; }
+
+        var normalize = function (p) { return p.replace(/\/+$/, '') || '/'; };
+        var target = paths[pick];
+        if (normalize(location.pathname) !== normalize(target)) {
+          location.replace(target + location.search + location.hash);
+        }
+      })();
+    </script>
+    {{ end }}
+  {{ end }}
+{{ end }}
