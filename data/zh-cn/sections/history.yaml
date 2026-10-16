@@ -1,10 +1,18 @@
 # section information
 section:
-  name: 队伍历史
+  # 导航栏里的名字，也是 /team/ 页面的大标题（原来是「队伍历史」）
+  name: 队伍
   id: history
   enable: true
   weight: 3
-  showOnNavbar: true
+  # 故意填 false：这个版块已经有自己的页面（见下面的 url），而主题的页脚导航读的正是这个开关——
+  # 留 true 会在页脚留下一个 #history 锚点，而首页已经没有这个版块了，点过去是死的。
+  showOnNavbar: false
+  # 有自己的页面：顶部导航栏指向它，而不是首页锚点
+  # （由 layouts/partials/navigators/navbar.html 用 site.GetPage 解析，语言前缀与 baseURL 子路径交给 Hugo）
+  url: /team/
+  # 首页不再渲染这个版块，时间轴只能从导航栏点进来（由 layouts/index.html 读取）
+  hideFromHome: true
   # 本地模板：按「阶段 + 平台/型号 + 关键节点」渲染时间轴
   template: sections/experiences.html
 
@@ -71,7 +79,7 @@ experiences:
   companyUrl: https://www.hightorque.cn/
   logo: images/sponsors/HIGHTORQUE.png
   model: Mini Pi Plus（Pi+，HSL Small 组）
-  time: 2026
+  time: 2025 – 2026
   overview: 2026 赛季改用高擎动力 Mini Pi Plus 平台参加 HSL（人形足球联赛）Small 组。按 HSL 2026 规则，Small 组机器人上限 110 cm / 15 kg，规则中列出的该组平台示例正是 NAO、Robotis OP3 与 Hightorque Pi+。整机高约 68 cm、自重约 15 kg、22 自由度，高擎动力同时提供了打通运动规划、行为树决策、视觉感知与通信协调的 RoboCup 开发框架。
   events:
   - time: "2026-03"

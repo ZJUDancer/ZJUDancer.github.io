@@ -1,0 +1,17 @@
+{{/* 极简页脚：只有一行文字——左边版权，右边 powered by hugo（由 hugo.yaml 的
+     params.footer.template 指到这里，这是主题预留的「换掉整个页脚」的开关，
+     所以不需要覆盖主题的 footer.html）。窄屏放不下时自动换成两行。
+     主题自带页脚里的导航、联系方式、Toha / Hugo 图标、免责声明等一概不要。
+     版权文字取自 data/<语言>/site.yaml 的 copyright，改文案不用动模板。 */}}
+{{ if (site.Params.footer.enable | default true) }}
+  {{ $copyright := "" }}
+  {{ with (index hugo.Data site.Language.Lang).site }}
+    {{ $copyright = .copyright }}
+  {{ end }}
+  <footer id="footer" class="footer footer-minimal py-4">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+      <span>{{ $copyright | default "ZJUDancer" }}</span>
+      <span>powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">hugo</a></span>
+    </div>
+  </footer>
+{{ end }}

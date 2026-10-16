@@ -1,7 +1,7 @@
-# Copyright Notice
-copyright: © 2026 版权所有.
+# 版权信息——由极简页脚渲染（layouts/partials/footer-minimal.html），后面接 "powered by hugo"
+copyright: ZJUDancer © 2026 All rights reserved.
 
-# A disclaimer notice for the footer. Make sure you have set "params.footer.disclaimer.enable: true" in your `config.yaml` file.
+# 免责声明：只有主题自带的页脚会用，本项目已换成极简页脚，这段文字不再出现在页面上
 disclaimer: "本主题基于 MIT 许可证。因此，您可以将其用于非商业、商业或私人用途。
 您可以在无需获得主题作者任何许可的情况下修改或分发该主题。
 但是，主题作者不对该主题的任何问题提供任何保证或承担任何责任。"

@@ -91,6 +91,9 @@ params:
   # Configure the number of section title visible in the top navbar
   topNavbar:
     maxVisibleSections: 5
+    # 导航栏不再显示 Home 项：首页本身就是 Home（左上角 logo 也指向首页）。
+    # 由项目覆盖的 layouts/partials/navigators/navbar.html 读取；想恢复就改成 false。
+    hideHome: true
 
   # Configure various features of this theme
   features:
@@ -305,9 +308,12 @@ params:
   # Provide footer configuration.
   footer:
     enable: true
-    # You can provide your custom footer template using this option.
-    # Put your template in "layouts/partials" folder of your repo.
-    template: footer.html
+    # 用自己的极简页脚：整个页脚只有一行版权信息（layouts/partials/footer-minimal.html）。
+    # 这是主题预留的「换掉整个页脚」的开关，所以不必覆盖主题的 footer.html。
+    template: footer-minimal.html
+    # 下面这几个开关只作用于主题自带的页脚（layouts/partials/footer.html）。
+    # 现在用的是极简页脚，读不到它们；留着是为了万一换回主题页脚时行为不变
+    # （主题的默认值都是 true，其中包括默认打开的订阅表单）。
     # Show/hide navigation in the footer. Default is "true".
     navigation:
       enable: true

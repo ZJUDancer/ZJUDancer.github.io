@@ -131,6 +131,15 @@ mise run update-to-main
   这种情况）会算错，例如中文首页会被算成 `/zh-cn/website`，点过去 404。这里改成按 baseURL
   里的子路径重新拼接，根部署与子路径部署都正确。**主题升级后请顺手确认上游是否已修好，
   修好之后这个覆盖就可以删掉。**
+- `layouts/index.html`：**首页版块列表**。只多一个判断：跳过写了 `section.hideFromHome: true`
+  的版块（目前只有「队伍历史」，见下文「队伍独立页面」）。其余内容与主题原文件一致。
+- `layouts/partials/navigators/navbar.html`：**顶部导航栏**。版块条目改成「先算一份列表再渲染」，
+  主列表与「更多」下拉共用，好支持两件事：
+  `params.topNavbar.hideHome` 为 true 时不渲染 Home 项（首页本身就是 Home，左上角 logo 也回首页）；
+  版块写了 `section.url`（如 `/team/`）时指向它自己的页面，地址用 `site.GetPage` 拿
+  `RelPermalink`，语言前缀与 baseURL 子路径都交给 Hugo。不给 `url` 的版块沿用主题规则
+  （`enable` + `showOnNavbar`），另加一个 `hideFromTopNavbar`——写了它只在顶部导航栏隐藏
+  （目前是「关于我们」与「获奖记录」，首页与页脚的导航列表照旧）。其余内容与主题原文件一致。
 - `layouts/partials/sections/home.html`：首页，含按 `params.backgrounds` 自动轮播的
   背景（图片数量不敏感、纯 CSS、无额外 JS；相邻两张交叉淡化，透明度之和恒为 1，
   切换过程中不会闪白。节奏由模板里的 `$slideSeconds` / `$fadeSeconds` 控制）。
@@ -142,6 +151,42 @@ mise run update-to-main
   主题的 `sections/experiences/{vertical-line,horizontal-line}.html` 继续复用，所以时间轴的线、圆点
   和响应式行为仍跟主题一致。
 - `assets/styles/override.scss`：上述部分的样式，外加小红书图标的矢量定义。
+
+## 队伍独立页面（/team/）
+
+「队伍历史」原来排在首页的版块里，现在独立成一个页面，只能从导航栏点进去：
+
+- **首页不再展示**：`data/{en,zh-cn}/sections/history.yaml` 里的 `section.hideFromHome: true`，
+  由覆盖的 `layouts/index.html` 跳过（判断写在换底色之前，否则后面版块的深浅条纹会错位）。
+- **导航栏指向 `/team/`**：同一份数据里的 `section.url: /team/`，由覆盖的 `navbar.html`
+  用 `site.GetPage` 解析成带语言前缀与 baseURL 子路径的地址。
+- **页脚不再列它**：同一份数据里的 `showOnNavbar: false`。主题的页脚导航读的就是这个开关，
+  留 true 会在页脚留一个 `#history` 死链（首页已经没有这个版块了），所以不能靠覆盖页脚来「修正」它。
+- **页面文件**：`content/team/_index.md`（中文版是 `content/team/_index.zh-cn.md`）加
+  `layouts/team/list.html`。注意本仓库各语言共用同一个 `content/` 目录，翻译靠文件名后缀
+  （`_index.zh-cn.md`）——所以**不要再建 `content/zh-cn/` 目录**，那会被当成英文内容树里的一节，
+  生成出语言标错的页面。
+- **页面内容**：直接复用首页那份 `layouts/partials/sections/experiences.html`，字段与数据格式
+  仍是 `history.yaml` 里的那一套，不需要再维护第二份模板。
+- **名字**：导航栏与页面大标题都取 `section.name`（英文 Team、中文「队伍」）。
+- **样式**：`assets/styles/override.scss` 里的 `body.type-team` 一组规则——主题给内容页的默认
+  版式是「侧栏 + 正文」两栏，这里改回单栏、隐藏侧栏开关按钮，并给顶部留出固定导航栏的高度。
+
+## 页脚
+
+全站页脚只有一行纯文字：`ZJUDancer © 2026 All rights reserved. powered by hugo`（没有图标、
+没有导航/联系方式/赞助商等栏目）。做法是：
+
+- `hugo.yaml` 里把 `params.footer.template` 指向 `footer-minimal.html`：这是主题预留的
+  「换掉整个页脚」的开关，所以**没有**去覆盖主题的 `footer.html`；
+- 文案写在 `data/{en,zh-cn}/site.yaml` 的 `copyright` 里（模板在其后接上 `powered by hugo`，
+  链接指向 hugo 官网），改文案不用动模板；
+- 主题自带页脚的那些开关（`navigation` / `contactMe` / `credentials` / `newsletter` /
+  `disclaimer`）只有主题自己的页脚会读，现在读不到。它们留在 `hugo.yaml` 里，是为了万一换回
+  主题页脚时行为不变——主题这几个开关的默认值都是 `true`，其中还包括默认打开的订阅表单；
+- 免责声明那段文字仍留在 `data/*/site.yaml` 的 `disclaimer` 里，只是不再显示；
+- 两处针对「单行页脚」的样式微调（主题给页脚链接的 5px hover 位移、深色主题下第一段的文字色
+  与页脚底色相同）写在 `assets/styles/override.scss` 的 `.footer.footer-minimal` 里。
 
 ## 关掉的内容类功能
 
