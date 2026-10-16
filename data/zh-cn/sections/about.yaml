@@ -19,14 +19,36 @@ summary: 'ZJUDancer依托于工业控制技术国家重点实验室、浙江大�
 
 # your social links
 # give as many as you want. use font-awesome for the icons.
+# 说明：
+#   * 名称为 Email 的那一项会被模板自动加上 mailto:，所以这一项的名字不要改。
+#   * 图标用 FontAwesome 的类名（主题已打包完整的 FontAwesome 6）。
+#     小红书没有官方 FontAwesome 图标，用自定义的 social-icon-xiaohongshu
+#     （图形定义在 assets/styles/override.scss 里）。
+#   * url 为 "#" 表示占位，等各平台主页地址确定后替换即可。
 socialLinks:
 - name: Email
   icon: "fas fa-envelope"
-  url: "example@gmail.com"
+  url: "yiran.robotics@gmail.com"
 
 - name: Github
   icon: "fab fa-github"
-  url: "https://www.github.com/example"
+  url: "https://github.com/ZJUDancer"
+
+- name: Bilibili
+  icon: "fab fa-bilibili"
+  url: "#" # TODO: 填入哔哩哔哩主页地址
+
+- name: 小红书
+  icon: "social-icon-xiaohongshu"
+  url: "#" # TODO: 填入小红书主页地址
+
+- name: YouTube
+  icon: "fab fa-youtube"
+  url: "#" # TODO: 填入 YouTube 频道地址
+
+- name: X
+  icon: "fab fa-x-twitter"
+  url: "#" # TODO: 填入 X（Twitter）账号地址
 
 # 赞助商 logo（白底倒角卡片 + webp 格式）
 # size: large = 横跨整行的大卡片（主赞助商）；不写 size 则使用统一尺寸的普通卡片

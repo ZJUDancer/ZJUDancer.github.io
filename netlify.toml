@@ -1,5 +1,7 @@
 [build]
-command = "mise install && mise run build -b $DEPLOY_URL"
+# 生产构建也显式带上 -b，保证 canonical / og:url / 资源路径用的是本站自己的域名，
+# 而不是 hugo.yaml 里的兜底 baseURL。
+command = "mise install && mise run build -b $URL"
 publish = "public"
 
 [build.environment]

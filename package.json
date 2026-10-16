@@ -53,7 +53,7 @@
     "popper.js": "^1.16.1",
     "typeit": "^8.8.7"
   },
-  "name": "hugo-toha.github.io",
+  "name": "zjudancer-website",
   "version": "0.1.0",
   "workspaces": [
     "packages/hugoautogen"

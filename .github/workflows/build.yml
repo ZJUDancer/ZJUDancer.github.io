@@ -1,0 +1,20 @@
+name: Build
+
+# 每次 PR 以及推送到主分支都构建一次，确认站点还能正常生成。
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # 按 mise.toml 安装 hugo-extended / go / node
+      - uses: jdx/mise-action@v5
+
+      - name: Build site
+        run: mise run build

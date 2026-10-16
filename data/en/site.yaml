@@ -24,6 +24,8 @@ customMenus:
 openGraph:
   title: ZJUDancer
   type: website
-  description: Portfolio and personal blog of John Doe.
+  description: ZJUDancer Team Official Website.
   image: images/author/zjudancer.png
-  url: https://toha-preview.hugo-themes.com
+  # 兜底值：页面自己的 permalink 优先，正常情况下分享卡片里的网址来自 permalink
+  # （也就是 baseURL / 部署时 -b 传入的地址）。这里只在拿不到 permalink 时才会用到。
+  url: https://zjudancer.github.io/website/

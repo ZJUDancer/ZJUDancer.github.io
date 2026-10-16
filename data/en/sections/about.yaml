@@ -23,14 +23,37 @@ summary: "Supported by the State Key Laboratory of Industrial Control Technology
 
 # your social links
 # give as many as you want. use font-awesome for the icons.
+# Notes:
+#   * The entry named "Email" gets a mailto: prefix from the theme template,
+#     so keep that name as is.
+#   * Icons are FontAwesome classes (the theme bundles the full FontAwesome 6).
+#     Xiaohongshu has no official FontAwesome icon; it uses the custom
+#     social-icon-xiaohongshu class defined in assets/styles/override.scss.
+#   * url: "#" is a placeholder — replace it once the real profile URL is known.
 socialLinks:
 - name: Email
   icon: "fas fa-envelope"
-  url: "example@gmail.com"
+  url: "yiran.robotics@gmail.com"
 
 - name: Github
   icon: "fab fa-github"
-  url: "https://www.github.com/example"
+  url: "https://github.com/ZJUDancer"
+
+- name: Bilibili
+  icon: "fab fa-bilibili"
+  url: "#" # TODO: add the Bilibili channel URL
+
+- name: Xiaohongshu
+  icon: "social-icon-xiaohongshu"
+  url: "#" # TODO: add the Xiaohongshu (RED) profile URL
+
+- name: YouTube
+  icon: "fab fa-youtube"
+  url: "#" # TODO: add the YouTube channel URL
+
+- name: X
+  icon: "fab fa-x-twitter"
+  url: "#" # TODO: add the X (Twitter) profile URL
 
 
 # Show your badges
