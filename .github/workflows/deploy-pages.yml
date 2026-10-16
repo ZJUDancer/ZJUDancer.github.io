@@ -1,0 +1,60 @@
+name: Deploy to GitHub Pages
+
+# 发布方式：GitHub Pages 的「项目站点」——本仓库自己的 Pages，
+# 地址形如 https://<owner>.github.io/<repo>/。
+#
+# 它和 ZJUDancer.github.io（组织站点）是两套互相独立的 Pages 配置：
+# 这份工作流既不向那个仓库推送任何东西，也不改它的分支或 Pages 设置，
+# 所有改动都只发生在本仓库内部。
+#
+# 首次启用需要手动做一次（只做一次）：
+#   Settings → Pages → Build and deployment → Source 选 “GitHub Actions”
+#
+# 站点地址由 actions/configure-pages 依据仓库本身推算，所以仓库改名、
+# 或之后绑定自定义域名都不需要改这里的配置。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # 双保险：万一这段代码被推回 ZJUDancer.github.io 仓库，这个任务直接跳过，
+    # 绝不会去动组织站点的 Pages。
+    if: github.event.repository.name != format('{0}.github.io', github.repository_owner)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # 按 mise.toml 安装 hugo-extended / go / node
+      - uses: jdx/mise-action@v5
+
+      - name: Resolve site URL
+        id: pages
+        uses: actions/configure-pages@v6
+
+      # 用 -b 覆盖 hugo.yaml 里的 baseURL，保证 canonical / og:url / 资源路径
+      # 都指向本次实际部署的地址。
+      - name: Build site
+        run: mise run build -b "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./public
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

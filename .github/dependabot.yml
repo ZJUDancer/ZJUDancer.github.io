@@ -2,11 +2,12 @@
 
 version: 2
 updates:
-# Update the Github Action  versions
+# 只跟 GitHub Actions 的版本。
+# npm 依赖（package.json / package-lock.json）是由 `hugo mod npm pack`
+# 依据主题声明自动生成的，交给 Dependabot 改会被下次生成覆盖掉。
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
-    interval: "daily"
+    interval: "weekly"
   labels:
   - "dependencies"
-  - "automerge"

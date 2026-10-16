@@ -17,6 +17,15 @@ description = "Run hugo server"
 depends = "install"
 run = "hugo server -w"
 
+# baseURL 里带着 GitHub Pages 项目站点的子路径，所以 `mise run server` 的预览地址是
+#   http://localhost:1313/website/
+# （和线上路径一致，能提前发现子路径相关的问题；根路径 http://localhost:1313/ 会 404。）
+# 想按根路径预览（例如临时对比、或不想记子路径），用这个任务：
+[tasks.server-root]
+description = "Run hugo server at the site root (without the /website/ prefix)"
+depends = "install"
+run = "hugo server -w -b http://localhost:1313/"
+
 [tasks.update]
 description = "Update the theme to latest release"
 run = "hugo mod get -u"

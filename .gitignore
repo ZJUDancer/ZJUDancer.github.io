@@ -2,3 +2,8 @@ resources/*
 node_modules/*
 public/*
 .vscode/
+
+# 构建与工具生成的产物
+.hugo_build.lock
+assets/jsconfig.json
+packages/hugoautogen/

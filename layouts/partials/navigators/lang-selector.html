@@ -1,0 +1,51 @@
+{{/*
+  语言切换控件（覆盖主题模板）。
+
+  为什么要覆盖：主题自带的实现（hugo-toha/toha v4.16.0 的
+  layouts/partials/navigators/lang-selector.html）把语言前缀直接拼在
+  当前页面的 RelPermalink 前面，一旦 baseURL 带子路径就会算错：
+  例如 baseURL 是 https://example.github.io/website/ 时，中文版首页
+  会被算成 /zh-cn/website，点过去是 404。
+  我们按 GitHub Pages 项目站点（子路径）部署，所以这里改用
+  「baseURL 的子路径 + 语言前缀 + 页面的语言无关路径」来拼地址，
+  根目录部署和子路径部署都成立。
+
+  主题升级后请顺手确认这个文件是否还需要覆盖（上游修好后可以删掉）。
+*/}}
+{{ if hugo.IsMultilingual }}
+  {{ $basePath := (urls.Parse site.BaseURL).Path | default "/" }}
+  {{ $defaultLang := hugo.Sites.Default.Language.Lang }}
+  {{/* 页面的语言无关路径：首页是 "/"，其余如 "/search" */}}
+  {{ $relPath := path.Join "/" .Path }}
+  {{/* 404 页不是真实内容页（.Path 是 "/404"），语言切换直接指到各语言首页 */}}
+  {{ if eq .Kind "404" }}
+    {{ $relPath = "/" }}
+  {{ end }}
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="languageSelector" role="button" data-bs-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      {{ if ne site.Params.features.flags.enable false }}
+        {{ $countryCode := partial "helpers/country-code.html" . }}
+        <span class="fi fi-{{$countryCode}}"></span>
+      {{ end }}
+      {{ site.Language.Label }}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="languageSelector">
+      {{ range site.Home.AllTranslations }}
+        {{ $langSegment := cond (eq .Language.Lang $defaultLang) "" .Language.Lang }}
+        {{ $href := path.Join $basePath $langSegment $relPath }}
+        {{/* 目录形式的地址补上结尾斜杠；404.html 这类文件地址、以及根路径 "/" 保持原样 */}}
+        {{ if and (eq (path.Ext $href) "") (ne $href "/") }}
+          {{ $href = printf "%s/" $href }}
+        {{ end }}
+        <a class="dropdown-item nav-link languages-item" href="{{ $href }}">
+          {{ if ne site.Params.features.flags.enable false }}
+            {{ $countryCode := partial "helpers/country-code.html" . }}
+            <span class="fi fi-{{$countryCode}}"></span>
+          {{ end }}
+          {{ .Language.Label }}
+        </a>
+      {{ end }}
+    </div>
+  </li>
+{{ end }}

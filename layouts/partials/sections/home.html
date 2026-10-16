@@ -27,14 +27,49 @@
 {{ end }}
 
 {{/* Rotating homepage background images. Each is resized to webp at a few
-     responsive widths so the browser only downloads the size it needs. */}}
+     responsive widths so the browser only downloads the size it needs.
+
+     轮播对图片数量不敏感：site.Params.backgrounds 里放几张就轮几张，
+     每张停留 $slideSeconds 秒，全部由 CSS 动画完成，不需要额外的 JS。
+     只有一张时不做动画，直接常显。 */}}
 {{ $backgrounds := site.Params.backgrounds }}
+{{ $slideCount := len $backgrounds }}
+{{/* 每张图停留的秒数；$fadeSeconds 是相邻两张的交叉淡入淡出时长，
+     想调切换的快慢就改这两个值。 */}}
+{{/* 注意：这里必须是浮点，否则 `div 5 10` 会按整数除法得到 0；
+     而且模板在 <style> 里插入整数时会被 Go 的 CSS 安全过滤替换成 ZgotmplZ。 */}}
+{{ $slideSeconds := 5.0 }}
+{{ $fadeSeconds := 1.0 }}
 
 <div class="container-fluid home" id="home">
   <style>
     #homePageBackgroundImageDivStyled {
       position: relative;
     }
+    {{/* 底板：容器自己始终垫着第一张图。
+         好处有三：① 首屏刚加载、动画还没走到位时不会先白一下；
+         ② 切换过程中底下永远有图，绝不会透出页面底色；
+         ③ 只配一张图时不需要任何动画。 */}}
+    {{ if $backgrounds }}
+    {{ with resources.Get (index $backgrounds 0) }}
+    #homePageBackgroundImageDivStyled {
+      background-image: url('{{ (.Resize "480x webp q70").RelPermalink }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    @media (min-width: 481px) and (max-width: 800px) {
+      #homePageBackgroundImageDivStyled {
+        background-image: url('{{ (.Resize "800x webp q70").RelPermalink }}');
+      }
+    }
+    @media (min-width: 801px) {
+      #homePageBackgroundImageDivStyled {
+        background-image: url('{{ (.Resize "1200x webp q70").RelPermalink }}');
+      }
+    }
+    {{ end }}
+    {{ end }}
     #homePageBackgroundImageDivStyled .bg-slide {
       position: absolute;
       top: 0;
@@ -66,29 +101,44 @@
     {{ end }}
     {{ end }}
 
-    /* two images crossfading every 5s (10s full cycle) */
-    #homePageBackgroundImageDivStyled .bg-slide-1 {
-      animation: homeBgCrossfadeA 10s linear infinite;
-    }
-    #homePageBackgroundImageDivStyled .bg-slide-2 {
-      animation: homeBgCrossfadeB 10s linear infinite;
-    }
-
-    @keyframes homeBgCrossfadeA {
-      0%, 40% { opacity: 1; }
-      50%, 90% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes homeBgCrossfadeB {
-      0%, 40% { opacity: 0; }
-      50%, 90% { opacity: 1; }
+    {{ if gt $slideCount 1 }}
+    {{/* 一套关键帧 + 各自的 animation-delay 就能错开相位：
+         每张图的动画时长都等于整个循环，各自只在自己那一段里可见。
+         关键在时间窗要对齐——第 i 张「淡出」的那一段，正好是第 i+1 张「淡入」
+         的那一段（都跨越换图时刻的 $fadeSeconds 秒），两张的透明度之和恒为 1，
+         所以切换是真正的交叉淡化，中途不会有任何一瞬发白、发灰或变空。 */}}
+    {{ $cycleSeconds := mul $slideCount $slideSeconds }}
+    {{ $fadePercent := mul (div $fadeSeconds $cycleSeconds) 100 }}
+    {{ $slotPercent := mul (div $slideSeconds $cycleSeconds) 100 }}
+    {{ $slotFadePercent := mul (div (add $slideSeconds $fadeSeconds) $cycleSeconds) 100 }}
+    @keyframes homeBgSlide {
+      0% { opacity: 0; }
+      {{ printf "%.4g" $fadePercent }}% { opacity: 1; }
+      {{ printf "%.4g" $slotPercent }}% { opacity: 1; }
+      {{ printf "%.4g" $slotFadePercent }}% { opacity: 0; }
       100% { opacity: 0; }
+    }
+    {{ range $i, $path := $backgrounds }}
+    #homePageBackgroundImageDivStyled .bg-slide-{{ add $i 1 }} {
+      animation: homeBgSlide {{ printf "%.4g" $cycleSeconds }}s linear infinite;
+      animation-delay: {{ printf "%.4g" (sub (mul $i $slideSeconds) (div $fadeSeconds 2)) }}s;
+    }
+    {{ end }}
+    {{ end }}
+
+    /* 关闭动效偏好设置下不再轮播：关掉动画后所有幻灯都停在透明，
+       于是底板上那张第一张图就是最终显示效果 */
+    @media (prefers-reduced-motion: reduce) {
+      #homePageBackgroundImageDivStyled .bg-slide {
+        animation: none;
+      }
     }
   </style>
   <span class="on-the-fly-behavior"></span>
   <div id="homePageBackgroundImageDivStyled" class="background container-fluid">
-    <div class="bg-slide bg-slide-1"></div>
-    <div class="bg-slide bg-slide-2"></div>
+    {{ range $i, $path := $backgrounds }}
+    <div class="bg-slide bg-slide-{{ add $i 1 }}"></div>
+    {{ end }}
   </div>
   <div class="container content text-center">
     <img src="{{ $authorImage.RelPermalink }}" class="mx-auto d-block img-fluid" alt="Author Image" />
