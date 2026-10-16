@@ -120,6 +120,8 @@ mise run update-to-main
 
 改动尽量走「覆盖」而不是改主题源码，方便跟随主题更新。目前覆盖或自定义了这些：
 
+- `layouts/partials/header.html`：只为把「语言自动切换」脚本插进 `<head>` 最前面
+  （脚本必须早于页面渲染执行，否则会先闪一下另一种语言）。其余内容与主题原文件一致。
 - `layouts/partials/navigators/lang-selector.html`：**语言切换**。主题自带的实现把语言前缀
   直接拼在当前页面的 `RelPermalink` 前面，baseURL 带子路径时（GitHub Pages 项目站点就是
   这种情况）会算错，例如中文首页会被算成 `/zh-cn/website`，点过去 404。这里改成按 baseURL
@@ -141,3 +143,24 @@ mise run update-to-main
 
 将来要写带公式、代码块、流程图、PDF 或视频的页面时，把对应开关改回 `true` 即可
 （KaTeX 字体由主题自己挂载到 `/fonts`，不需要额外配置）。
+
+## 语言：自动切换与 hreflang
+
+- **首次访问按系统语言自动选择**中文或英文版本：识别浏览器给的 `zh*` / `en*`，两者都不匹配
+  时保持当前页面不动；
+- 访客一旦在右上角**手动切换过语言**，就记住这个选择（localStorage），之后不再自动跳转；
+- 404 页不参与自动跳转（避免把不存在的路径来回映射）；
+- 页面 `<head>` 里同时输出 `hreflang`（`zh-CN` / `en` / `x-default`），方便搜索引擎区分
+  两个语言版本；
+- 想整体关掉：把 `hugo.yaml` 里的 `params.autoLanguageSwitch` 设为 `false`
+  （脚本与 hreflang 都不再输出）。
+
+实现见 `layouts/partials/lang-auto-switch.html`，由上面覆盖的 `header.html` 在 `<head>` 调用。
+跳转地址按「baseURL 子路径 + 语言前缀 + 当前页面的语言无关路径」拼出，所以首页、搜索页都能
+对应到正确的语言版本，根目录部署与子路径部署也都成立。
+
+为什么不用「IP 归属地」：静态托管的站点没有服务端，判断 IP 只能靠第三方接口在浏览器里查——
+多一次请求、把访客 IP 交给第三方，而且这类接口在国内经常不可达；系统语言是浏览器直接给的
+信号，更准也更省事。如果确实要按国家/地区跳转，得换到支持该能力的托管平台
+（Netlify 可用 `[[redirects]]` 配 `conditions = { Country = ["CN"] }`，或把域名挂到
+Cloudflare 用规则跳转），这不在主题能解决的范畴内。

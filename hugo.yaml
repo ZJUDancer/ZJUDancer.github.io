@@ -67,6 +67,10 @@ enableEmoji: true
 
 # Site parameters
 params:
+  # 首次访问时按访客的系统语言自动切到中文/英文版本，并记住手动切换过的选择。
+  # 不想自动跳转就设为 false（脚本与 hreflang 都不再输出）。
+  autoLanguageSwitch: true
+
   # Background images of the landing page, crossfading on a 5-second cycle
   backgrounds:
     - /images/site/2026RoboCupIncheonZJUDancerHamburgBitBots.png
