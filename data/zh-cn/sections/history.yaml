@@ -5,38 +5,92 @@ section:
   enable: true
   weight: 3
   showOnNavbar: true
-  # 复用主题的时间线模板（数据键名仍为 experiences）
+  # 本地模板：按「阶段 + 平台/型号 + 关键节点」渲染时间轴
   template: sections/experiences.html
-  # Can optionally hide the title in sections
-  # hideTitle: true
 
-# 队伍历史（时间线）
-# 每个条目 = 一个阶段或一个赛季，字段含义：
-#   company.name                  阶段/赛季标题，例如「2026 赛季」
-#   company.location              地点
-#   company.logo                  可选配图，路径相对于 assets/images
-#   company.overview              阶段概述
-#   positions[].designation       关键事件标题
-#   positions[].start / end       起止时间，不写 end 会显示为「现在」
-#   positions[].responsibilities  事件细节，支持 Markdown
-# TODO: 下面两个条目为示例，请替换为真实的队伍历史
+# 时间轴上方的一句话说明
+intro: 
+# 卡片上的字段名
+labels:
+  platform: 平台
+  model: 型号
+  events: 关键节点
+
+# 每个条目 = 一个阶段或一个里程碑。
+#   name         阶段名，显示为卡片标题
+#   time         起止时间；仍在进行中的写「2026 – 至今」
+#   company      平台 / 品牌（可省略）
+#   companyUrl   平台官网（可省略）
+#   logo         品牌 logo，路径相对 assets（可省略）
+#   model        机器人型号（可省略）
+#   overview     阶段简介，支持 Markdown
+#   events[]     关键节点：time / text（支持 Markdown）/ url（可省略）
+# 成绩数据见 data/*/sections/accomplishments.yaml，时间轴上只写与平台、队伍沿革相关的节点。
 experiences:
-- company:
-    name: 自主研发阶段
-    location: 浙江大学
-    overview: ZJUDancer 依托工业控制技术国家重点实验室、浙江大学机器人科教实践基地成立，从零开始自主研发双足机器人。
-  positions:
-  - designation: 队伍成立，逐步搭建运动控制、视觉感知、行为决策等模块
-    start: "2006"
-    responsibilities:
-    - 独立自主设计并制造机器人。
+- name: 自主研发阶段
+  company: 浙江大学 · 自主研发
+  companyUrl: http://www.cse.zju.edu.cn
+  logo: images/sponsors/ZJUCSE.png
+  model: ZJUDancer 双足机器人（KidSize）
+  time: 2006 – 2025
+  # 中文简介写成一行：YAML 的折行（>）会在断行处补空格，中英混排时会多出空格
+  overview: 2006 年，队伍在浙江大学控制科学与工程学院熊蓉教授指导下成立，依托工业控制技术国家重点实验室与浙江大学机器人科教实践基地（实验室 2000 年设立足球机器人项目、2003 年首次参加 RoboCup 世界杯），成员来自控制、计算机、机械、信电、生医等院系。从机械结构、电路、驱动到运动控制、视觉感知、行为决策全部自研：机器人 20 自由度，身高 58–70 cm 级、自重约 4 kg；关节由 RX-28 / RX-64 换成 DYNAMIXEL MX-28 / MX-64 / MX-106；机载计算从 Intel Atom Z530、Core i5/i7 一路升级到 NVIDIA Jetson TX1 / TX2 与 Orin NX；运动控制也从成熟的 ZMP 预观控制走向 MPC，并在 2025 年开始搭建强化学习训练框架。
+  events:
+  - time: "2007 / 2009 / 2010"
+    text: 中国机器人大赛暨 RoboCup 公开赛类人组夺冠；2010 年全胜卫冕，进 25 球零失球。
+    url: https://www.zju.edu.cn/2010/0728/c41533a62885/page.htm
+  - time: "2013"
+    text: 荷兰埃因霍温世界杯季军，首次登上 RoboCup 世界杯领奖台。当年机器人 58 cm / 4 kg / 20 自由度，用 RX-28、RX-64 舵机与 Intel Atom Z530。
+  - time: "2014 – 2017"
+    text: 关节全面换成 DYNAMIXEL MX 系列，机载计算机升级到 Intel Core i5/i7，机器人高 58 cm 级、约 4 kg；2016、2017 连续两年世界杯亚军，2017 年伊朗公开赛夺冠（决赛 4:2 胜 MRL-HSL）。
+  - time: "2016"
+    text: 队伍官网与 GitHub 组织上线，开始对外发布网络、通信等模块代码。
+  - time: "2018"
+    text: 计算平台换成 NVIDIA Jetson TX1/TX2，相机改用 OmniVision OV2710，机器人高 62–70 cm 级；世界杯（蒙特利尔）第四名，Drop-In 第 2。
+  - time: "2019"
+    text: 世界杯（悉尼）亚军，决赛 0:1 负于 Rhoban；德国公开赛亚军；同年开源颜色分割与白平衡标定示例代码。
+  - time: "2020"
+    text: RoboCup 中国赛类人组冠军，决赛 7:0、全程零失球，与 ZJUNlict 同届成就「双冠」。
+    url: http://www.cse.zju.edu.cn/2020/1120/c39283a2714518/page.htm
+  - time: "2023"
+    text: 重返国际赛场：亚太机器人世界杯（韩国平昌）季军，天津国际邀请赛夺冠。
+  - time: "2024"
+    text: 世界杯（荷兰埃因霍温）十六强。
+  - time: "2025"
+    text: 机载计算升级到 NVIDIA Jetson Orin NX，部分机器人加装 ZED mini 双目相机；世界杯（巴西萨尔瓦多）KidSize 第四名。
 
-- company:
-    name: 2026 赛季
-    location: 中国公开赛 / 韩国仁川
-    overview: 全面采用强化学习训练行走、踢球与倒地起身动作，并在战术层面适配 2026 新规则。
-  positions:
-  - designation: RoboCup 2026 赛季
-    start: "2026"
-    responsibilities:
-    - 待补充：参赛赛事、成绩与亮点。
+- name: 开源里程碑
+  time: 2025 年 12 月
+  overview: 队伍决定把自研的整套比赛代码开源，国内高校组建类人组新队伍时不必再从零搭一套系统，参赛门槛随之降低。这也是「自己做机器人、自己写系统」的二十年第一次整体对外开放。
+  events:
+  - time: "2025-12"
+    text: 开源全部代码，推动降低国内高校新队伍参加 RoboCup 类人组比赛的门槛。
+
+- name: 高擎动力阶段
+  company: 高擎动力（HIGH TORQUE）
+  companyUrl: https://www.hightorque.cn/
+  logo: images/sponsors/HIGHTORQUE.png
+  model: Mini Pi Plus（Pi+，HSL Small 组）
+  time: 2026
+  overview: 2026 赛季改用高擎动力 Mini Pi Plus 平台参加 HSL（人形足球联赛）Small 组。按 HSL 2026 规则，Small 组机器人上限 110 cm / 15 kg，规则中列出的该组平台示例正是 NAO、Robotis OP3 与 Hightorque Pi+。整机高约 68 cm、自重约 15 kg、22 自由度，高擎动力同时提供了打通运动规划、行为树决策、视觉感知与通信协调的 RoboCup 开发框架。
+  events:
+  - time: "2026-03"
+    text: RoboCup 德国公开赛（德国科隆）Small 组冠军：5 胜 1 平进入决赛，决赛 4:0 击败上届冠军 Hamburg Bit-Bots。据高擎动力发布，这是中国团队首次在 RoboCup 人形机器人足球国际赛事的 Small 组别夺冠。
+    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league
+  - time: "2026-07"
+    text: RoboCup 2026（韩国仁川）——首届人形足球联赛世界杯（由原 Humanoid League 与 Standard Platform League 合并而来）。附加赛 4:1 胜 ICHIRO ITS，1/4 决赛 2:7 负于 Invic，位列 Small 组 5–8 名。
+    url: https://hsl.robocup.org/results-2026/
+
+# 平台切换到 Booster K1 的时间点以队伍内部信息为准：公开资料里 2026 德国公开赛与 RoboCup 2026（仁川）
+# Small 组用的都是高擎 Pi+（HSL 规则把 Pi+ 归在 Small 组、Booster K1 归在中型组），因此这里把 K1 记为
+# 仁川世界杯之后的新赛季平台。若时间点有出入，改这里的 time 即可。
+- name: 加速进化阶段
+  company: 加速进化（Booster Robotics）
+  companyUrl: https://www.booster.tech/cn
+  logo: images/sponsors/Booster.webp
+  model: Booster K1（HSL 中型组）
+  time: 2026 – 至今
+  overview: 2026 赛季起全面采用加速进化 Booster K1：站立身高约 95 cm、整机约 19.5 kg、22 自由度，在 HSL 2026 规则里被列为中型组（Middle，上限 125 cm / 25 kg）的可用平台之一。行走、踢球与倒地起身动作全面改用强化学习训练，战术层面也针对 2026 新规则重新适配。
+  events:
+  - time: "2026"
+    text: 换装 Booster K1 参赛平台；加速进化成为队伍赞助商。

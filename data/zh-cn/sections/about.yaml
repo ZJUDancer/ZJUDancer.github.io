@@ -36,7 +36,7 @@ socialLinks:
 
 - name: Bilibili
   icon: "fab fa-bilibili"
-  url: "#" # TODO: 填入哔哩哔哩主页地址
+  url: "https://space.bilibili.com/3546773001866106?spm_id_from=333.337.0.0" # TODO: 填入哔哩哔哩主页地址
 
 - name: 小红书
   icon: "social-icon-xiaohongshu"
@@ -44,7 +44,7 @@ socialLinks:
 
 - name: YouTube
   icon: "fab fa-youtube"
-  url: "#" # TODO: 填入 YouTube 频道地址
+  url: "https://www.youtube.com/@ZJUDancer" # TODO: 填入 YouTube 频道地址
 
 - name: X
   icon: "fab fa-x-twitter"

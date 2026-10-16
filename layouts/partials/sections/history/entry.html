@@ -1,0 +1,57 @@
+{{/* 时间轴上的单个阶段卡片。字段：name / time / company / companyUrl / logo / model / overview / events */}}
+{{ $experience := .experience }}
+{{ $labels := .labels }}
+
+<div class="col-10 col-lg-8">
+    <div class="experience-entry-heading">
+        {{ with $experience.logo }}
+            {{ $logoImage := resources.Get . }}
+            {{ if $logoImage }}
+                <div class="logo-holder">
+                    <img class="company-logo light-logo" src="{{ $logoImage.RelPermalink }}" alt="{{ $experience.company }}" />
+                </div>
+            {{ end }}
+        {{ end }}
+
+        <div class="company-heading">
+            <h5>{{ if $experience.companyUrl }}<a href="{{ $experience.companyUrl }}" target="_blank" rel="noopener">{{ $experience.name }}</a>{{ else }}{{ $experience.name }}{{ end }}</h5>
+            {{ with $experience.time }}<p class="text-muted">{{ . }}</p>{{ end }}
+        </div>
+
+        {{ if or $experience.company $experience.model }}
+            <p class="history-tags">
+                {{ with $experience.company }}
+                    <span class="history-tag history-tag-platform">
+                        <i class="fa-solid fa-cube" aria-hidden="true"></i>{{ $labels.platform }}<span class="history-tag-sep" aria-hidden="true"></span><strong>{{ . }}</strong>
+                    </span>
+                {{ end }}
+                {{ with $experience.model }}
+                    <span class="history-tag history-tag-model">
+                        <i class="fa-solid fa-robot" aria-hidden="true"></i>{{ $labels.model }}<span class="history-tag-sep" aria-hidden="true"></span><strong>{{ . }}</strong>
+                    </span>
+                {{ end }}
+            </p>
+        {{ end }}
+
+        {{ with $experience.overview }}
+            <p>{{ . | markdownify }}</p>
+        {{ end }}
+
+        {{ with $experience.events }}
+            <h6 class="text-heading">{{ $labels.events }}</h6>
+            <ul class="history-events">
+                {{ range . }}
+                    <li>
+                        {{ with .time }}<span class="history-event-time">{{ . }}</span>{{ end }}
+                        {{ .text | markdownify }}
+                        {{ with .url }}
+                            <a class="history-event-source" href="{{ . }}" target="_blank" rel="noopener noreferrer" title="{{ . }}">
+                                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                            </a>
+                        {{ end }}
+                    </li>
+                {{ end }}
+            </ul>
+        {{ end }}
+    </div>
+</div>

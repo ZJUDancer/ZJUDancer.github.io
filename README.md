@@ -101,7 +101,11 @@ mise run update-to-main
   的 `url` 目前是 `#` 占位，等主页地址定下来后替换即可。
 - `hugo.yaml` 里的 Google Analytics 站点 ID（`G-H4LBG7NDFZ`）需要确认是不是我们自己的属性。
 - `data/en/site.yaml` 的 `description` 目前仍是主题示例文案。
-- 页面上的项目、论文、队伍历史目前仍是示例内容，作为后续改写的参照，暂不删除。
+- 页面上的项目、论文目前仍是示例内容，作为后续改写的参照，暂不删除。
+- `data/{zh-cn,en}/sections/history.yaml` 的队伍历史依据公开资料整理（RoboCup 官方成绩页、
+  各年度 Team Description Paper / Robot Specification、浙江大学新闻与厂商发布）。
+  其中「加速进化 Booster K1」这一阶段的起始时间来自队伍内部信息——公开资料里 2026 德国公开赛
+  与 RoboCup 2026（仁川）Small 组用的都是高擎 Pi+，文件里对此有注释，时间点有变直接改 `time` 即可。
 
 ## 关于生成的文件
 
@@ -132,6 +136,11 @@ mise run update-to-main
   切换过程中不会闪白。节奏由模板里的 `$slideSeconds` / `$fadeSeconds` 控制）。
 - `layouts/partials/sections/accomplishments.html`、`layouts/partials/misc/{badge,medal}.html`：
   获奖记录表格与奖牌图标、赞助商卡片。
+- `layouts/partials/sections/experiences.html`、`layouts/partials/sections/history/entry.html`：
+  队伍历史时间轴。主题自带的时间轴是「公司 / 职位」结构，这里换成「阶段 + 平台 / 型号 + 关键节点」，
+  卡片渲染在 `entry.html` 里，字段说明写在 `data/{zh-cn,en}/sections/history.yaml` 顶部；
+  主题的 `sections/experiences/{vertical-line,horizontal-line}.html` 继续复用，所以时间轴的线、圆点
+  和响应式行为仍跟主题一致。
 - `assets/styles/override.scss`：上述部分的样式，外加小红书图标的矢量定义。
 
 ## 关掉的内容类功能

@@ -41,7 +41,7 @@ socialLinks:
 
 - name: Bilibili
   icon: "fab fa-bilibili"
-  url: "#" # TODO: add the Bilibili channel URL
+  url: "https://space.bilibili.com/3546773001866106?spm_id_from=333.337.0.0" 
 
 - name: Xiaohongshu
   icon: "social-icon-xiaohongshu"
@@ -49,7 +49,7 @@ socialLinks:
 
 - name: YouTube
   icon: "fab fa-youtube"
-  url: "#" # TODO: add the YouTube channel URL
+  url: "https://www.youtube.com/@ZJUDancer" 
 
 - name: X
   icon: "fab fa-x-twitter"

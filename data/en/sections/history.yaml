@@ -1,42 +1,116 @@
 # section information
 section:
-  name: History
+  name: Team History
   id: history
   enable: true
   weight: 3
   showOnNavbar: true
-  # Reuse the theme's timeline template (the data key stays `experiences`)
+  # Local template: renders the timeline as "stage + platform/model + key milestones"
   template: sections/experiences.html
-  # Can optionally hide the title in sections
-  # hideTitle: true 
 
-# Team history (timeline)
-# Each entry is a phase or a season:
-#   company.name                  phase/season title, e.g. "2026 Season"
-#   company.location              place
-#   company.logo                  optional image, path relative to assets/images
-#   company.overview              summary of the phase
-#   positions[].designation       key event title
-#   positions[].start / end       time range; omit `end` to display "present"
-#   positions[].responsibilities  event details, Markdown supported
-# TODO: the two entries below are examples — replace them with the real team history
+# One-line introduction above the timeline
+intro: 
+
+# Field names used on the cards
+labels:
+  platform: Platform
+  model: Model
+  events: Key milestones
+
+# Each entry is one stage or one milestone.
+#   name         stage name, shown as the card title
+#   time         period; use "2026 – present" for ongoing stages
+#   company      platform / brand (optional)
+#   companyUrl   platform website (optional)
+#   logo         brand logo, path relative to assets (optional)
+#   model        robot model (optional)
+#   overview     stage summary, Markdown supported
+#   events[]     milestones: time / text (Markdown supported) / url (optional)
+# Competition results live in data/*/sections/accomplishments.yaml; this timeline only
+# covers the platform changes and the organisational milestones.
 experiences:
-- company:
-    name: In-house Development
-    location: Zhejiang University
-    overview: Founded at the State Key Laboratory of Industrial Control Technology and ZJU's Robotics Science and Education Practice Base, ZJUDancer has designed and built its own bipedal robots from scratch.
-  positions:
-  - designation: Team founded; motion control, visual perception and behaviour decision modules built up
-    start: "2006"
-    responsibilities:
-    - Designs and manufactures its own robots.
+- name: In-house Development
+  company: Zhejiang University · Self-developed
+  companyUrl: http://www.cse.zju.edu.cn
+  logo: images/sponsors/ZJUCSE.png
+  model: ZJUDancer biped (KidSize)
+  time: 2006 – 2025
+  overview: >
+    Founded in 2006 under the supervision of Prof. Rong Xiong at the College of Control Science and Engineering, Zhejiang University,
+    the team works out of the State Key Laboratory of Industrial Control Technology and the ZJU Robotics Education Practice Base
+    (the laboratory started its robot soccer programme in 2000 and first entered the RoboCup World Cup in 2003). Members come from
+    control, computer science, mechanical, information and biomedical engineering. Everything was built in-house — mechanics,
+    electronics, motor drives, motion control, vision and behaviour planning: 20 degrees of freedom, 58–70 cm tall and about 4 kg,
+    joints evolving from RX-28 / RX-64 to DYNAMIXEL MX-28 / MX-64 / MX-106, on-board computing from an Intel Atom Z530 and Core i5/i7
+    up to NVIDIA Jetson TX1 / TX2 and Orin NX, and motion control moving from a mature ZMP preview controller towards MPC, with a
+    reinforcement learning framework first set up in 2025.
+  events:
+  - time: "2007 / 2009 / 2010"
+    text: Won the humanoid KidSize title at the China Robot Competition & RoboCup Open; the 2010 title was defended with a perfect record, 25 goals scored and none conceded.
+    url: https://www.zju.edu.cn/2010/0728/c41533a62885/page.htm
+  - time: "2013"
+    text: Third place at RoboCup in Eindhoven, the team's first World Cup podium. The robot of that year was 58 cm / 4 kg / 20 DoF, using RX-28 and RX-64 servos with an Intel Atom Z530.
+  - time: "2014 – 2017"
+    text: Joints switched to the DYNAMIXEL MX series and on-board computers to Intel Core i5/i7; runner-up at RoboCup in both 2016 and 2017, plus the 2017 Iran Open title (4:2 against MRL-HSL in the final).
+  - time: "2016"
+    text: Team website and GitHub organisation went live, with networking and communication modules released publicly.
+  - time: "2018"
+    text: Computing moved to NVIDIA Jetson TX1/TX2 and the camera to an OmniVision OV2710, robots 62–70 cm tall; fourth place at RoboCup (Montréal) and second in the Drop-In competition.
+  - time: "2019"
+    text: Runner-up at RoboCup (Sydney, 0:1 against Rhoban in the final) and at the German Open; released open-source examples for colour segmentation and white-balance calibration.
+  - time: "2020"
+    text: Won the humanoid division of the RoboCup China Open, 7:0 in the final without conceding a single goal — a double title together with ZJUNlict.
+    url: http://www.cse.zju.edu.cn/2020/1120/c39283a2714518/page.htm
+  - time: "2023"
+    text: "Back on the international stage: third place at RoboCup Asia-Pacific (Pyeongchang, Korea) and winner of the Tianjin International Invitational."
+  - time: "2024"
+    text: Round of 16 at RoboCup (Eindhoven, the Netherlands).
+  - time: "2025"
+    text: On-board computing upgraded to NVIDIA Jetson Orin NX and some robots fitted with ZED mini stereo cameras; fourth place in KidSize at RoboCup (Salvador, Brazil).
 
-- company:
-    name: 2026 Season
-    location: RoboCup China Open / Incheon, Korea
-    overview: Walking, kicking and getting-up motions are now trained with reinforcement learning, and the tactics were adapted to the new 2026 rules.
-  positions:
-  - designation: RoboCup 2026 season
-    start: "2026"
-    responsibilities:
-    - "TODO: competitions, results and highlights."
+- name: Open-Source Milestone
+  time: December 2025
+  overview: >
+    The team decided to open-source its complete match software, so that new humanoid teams at Chinese universities no longer have to
+    build a whole system from scratch — lowering the barrier to entry. It is the first time the twenty-year "our own robots, our own
+    software" stack has been opened up as a whole.
+  events:
+  - time: "2025-12"
+    text: Released all of the team's code, lowering the barrier for new Chinese university teams entering RoboCup humanoid competitions.
+
+- name: High Torque Stage
+  company: High Torque (高擎动力)
+  companyUrl: https://www.hightorque.cn/
+  logo: images/sponsors/HIGHTORQUE.png
+  model: Mini Pi Plus (Pi+), HSL Small Division
+  time: 2026
+  overview: >
+    For the 2026 season the team switched to the High Torque Mini Pi Plus platform in the Small division of the Humanoid Soccer League.
+    Under the HSL 2026 rules the Small division is limited to 110 cm and 15 kg, and the rule book lists NAO, Robotis OP3 and Hightorque Pi+
+    as the platforms for that division. Mini Pi Plus is about 68 cm tall, weighs about 15 kg and has 22 degrees of freedom; High Torque also
+    supplies a RoboCup development framework covering motion planning, behaviour trees, vision and inter-robot communication.
+  events:
+  - time: "2026-03"
+    text: "Won the Small division of the RoboCup German Open (Cologne, Germany): five wins and one draw to reach the final, then 4:0 against the defending champions Hamburg Bit-Bots. According to High Torque, this is the first title by a Chinese team in the Small division of an international RoboCup humanoid soccer competition."
+    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league
+  - time: "2026-07"
+    text: RoboCup 2026 (Incheon, Korea) — the first Humanoid Soccer League World Cup, formed by merging the Humanoid League and the Standard Platform League. A 4:1 play-in win over ICHIRO ITS and a 2:7 quarter-final loss to Invic placed the team 5th–8th in the Small division.
+    url: https://hsl.robocup.org/results-2026/
+
+# The exact date of the switch to the Booster K1 is based on team-internal information: public
+# sources show High Torque Pi+ at both the 2026 German Open and RoboCup 2026 (Incheon) in the Small
+# division (HSL lists Pi+ under Small and Booster K1 under Middle), so K1 is recorded here as the
+# platform of the new season after the Incheon World Cup. Adjust `time` if the date differs.
+- name: Booster Robotics Stage
+  company: Booster Robotics (加速进化)
+  companyUrl: https://www.booster.tech/cn
+  logo: images/sponsors/Booster.webp
+  model: Booster K1 (HSL Middle Division)
+  time: 2026 – present
+  overview: >
+    From the 2026 season the team competes on the Booster K1: about 95 cm tall, 19.5 kg and 22 degrees of freedom, listed in the HSL 2026
+    rule book among the platforms for the Middle division (up to 125 cm / 25 kg). Walking, kicking and getting up after a fall are now trained
+    with reinforcement learning, and the tactics were adapted to the new 2026 rules.
+  events:
+  - time: "2026"
+    text: Switched to Booster K1 as the competition platform; Booster Robotics became a team sponsor.
