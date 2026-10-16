@@ -5,6 +5,9 @@ section:
   enable: true
   weight: 2
   showOnNavbar: true
+  # Still on the home page and still listed in the footer navigation — just not in
+  # the top navbar any more (read by layouts/partials/navigators/navbar.html).
+  hideFromTopNavbar: true
   # Local template: a statistics table with medal icons instead of cards
   template: sections/accomplishments.html
   # Can optionally hide the title in sections

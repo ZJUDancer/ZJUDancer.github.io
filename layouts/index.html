@@ -1,0 +1,78 @@
+{{/* 覆盖主题模板（对应 hugo-toha/toha v4.16.0 的 layouts/index.html）。
+     这里只多做一件事：跳过写了 section.hideFromHome: true 的版块。
+     目前只有「队伍历史」用它——那条时间轴已经独立成 /team/ 页面，只能从导航栏进入。
+     注意判断要写在「取背景色」之前：主题是渲染一个版块就换一次深浅底色，
+     被跳过的版块不该占掉一次轮换，否则后面版块的条纹会错位。
+     其余内容与主题原文件保持一致；主题升级后请比对一次上游的 index.html。 */}}
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale | default .Site.Language.Lang }}">
+  <head>
+    <title>{{- .Site.Title -}}</title>
+    {{ $siteDescription := .Site.Params.description }}
+    {{ if (index hugo.Data .Site.Language.Lang).site }}
+      {{ $siteConfig := (index hugo.Data .Site.Language.Lang).site }}
+      {{ if $siteConfig.description }}
+        {{ $siteDescription = $siteConfig.description }}
+      {{ end }}
+    {{ end }}
+    <meta name="description" content="{{ $siteDescription }}" />
+    
+    <!-- import common headers -->
+    {{- partial "header.html" . -}}
+    {{- partial "opengraph.html" . -}}
+    
+    <!--================= add analytics if enabled =========================-->
+    {{- partial "analytics.html" . -}}
+    {{ with resources.Get "scripts/core/theme-scheme.js" | fingerprint }}
+    <script integrity="{{.Data.Integrity}}">
+     {{ .Content | safeJS }}
+    </script>
+    {{ end }}
+  </head>
+  <body data-bs-spy="scroll" data-bs-target="#top-navbar" data-bs-offset="100">
+
+    <!--- NAVBAR ------------------------->
+    {{- partial "navigators/navbar.html" . -}}
+
+    <!--- ADD HOME SECTION ---------------->
+    {{- partial "sections/home.html" . -}}
+
+    <!--- ADD OPTIONAL SECTIONS ----------->
+    {{ $sections:= hugo.Data.sections }}
+    {{ if (index hugo.Data site.Language.Lang).sections }}
+      {{ $sections = (index hugo.Data site.Language.Lang).sections }}
+    {{ end }}
+
+    {{ if $sections }}
+      {{ $background:= "bg-primary"}}
+      {{ range sort $sections "section.weight" }}
+        {{ if and .section.enable (not .section.hideFromHome) }}
+          <div class="container-fluid section-holder d-flex {{ $background }}">
+            {{ if .section.template }}
+              {{- partial .section.template . -}}
+            {{ else }}
+              {{- partial (printf "sections/%s.html" (replace (lower .section.id) " " "-")) . -}}
+            {{ end }}
+          </div>
+          <!--- alter background color for next section --->
+          {{ if eq $background "bg-primary" }}
+            {{ $background = "bg-secondary" }}
+          {{ else }}
+            {{ $background = "bg-primary" }}
+          {{end}}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+
+    <!--- ADD FOOTER ----------------------->
+    {{ $footerTemplate:= site.Params.footer.template | default "footer.html" }}
+    {{- partial $footerTemplate . -}}
+
+    <!--- ADD COMMON SCRIPTS --------------->
+    {{ partial "scripts.html" . }}
+
+    <!------ ADD SUPPORT LINKS -------->
+    {{- partial "misc/support.html" . -}}
+
+  </body>
+</html>

@@ -374,3 +374,53 @@ html:lang(zh) {
     content: '：';
   }
 }
+
+// 队伍（Team，/team/）独立页面：整页只有一条时间轴。
+// 它同时是内容页（body 上带 kind-section / type-team），主题给内容页的默认版式是
+// 「侧栏 + 正文」两栏 flex，这里没有侧栏，所以改回单栏；侧栏开关按钮是主题在非首页
+// 统一渲染的，点了却没有侧栏可开，一并隐藏（和主题对 404 页的处理一样）。
+// 顶部留出固定导航栏（50px）的高度，免得大标题被压在导航栏下面。
+body.type-team {
+  #sidebar-toggler {
+    display: none;
+  }
+
+  .wrapper {
+    display: block;
+  }
+
+  .section-holder {
+    padding-top: 5rem;
+  }
+}
+
+// 极简页脚（layouts/partials/footer-minimal.html）：只有一行文字，左边版权、右边 powered by。
+// 主题的 .footer 是按「多栏 + 图标」的页脚写的，这里几处细节要按单行文字改：
+//   1. 主题给 .footer 的颜色是 muted（还带 !important），文字直接指定在容器的子元素上；
+//   2. 深色主题下主题给页脚第一段的 inverse-text-color 与页脚底色相同，会看不见，改用 muted 色；
+//   3. a:hover 会加 5px 左位移（多栏页脚里是「滑一下」的动效），单行文字里会让整句抖。
+// 其余（页脚底色、hover 下划线）继续沿用主题。
+.footer.footer-minimal {
+  .container {
+    line-height: 1.6;
+    // 页脚是深色底（主题的 footer-color），文字用主题的浅色文字色
+    color: get-light-color('inverse-text-color');
+  }
+
+  // 主题给页脚链接用的是 muted 色，在深色底上对比度偏低（单行页脚里这个链接就在句子里，
+  // 更明显），改成跟正文同色 + 常显下划线
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  a:hover {
+    margin-left: 0;
+  }
+}
+
+html[data-theme='dark'] {
+  .footer.footer-minimal .container {
+    color: get-dark-color('muted-text-color');
+  }
+}

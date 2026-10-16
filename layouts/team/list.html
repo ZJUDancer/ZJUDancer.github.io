@@ -1,0 +1,24 @@
+{{/* 队伍（Team）独立页面。
+     内容就是 data/<语言>/sections/history.yaml 里那条时间轴：这个页面等于把首页的
+     「队伍历史」版块搬到一个只有导航栏才能进的地方（首页那边由 layouts/index.html
+     跳过 hideFromHome 的版块，导航栏/页脚由 helpers/get-section-url.html 指到这里）。
+     所以这里直接复用首页那份 partial，样式、字段、数据格式都不用再维护一份。 */}}
+
+{{ define "navbar" }}
+{{ partial "navigators/navbar.html" . }}
+{{ end }}
+
+{{ define "header" }}
+{{ with .Description }}<meta name="description" content="{{ . }}" />{{ end }}
+{{ end }}
+
+{{ define "content" }}
+{{ $sections := hugo.Data.sections }}
+{{ if (index hugo.Data site.Language.Lang).sections }}
+{{ $sections = (index hugo.Data site.Language.Lang).sections }}
+{{ end }}
+{{/* 这里没有侧栏，侧栏开关按钮由 assets/styles/override.scss 针对本页隐藏 */}}
+<div class="container-fluid section-holder d-flex bg-primary">
+  {{ partial "sections/experiences.html" (index $sections "history") }}
+</div>
+{{ end }}

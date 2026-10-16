@@ -1,10 +1,22 @@
 # section information
 section:
-  name: Team History
+  # Used both for the top navbar entry and as the heading of the /team/ page.
+  # It used to be "Team History".
+  name: Team
   id: history
   enable: true
   weight: 3
-  showOnNavbar: true
+  # false on purpose: this section has a page of its own (see `url` below), and the theme's
+  # footer navigation reads this flag — leaving it true would put a dead "#history" anchor
+  # in the footer, because the section is no longer on the home page.
+  showOnNavbar: false
+  # This section has its own page: the top navbar links to it instead of to a home-page
+  # anchor. layouts/partials/navigators/navbar.html resolves it with site.GetPage, so the
+  # language prefix and the baseURL sub-path are handled by Hugo.
+  url: /team/
+  # Not rendered on the home page any more: the timeline is reachable from the navbar only.
+  # Read by layouts/index.html.
+  hideFromHome: true
   # Local template: renders the timeline as "stage + platform/model + key milestones"
   template: sections/experiences.html
 
@@ -83,7 +95,7 @@ experiences:
   companyUrl: https://www.hightorque.cn/
   logo: images/sponsors/HIGHTORQUE.png
   model: Mini Pi Plus (Pi+), HSL Small Division
-  time: 2026
+  time: 2025 – 2026
   overview: >
     For the 2026 season the team switched to the High Torque Mini Pi Plus platform in the Small division of the Humanoid Soccer League.
     Under the HSL 2026 rules the Small division is limited to 110 cm and 15 kg, and the rule book lists NAO, Robotis OP3 and Hightorque Pi+

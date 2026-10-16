@@ -5,6 +5,9 @@ section:
   enable: true
   weight: 1
   showOnNavbar: true
+  # 首页照常展示这个版块，页脚的导航列表也照常列出，只是顶部导航栏不再放它
+  # （由 layouts/partials/navigators/navbar.html 读取）
+  hideFromTopNavbar: true
   template: sections/about.html
 
 # your designation
@@ -34,17 +37,17 @@ socialLinks:
   icon: "fab fa-github"
   url: "https://github.com/ZJUDancer"
 
+- name: YouTube
+  icon: "fab fa-youtube"
+  url: "https://www.youtube.com/@ZJUDancer"
+
 - name: Bilibili
   icon: "fab fa-bilibili"
-  url: "https://space.bilibili.com/3546773001866106?spm_id_from=333.337.0.0" # TODO: 填入哔哩哔哩主页地址
+  url: "https://space.bilibili.com/3546773001866106?spm_id_from=333.337.0.0"
 
 - name: 小红书
   icon: "social-icon-xiaohongshu"
   url: "#" # TODO: 填入小红书主页地址
-
-- name: YouTube
-  icon: "fab fa-youtube"
-  url: "https://www.youtube.com/@ZJUDancer" # TODO: 填入 YouTube 频道地址
 
 - name: X
   icon: "fab fa-x-twitter"

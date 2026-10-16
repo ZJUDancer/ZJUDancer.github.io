@@ -5,6 +5,9 @@ section:
   enable: true
   weight: 1
   showOnNavbar: true
+  # Still on the home page and still listed in the footer navigation — just not in
+  # the top navbar any more (read by layouts/partials/navigators/navbar.html).
+  hideFromTopNavbar: true
   template: sections/about.html
 
 # your designation
@@ -39,6 +42,10 @@ socialLinks:
   icon: "fab fa-github"
   url: "https://github.com/ZJUDancer"
 
+- name: YouTube
+  icon: "fab fa-youtube"
+  url: "https://www.youtube.com/@ZJUDancer" 
+
 - name: Bilibili
   icon: "fab fa-bilibili"
   url: "https://space.bilibili.com/3546773001866106?spm_id_from=333.337.0.0" 
@@ -46,10 +53,6 @@ socialLinks:
 - name: Xiaohongshu
   icon: "social-icon-xiaohongshu"
   url: "#" # TODO: add the Xiaohongshu (RED) profile URL
-
-- name: YouTube
-  icon: "fab fa-youtube"
-  url: "https://www.youtube.com/@ZJUDancer" 
 
 - name: X
   icon: "fab fa-x-twitter"

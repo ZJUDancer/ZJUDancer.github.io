@@ -5,6 +5,9 @@ section:
   enable: true
   weight: 2
   showOnNavbar: true
+  # 首页照常展示这个版块，页脚的导航列表也照常列出，只是顶部导航栏不再放它
+  # （由 layouts/partials/navigators/navbar.html 读取）
+  hideFromTopNavbar: true
   # 本地模板：以统计表 + 奖牌图标展示，不再使用卡片
   template: sections/accomplishments.html
   # Can optionally hide the title in sections
