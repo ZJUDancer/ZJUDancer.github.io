@@ -3,7 +3,7 @@ section:
   name: 获奖记录
   id: accomplishments
   enable: true
-  weight: 9
+  weight: 2
   showOnNavbar: true
   # 本地模板：以统计表 + 奖牌图标展示，不再使用卡片
   template: sections/accomplishments.html
@@ -11,86 +11,221 @@ section:
   # hideTitle: true
 
 # 表格上方的一句话说明
-intro: ZJUDancer 自 2006 年建队以来参加的主要比赛与获奖情况。
+intro: ZJUDancer 的参赛成绩，取自官方成绩页或同期权威报道。点击比赛名称可查看来源，点击下方赛事类型可筛选表格。
+
+# 表格上方筛选栏使用的赛事类型。
+# 筛选按钮按此顺序生成，且只有该类型下确实有记录时才会出现；
+# 记录中未指定或未列出的 type 会归入 other 分类。
+types:
+  - id: world
+    name: 世界杯
+  - id: german
+    name: 德国公开赛
+  - id: rcap
+    name: 亚太赛
+  - id: china
+    name: 中国赛
+  - id: iran
+    name: 伊朗公开赛
 
 # 表头与「奖项总计」文案
 labels:
+  all: 全部赛事
   date: 时间
   competition: 比赛
-  award: 奖项
+  award: 成绩
   note: 说明
-  gold: 金牌
-  silver: 银牌
-  bronze: 铜牌
-  other: 其他名次
-  total: 合计参赛
+  gold: 冠军
+  silver: 亚军
+  bronze: 季军
+  other: 其他成绩
+  total: 记录条数
 
 # 比赛记录
-# result 取值：gold=冠军（一等奖）/ silver=亚军（二等奖）/ bronze=季军（三等奖）/ other=其他名次
-# 修改这里的数据，表格与上方的奖项总计会自动更新
+# type 取值见上方 types；result 取值：gold=冠军（第 1 名）/ silver=亚军（第 2 名）/ bronze=季军（第 3 名）/ other=其他名次
+# url 为该项赛事主办方发布的官方成绩页
+# 说明栏引用官方原文名次，便于逐条核对
 competitions:
 - date: "2026"
-  name: RoboCup 德国公开赛
+  type: german
+  name: RoboCup 德国公开赛 2026（德国科隆，类人组 - Small Division）
   award: 冠军
   result: gold
-  note: 以 5 胜 1 平的不败战绩晋级决赛，4:1 击败上届冠军 Hamburg Bit-Bots，中国团队首次在该组别夺冠。
+  url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league
+  note: 官方名次：1st ZJUDancer / 2nd Hamburg Bit-Bots / 3rd Berlin United；半决赛 1:0、决赛 4:0 全胜。
+
+- date: "2026"
+  type: world
+  name: RoboCup 2026 世界杯（韩国仁川，类人组 - Small Division）
+  award: 5–8 名
+  result: other
+  url: https://hsl.robocup.org/results-2026/
+  note: 附加赛 4:1 胜 ICHIRO ITS，1/4 决赛 2:7 负于 Invic。官方前三：Invic / Hamburg Bit-Bots / GeoHBots。
 
 - date: "2025"
-  name: RoboCup 机器人世界杯（巴西）
+  type: world
+  name: RoboCup 2025 世界杯（巴西萨尔瓦多，类人组 - KidSize）
   award: 第四名
   result: other
-  note: 完全依靠自主研发的机器人系统参赛，在高强度对抗中保持了稳定发挥。
+  url: https://humanoid.robocup.org/robocup-2025/schedule-and-results-rc-hl-2025/
+  note: 官方前三：Boosted HTWK / THMOS / NUbots。
+
+- date: "2024"
+  type: world
+  name: RoboCup 2024 世界杯（荷兰埃因霍温，类人组 - KidSize）
+  award: 十六强
+  result: other
+  url: https://humanoid.robocup.org/hl-2024/results-rc-hl-2024/kid-and-adult-sizes-games/
+  note: 官方前三：CIT Brains / KURA / Barelang FC。
 
 - date: "2023"
-  name: 亚太机器人世界杯天津国际邀请赛
+  type: rcap
+  name: 亚太机器人世界杯天津国际邀请赛 2023（中国天津，类人组）
   award: 冠军
   result: gold
-  note: 凭借稳定的动态步行、准确的视觉识别与高效的策略执行获得类人组冠军。
+  url: https://tji2023.robocupap.org/results/
+  note: 官方名次：1st ZJUDancer / 2nd Beihang Robotics Team / 3rd TH-MOS。
 
 - date: "2023"
-  name: 亚太机器人世界杯韩国平昌站
+  type: rcap
+  name: 亚太机器人世界杯 2023（韩国平昌，类人组 - KidSize）
   award: 季军
   result: bronze
-  note: 在多支强队的竞争中取得季军，进一步巩固了在国际仿人机器人足球领域的竞争力。
+  url: https://2023.robocupap.org/results/
+  note: 官方名次：1st RO:BIT / 2nd R-SCUAD / 3rd ZJUDancer。
+
+- date: "2020"
+  type: china
+  name: RoboCup 机器人世界杯中国赛 2020（中国南京，类人组）
+  award: 冠军
+  result: gold
+  url: http://www.cse.zju.edu.cn/2020/1120/c39283a2714518/page.htm
+  note: ""
 
 - date: "2019"
-  name: RoboCup 机器人世界杯（澳大利亚悉尼）
+  type: world
+  name: RoboCup 2019 世界杯（澳大利亚悉尼，类人组 - KidSize）
   award: 亚军
   result: silver
-  note: 一路闯入决赛，体现了视觉感知、运动控制与系统协同方面的整体提升。
+  url: https://humanoid.robocup.org/hl-2019/results/
+  note: 官方名次：1st Rhoban / 2nd ZJUDancer / 3rd CIT Brains；Drop-In 第 3。
+
+- date: "2019"
+  type: german
+  name: RoboCup 德国公开赛 2019（德国马格德堡，类人组 KidSize）
+  award: 亚军
+  result: silver
+  url: https://web.archive.org/web/20210925180353/https://2019.robocupgermanopen.de/en/results/major/humanoid-kid-size
+  note: 官方名次：1st Rhoban FC / 2nd ZJUDancer / 3rd Starkit。
+
+- date: "2018"
+  type: world
+  name: RoboCup 2018 世界杯（加拿大蒙特利尔，类人组 - KidSize）
+  award: 第四名
+  result: other
+  url: https://humanoid.robocup.org/hl-2018/results/
+  note: 官方前三：Rhoban / MRL-HSL / Barelang FC；十六强、八强均获胜；Drop-In 第 2。
 
 - date: "2017"
-  name: 伊朗公开赛
+  type: world
+  name: RoboCup 2017 世界杯（日本名古屋，类人组 - KidSize）
+  award: 亚军
+  result: silver
+  url: https://humanoid.robocup.org/hl-2017/results/
+  note: 官方名次：1st Rhoban / 2nd ZJUDancer / 3rd CIT Brains；Drop-In 第 2。
+
+- date: "2017"
+  type: iran
+  name: RoboCup 伊朗公开赛 2017（伊朗德黑兰，类人组 - KidSize）
   award: 冠军
   result: gold
-  note: 凭借稳定的临场发挥和成熟的系统表现成功登顶。
-
-- date: "2017"
-  name: RoboCup 机器人世界杯（日本名古屋）
-  award: 亚军
-  result: silver
-  note: 在高水平对抗中稳步前进，最终获得亚军。
+  url: https://en.mehrnews.com/news/124630/Iran-s-MRL-team-comes-1st-at-RoboCup-IranOpen-201-7
+  note: 名次：1st ZJUDancer / 2nd MRL-HSL / 3rd FUmanoids - Berlin United；决赛 4:2 胜 MRL-HSL。
 
 - date: "2016"
-  name: RoboCup 机器人世界杯（德国莱比锡）
+  type: world
+  name: RoboCup 2016 世界杯（德国莱比锡，类人组 - KidSize）
   award: 亚军
   result: silver
-  note: 机器人在复杂赛场环境下展现出良好的稳定性与执行力。
+  url: https://humanoid.robocup.org/hl-2016/results/
+  note: 官方名次：1st Rhoban / 2nd ZJUDancer / 3rd CIT Brains。
 
 - date: "2015"
-  name: RoboCup 机器人世界杯（中国合肥）
+  type: world
+  name: RoboCup 2015 世界杯（中国合肥，类人组 - KidSize）
   award: 亚军
   result: silver
-  note: 凭借机器人控制能力与团队协同一路晋级，刷新了战队当时的历史最好成绩。
+  url: https://humanoid.robocup.org/hl-2015/results/
+  note: 官方名次：1st CIT Brains Kid / 2nd ZJUDancer / 3rd Rhoban。
 
 - date: "2014"
-  name: RoboCup 机器人世界杯（巴西若昂佩索阿）
-  award: 季军
-  result: bronze
-  note: 经过激烈角逐取得季军，展现出持续上升的竞技状态。
+  type: world
+  name: RoboCup 2014 世界杯（巴西若昂佩索阿，类人组 - KidSize）
+  award: 八强
+  result: other
+  url: https://humanoid.robocup.org/hl-2014/results/
+  note: 官方前三：CIT Brains / Bold Hearts / Baset；小组 H、L 均列第 1。
 
 - date: "2013"
-  name: RoboCup 机器人世界杯（荷兰埃因霍温）
+  type: world
+  name: RoboCup 2013 世界杯（荷兰埃因霍温，类人组 - KidSize）
   award: 季军
   result: bronze
-  note: 战队在国际赛场上的重要突破，为后续成绩打下基础。
+  url: https://humanoid.robocup.org/hl-2013/results/
+  note: 官方名次：1st Team DARwIn / 2nd AUTMan / 3rd ZJUDancer；三四名决赛 5:1 胜 CIT Brains Kid。
+
+- date: "2012"
+  type: world
+  name: RoboCup 2012 世界杯（墨西哥城，类人组 - KidSize）
+  award: 第四名
+  result: other
+  url: https://humanoid.robocup.org/hl-2012/results/
+  note: 官方前三：Team DARwIn / CIT Brains Kid / Darmstadt；1/4 决赛 4:2 胜 MRL。
+
+- date: "2011"
+  type: world
+  name: RoboCup 2011 世界杯（土耳其伊斯坦布尔，类人组 - KidSize）
+  award: 八强
+  result: other
+  url: https://humanoid.robocup.org/hl-2011/results/
+  note: 官方前三：Team DARwIn / CIT Brains / Darmstadt。
+
+- date: "2010"
+  type: world
+  name: RoboCup 2010 世界杯（新加坡，类人组 - KidSize）
+  award: 八强
+  result: other
+  url: https://humanoid.robocup.org/hl-2010/results/
+  note: 官方前三：Darmstadt / FUmanoids / CIT Brains Kid；小组 E 第 1。
+
+- date: "2010"
+  type: china
+  name: 中国机器人大赛暨 RoboCup 公开赛 2010（中国鄂尔多斯，类人组 - KidSize）
+  award: 冠军
+  result: gold
+  url: https://www.zju.edu.cn/2010/0728/c41533a62885/page.htm
+  note: 全胜卫冕全国冠军，进 25 球零失球；此前 2007、2009 年也曾夺冠。
+
+- date: "2009"
+  type: world
+  name: RoboCup 2009 世界杯（奥地利格拉茨，类人组 - KidSize）
+  award: 八强
+  result: other
+  url: https://humanoid.robocup.org/hl-2009/results/
+  note: 官方前三：Darmstadt / FUmanoids / CIT Brains Kid；小组 D 第 1。
+
+- date: "2008"
+  type: world
+  name: RoboCup 2008 世界杯（中国苏州，类人组 - KidSize）
+  award: 第二轮循环
+  result: other
+  url: https://humanoid.robocup.org/hl-2008/results/
+  note: 官方前三：NimbRo / Team Osaka / CIT Brains；中间轮战胜 Robo Erectus。
+
+- date: "2007"
+  type: world
+  name: RoboCup 2007 世界杯（美国亚特兰大，类人组 - KidSize）
+  award: 首轮循环
+  result: other
+  url: https://humanoid.robocup.org/hl-2007/results/
+  note: 官方前三：NimbRo / Team Osaka / FUmanoid。

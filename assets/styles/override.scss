@@ -61,6 +61,52 @@ html[data-theme='dark'] {
     opacity: 0.85;
   }
 
+  // 赛事类型筛选栏（默认 ALL）
+  .awards-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.25rem 0 0.5rem;
+
+    .award-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      color: inherit;
+      cursor: pointer;
+      background-color: transparent;
+      border: 1px solid rgba(get-light-color('muted-text-color'), 0.5);
+      border-radius: 999px;
+      transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+
+      &:hover,
+      &:focus {
+        color: get-light-color('accent-color');
+        border-color: get-light-color('accent-color');
+      }
+
+      &:focus-visible {
+        outline: 2px solid get-light-color('accent-color');
+        outline-offset: 2px;
+      }
+
+      &.is-active {
+        color: #fff;
+        background-color: get-light-color('accent-color');
+        border-color: get-light-color('accent-color');
+      }
+
+      .award-filter-count {
+        font-size: 0.8em;
+        opacity: 0.85;
+      }
+    }
+  }
+
   // 表格外的「奖项总计」
   .awards-summary {
     display: flex;
@@ -68,7 +114,7 @@ html[data-theme='dark'] {
     align-items: center;
     justify-content: center;
     gap: 0.6rem 2rem;
-    margin: 1.5rem 0 2rem;
+    margin: 1rem 0 2rem;
     font-size: 1.05rem;
 
     .award-total {
@@ -97,6 +143,10 @@ html[data-theme='dark'] {
     min-width: 34rem;
     margin-bottom: 0;
 
+    tbody tr[hidden] {
+      display: none;
+    }
+
     th,
     td {
       vertical-align: middle;
@@ -104,11 +154,11 @@ html[data-theme='dark'] {
     }
 
     .col-date {
-      width: 10%;
+      width: 9%;
     }
 
     .col-competition {
-      width: 30%;
+      width: 45%;
     }
 
     .col-award {
@@ -116,7 +166,7 @@ html[data-theme='dark'] {
     }
 
     .col-note {
-      width: 44%;
+      width: 30%;
     }
 
     .award-date {
@@ -126,6 +176,23 @@ html[data-theme='dark'] {
 
     .award-competition {
       font-weight: 500;
+
+      a {
+        color: get-light-color('accent-color');
+        text-decoration: underline;
+        text-underline-offset: 2px;
+
+        &:hover,
+        &:focus {
+          color: get-light-color('hover-over-accent-color');
+        }
+      }
+
+      .award-link-icon {
+        margin-left: 0.35rem;
+        font-size: 0.7rem;
+        opacity: 0.7;
+      }
     }
 
     .award-result-inner {
@@ -196,5 +263,29 @@ html[data-theme='dark'] {
 html[data-theme='dark'] {
   .medal-flag {
     color: get-dark-color('muted-text-color');
+  }
+}
+
+html[data-theme='dark'] {
+  .accomplishments-section {
+    .awards-filter .award-filter-btn {
+      border-color: rgba(get-dark-color('muted-text-color'), 0.5);
+
+      &:hover,
+      &:focus {
+        color: get-dark-color('accent-color');
+        border-color: get-dark-color('accent-color');
+      }
+
+      &:focus-visible {
+        outline-color: get-dark-color('accent-color');
+      }
+
+      &.is-active {
+        color: #fff;
+        background-color: get-dark-color('accent-color');
+        border-color: get-dark-color('accent-color');
+      }
+    }
   }
 }
