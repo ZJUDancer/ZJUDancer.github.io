@@ -1,7 +1,10 @@
-{{ $sectionID := replace (lower .section.name) " " "-"  }}
+{{ $sectionID := replace (lower .section.name) " " "-" }}
 {{ if .section.id }}
   {{ $sectionID = .section.id }}
 {{ end }}
+
+{{ $competitions := .competitions }}
+{{ $types := .types }}
 
 <div class="container-fluid anchor pb-5 accomplishments-section">
   {{ if not (.section.hideTitle) }}
@@ -17,44 +20,64 @@
       <p class="awards-intro text-center">{{ . | markdownify }}</p>
     {{ end }}
 
-    {{/* 统计各奖项数量，用于表格外的「奖项总计」 */}}
+    {{/* 赛事类型筛选栏：默认 ALL。只有该类型下确实有记录时才生成按钮。
+         按钮上的数字是各类型的记录条数。 */}}
+    {{ if gt (len $types) 1 }}
+      <div class="awards-filter" role="group" aria-label="{{ .section.name }}">
+        <button type="button" class="award-filter-btn is-active" data-filter="all" aria-pressed="true">
+          <span class="award-filter-name">{{ .labels.all }}</span>
+          <span class="award-filter-count">{{ len $competitions }}</span>
+        </button>
+        {{ range $types }}
+          {{ $type := . }}
+          {{ $rows := where $competitions "type" $type.id }}
+          {{ if gt (len $rows) 0 }}
+            <button type="button" class="award-filter-btn" data-filter="{{ $type.id }}" aria-pressed="false">
+              <span class="award-filter-name">{{ $type.name }}</span>
+              <span class="award-filter-count">{{ len $rows }}</span>
+            </button>
+          {{ end }}
+        {{ end }}
+      </div>
+    {{ end }}
+
+    {{/* 统计各奖项数量，用于表格外的「奖项总计」。
+         这里渲染的是「全部赛事」的数值，前端筛选时由 JS 重算。 */}}
     {{ $gold := 0 }}
     {{ $silver := 0 }}
     {{ $bronze := 0 }}
-    {{ range .competitions }}
+    {{ range $competitions }}
       {{ if eq .result "gold" }}{{ $gold = add $gold 1 }}
       {{ else if eq .result "silver" }}{{ $silver = add $silver 1 }}
       {{ else if eq .result "bronze" }}{{ $bronze = add $bronze 1 }}{{ end }}
     {{ end }}
-    {{ $total := len .competitions }}
+    {{ $total := len $competitions }}
     {{ $other := sub $total (add $gold (add $silver $bronze)) }}
 
     <div class="awards-summary">
       <span class="award-total">
         {{ partial "misc/medal.html" (dict "type" "gold") }}
         <span class="award-label">{{ .labels.gold }}</span>
-        <strong class="award-count">{{ $gold }}</strong>
+        <strong class="award-count" data-award-count="gold">{{ $gold }}</strong>
       </span>
       <span class="award-total">
         {{ partial "misc/medal.html" (dict "type" "silver") }}
         <span class="award-label">{{ .labels.silver }}</span>
-        <strong class="award-count">{{ $silver }}</strong>
+        <strong class="award-count" data-award-count="silver">{{ $silver }}</strong>
       </span>
       <span class="award-total">
         {{ partial "misc/medal.html" (dict "type" "bronze") }}
         <span class="award-label">{{ .labels.bronze }}</span>
-        <strong class="award-count">{{ $bronze }}</strong>
+        <strong class="award-count" data-award-count="bronze">{{ $bronze }}</strong>
       </span>
-      {{ if gt $other 0 }}
-        <span class="award-total">
-          {{ partial "misc/medal.html" (dict "type" "other") }}
-          <span class="award-label">{{ .labels.other }}</span>
-          <strong class="award-count">{{ $other }}</strong>
-        </span>
-      {{ end }}
+      <span class="award-total" data-award-row="other">
+        {{ partial "misc/medal.html" (dict "type" "other") }}
+        <span class="award-label">{{ .labels.other }}</span>
+        <strong class="award-count" data-award-count="other">{{ $other }}</strong>
+      </span>
       <span class="award-total award-total-all">
         <span class="award-label">{{ .labels.total }}</span>
-        <strong class="award-count">{{ $total }}</strong>
+        <strong class="award-count" data-award-count="total">{{ $total }}</strong>
       </span>
     </div>
 
@@ -69,13 +92,21 @@
           </tr>
         </thead>
         <tbody>
-          {{ range sort .competitions "date" "desc" }}
-            <tr>
+          {{ range sort $competitions "date" "desc" }}
+            {{ $result := .result | default "other" }}
+            {{ $type := .type | default "other" }}
+            <tr data-award-type="{{ $type }}" data-award-result="{{ $result }}">
               <td class="award-date">{{ .date }}</td>
-              <td class="award-competition">{{ .name }}</td>
+              <td class="award-competition">
+                {{ if .url }}
+                  <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" title="{{ .name }}">{{ .name }}<i class="fa-solid fa-arrow-up-right-from-square award-link-icon" aria-hidden="true"></i></a>
+                {{ else }}
+                  {{ .name }}
+                {{ end }}
+              </td>
               <td class="award-result">
                 <span class="award-result-inner">
-                  {{ partial "misc/medal.html" (dict "type" (.result | default "other")) }}
+                  {{ partial "misc/medal.html" (dict "type" $result) }}
                   <span>{{ .award }}</span>
                 </span>
               </td>
@@ -86,4 +117,70 @@
       </table>
     </div>
   </div>
+
+  <script>
+    (function () {
+      function init(section) {
+        var buttons = Array.prototype.slice.call(section.querySelectorAll('.award-filter-btn'));
+        if (!buttons.length) {
+          return;
+        }
+
+        var rows = Array.prototype.slice.call(section.querySelectorAll('.awards-table tbody tr'));
+        var countEls = {};
+        Array.prototype.forEach.call(section.querySelectorAll('[data-award-count]'), function (el) {
+          countEls[el.getAttribute('data-award-count')] = el;
+        });
+        var otherRow = section.querySelector('[data-award-row="other"]');
+
+        function render(filter) {
+          var counts = { gold: 0, silver: 0, bronze: 0, other: 0, total: 0 };
+
+          rows.forEach(function (row) {
+            var visible = filter === 'all' || row.getAttribute('data-award-type') === filter;
+            row.hidden = !visible;
+            if (!visible) {
+              return;
+            }
+            var result = row.getAttribute('data-award-result');
+            if (!Object.prototype.hasOwnProperty.call(counts, result) || result === 'total') {
+              result = 'other';
+            }
+            counts[result] += 1;
+            counts.total += 1;
+          });
+
+          Object.keys(countEls).forEach(function (key) {
+            countEls[key].textContent = counts[key] || 0;
+          });
+          if (otherRow) {
+            otherRow.hidden = counts.other === 0;
+          }
+        }
+
+        buttons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            buttons.forEach(function (other) {
+              var active = other === button;
+              other.classList.toggle('is-active', active);
+              other.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+            render(button.getAttribute('data-filter') || 'all');
+          });
+        });
+
+        render('all');
+      }
+
+      function boot() {
+        Array.prototype.forEach.call(document.querySelectorAll('.accomplishments-section'), init);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+      } else {
+        boot();
+      }
+    })();
+  </script>
 </div>

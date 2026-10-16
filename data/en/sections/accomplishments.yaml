@@ -3,7 +3,7 @@ section:
   name: Awards
   id: accomplishments
   enable: true
-  weight: 9
+  weight: 2
   showOnNavbar: true
   # Local template: a statistics table with medal icons instead of cards
   template: sections/accomplishments.html
@@ -11,86 +11,222 @@ section:
   # hideTitle: true
 
 # One-line description shown above the table
-intro: Competitions ZJUDancer has taken part in, and the awards won, since the team was founded in 2006.
+intro: ZJUDancer's competition record, taken from official results pages or contemporary reports. Click a competition name to open the source, or a competition type below to filter the table.
+
+# Competition types used by the filter bar above the table.
+# Tabs are generated from this list, in this order, and a tab only shows up when
+# at least one record uses that type. A record without a known type falls back to "other".
+types:
+  - id: world
+    name: World Championship
+  - id: german
+    name: German Open
+  - id: rcap
+    name: RoboCup Asia-Pacific
+  - id: china
+    name: RoboCup China Open
+  - id: iran
+    name: Iran Open
 
 # Table headers and wording of the "award totals" summary
 labels:
+  all: All competitions
   date: Date
   competition: Competition
-  award: Award
+  award: Result
   note: Notes
   gold: Gold
   silver: Silver
   bronze: Bronze
-  other: Other places
-  total: Competitions
+  other: Other results
+  total: Entries
 
 # Competition records
-# result: gold = champion (1st prize) / silver = runner-up (2nd) / bronze = third place (3rd) / other
-# Edit this list and the table plus the totals above it update automatically
+# type: one of the ids listed under `types` above
+# result: gold = champion (1st) / silver = runner-up (2nd) / bronze = third place (3rd) / other
+# url points to the official results page published by the organiser of that event
+# The notes quote the official standings so every row can be checked against the source
 competitions:
 - date: "2026"
-  name: RoboCup German Open
+  type: german
+  name: RoboCup German Open 2026 (Cologne, Germany, Humanoid Soccer League - Small Division)
   award: Champion
   result: gold
-  note: Reached the final unbeaten (5 wins, 1 draw) and beat defending champions Hamburg Bit-Bots 4:1 — the first Chinese team to win this league.
+  url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league
+  note: "Official standings: 1st ZJUDancer, 2nd Hamburg Bit-Bots, 3rd Berlin United; won the semi-final 1:0 and the final 4:0."
+
+- date: "2026"
+  type: world
+  name: RoboCup 2026 World Championship (Incheon, Korea, Humanoid Soccer League - Small Division)
+  award: Fifth to eighth
+  result: other
+  url: https://hsl.robocup.org/results-2026/
+  note: "Play-in won 4:1 against ICHIRO ITS, quarter-final lost 2:7 to Invic. Official top three: Invic, Hamburg Bit-Bots, GeoHBots."
 
 - date: "2025"
-  name: RoboCup World Championship (Brazil)
+  type: world
+  name: RoboCup 2025 World Championship (Salvador, Brazil, Humanoid League - KidSize)
   award: Fourth place
   result: other
-  note: Competed with a fully self-developed robot system and performed consistently under pressure.
+  url: https://humanoid.robocup.org/robocup-2025/schedule-and-results-rc-hl-2025/
+  note: "Official top three: Boosted HTWK, THMOS, NUbots."
+
+- date: "2024"
+  type: world
+  name: RoboCup 2024 World Championship (Eindhoven, Netherlands, Humanoid League - KidSize)
+  award: Round of 16
+  result: other
+  url: https://humanoid.robocup.org/hl-2024/results-rc-hl-2024/kid-and-adult-sizes-games/
+  note: "Official top three: CIT Brains, KURA, Barelang FC."
 
 - date: "2023"
-  name: RoboCup Asia-Pacific Tianjin Invitational
+  type: rcap
+  name: RoboCup Asia-Pacific Tianjin Invitational Tournament 2023 (Tianjin, China, Humanoid League)
   award: Champion
   result: gold
-  note: Won the Humanoid League with stable dynamic walking, accurate vision and efficient strategy execution.
+  url: https://tji2023.robocupap.org/results/
+  note: "Official standings: 1st ZJUDancer, 2nd Beihang Robotics Team, 3rd TH-MOS."
 
 - date: "2023"
-  name: RoboCup Asia-Pacific, PyeongChang (Korea)
+  type: rcap
+  name: RoboCup Asia-Pacific 2023 (PyeongChang, Korea, Humanoid League - KidSize)
   award: Third place
   result: bronze
-  note: Finished third among a strong field, further strengthening our position in the international humanoid football scene.
+  url: https://2023.robocupap.org/results/
+  note: "Official standings: 1st RO:BIT, 2nd R-SCUAD, 3rd ZJUDancer."
+
+- date: "2020"
+  type: china
+  name: RoboCup China Open 2020 (Nanjing, China, Humanoid League)
+  award: Champion
+  result: gold
+  url: http://www.cse.zju.edu.cn/2020/1120/c39283a2714518/page.htm
+  note: ""
 
 - date: "2019"
-  name: RoboCup World Championship (Sydney, Australia)
+  type: world
+  name: RoboCup 2019 World Championship (Sydney, Australia, Humanoid League - KidSize)
   award: Runner-up
   result: silver
-  note: Fought through to the final, reflecting an overall improvement in vision, motion control and system integration.
+  url: https://humanoid.robocup.org/hl-2019/results/
+  note: "Official standings: 1st Rhoban, 2nd ZJUDancer, 3rd CIT Brains; 3rd in the Drop-In."
+
+- date: "2019"
+  type: german
+  name: RoboCup German Open 2019 (Magdeburg, Germany, Humanoid KidSize)
+  award: Runner-up
+  result: silver
+  url: https://web.archive.org/web/20210925180353/https://2019.robocupgermanopen.de/en/results/major/humanoid-kid-size
+  note: "Official standings: 1st Rhoban FC, 2nd ZJUDancer, 3rd Starkit."
+
+- date: "2018"
+  type: world
+  name: RoboCup 2018 World Championship (Montreal, Canada, Humanoid League - KidSize)
+  award: Fourth place
+  result: other
+  url: https://humanoid.robocup.org/hl-2018/results/
+  note: "Official top three: Rhoban, MRL-HSL, Barelang FC; won the round of sixteen and the quarter-final; 2nd in the Drop-In."
 
 - date: "2017"
-  name: Iran Open
+  type: world
+  name: RoboCup 2017 World Championship (Nagoya, Japan, Humanoid League - KidSize)
+  award: Runner-up
+  result: silver
+  url: https://humanoid.robocup.org/hl-2017/results/
+  note: "Official standings: 1st Rhoban, 2nd ZJUDancer, 3rd CIT Brains; 2nd in the Drop-In."
+
+- date: "2017"
+  type: iran
+  name: RoboCup IranOpen 2017 (Tehran, Iran, Humanoid League - KidSize)
   award: Champion
   result: gold
-  note: Topped the field with steady on-site performance and a mature system.
-
-- date: "2017"
-  name: RoboCup World Championship (Nagoya, Japan)
-  award: Runner-up
-  result: silver
-  note: Steady progress against high-level opponents earned second place.
+  url: https://en.mehrnews.com/news/124630/Iran-s-MRL-team-comes-1st-at-RoboCup-IranOpen-201-7
+  note: "Standings: 1st ZJUDancer, 2nd MRL-HSL, 3rd FUmanoids - Berlin United; won the final 4:2."
 
 - date: "2016"
-  name: RoboCup World Championship (Leipzig, Germany)
+  type: world
+  name: RoboCup 2016 World Championship (Leipzig, Germany, Humanoid League - KidSize)
   award: Runner-up
   result: silver
-  note: The robots showed good stability and execution in a complex competition environment.
+  url: https://humanoid.robocup.org/hl-2016/results/
+  note: "Official standings: 1st Rhoban, 2nd ZJUDancer, 3rd CIT Brains."
 
 - date: "2015"
-  name: RoboCup World Championship (Hefei, China)
+  type: world
+  name: RoboCup 2015 World Championship (Hefei, China, Humanoid League - KidSize)
   award: Runner-up
   result: silver
-  note: Advanced with strong robot control and teamwork, setting the team's best result at the time.
+  url: https://humanoid.robocup.org/hl-2015/results/
+  note: "Official standings: 1st CIT Brains Kid, 2nd ZJUDancer, 3rd Rhoban."
 
 - date: "2014"
-  name: RoboCup World Championship (João Pessoa, Brazil)
-  award: Third place
-  result: bronze
-  note: Took third place after a hard-fought run, showing steadily rising form.
+  type: world
+  name: RoboCup 2014 World Championship (João Pessoa, Brazil, Humanoid League - KidSize)
+  award: Quarter-finalist
+  result: other
+  url: https://humanoid.robocup.org/hl-2014/results/
+  note: "Official top three: CIT Brains, Bold Hearts, Baset; won round-robin groups H and L."
 
 - date: "2013"
-  name: RoboCup World Championship (Eindhoven, Netherlands)
+  type: world
+  name: RoboCup 2013 World Championship (Eindhoven, Netherlands, Humanoid League - KidSize)
   award: Third place
   result: bronze
-  note: An important breakthrough on the international stage that laid the groundwork for later results.
+  url: https://humanoid.robocup.org/hl-2013/results/
+  note: "Official standings: 1st Team DARwIn, 2nd AUTMan, 3rd ZJUDancer; won the third-place match 5:1."
+
+- date: "2012"
+  type: world
+  name: RoboCup 2012 World Championship (Mexico City, Mexico, Humanoid League - KidSize)
+  award: Fourth place
+  result: other
+  url: https://humanoid.robocup.org/hl-2012/results/
+  note: "Official top three: Team DARwIn, CIT Brains Kid, Darmstadt; beat MRL 4:2 in the quarter-final."
+
+- date: "2011"
+  type: world
+  name: RoboCup 2011 World Championship (Istanbul, Türkiye, Humanoid League - KidSize)
+  award: Quarter-finalist
+  result: other
+  url: https://humanoid.robocup.org/hl-2011/results/
+  note: "Official top three: Team DARwIn, CIT Brains, Darmstadt."
+
+- date: "2010"
+  type: world
+  name: RoboCup 2010 World Championship (Singapore, Humanoid League - KidSize)
+  award: Quarter-finalist
+  result: other
+  url: https://humanoid.robocup.org/hl-2010/results/
+  note: "Official top three: Darmstadt, FUmanoids, CIT Brains Kid; won group E."
+
+- date: "2010"
+  type: china
+  name: China Robot Competition & RoboCup Open 2010 (Ordos, China, Humanoid - KidSize)
+  award: Champion
+  result: gold
+  url: https://www.zju.edu.cn/2010/0728/c41533a62885/page.htm
+  note: "Defended the national title without dropping a match (25 goals scored, none conceded); also national champion in 2007 and 2009."
+
+- date: "2009"
+  type: world
+  name: RoboCup 2009 World Championship (Graz, Austria, Humanoid League - KidSize)
+  award: Quarter-finalist
+  result: other
+  url: https://humanoid.robocup.org/hl-2009/results/
+  note: "Official top three: Darmstadt, FUmanoids, CIT Brains Kid; won group D."
+
+- date: "2008"
+  type: world
+  name: RoboCup 2008 World Championship (Suzhou, China, Humanoid League - KidSize)
+  award: Second round robin
+  result: other
+  url: https://humanoid.robocup.org/hl-2008/results/
+  note: "Official top three: NimbRo, Team Osaka, CIT Brains; won the intermediate round against Robo Erectus."
+
+- date: "2007"
+  type: world
+  name: RoboCup 2007 World Championship (Atlanta, USA, Humanoid League - KidSize)
+  award: First round robin
+  result: other
+  url: https://humanoid.robocup.org/hl-2007/results/
+  note: "Official top three: NimbRo, Team Osaka, FUmanoid."
