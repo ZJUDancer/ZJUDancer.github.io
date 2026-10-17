@@ -1,0 +1,25 @@
+{{/* Team 页面的「指导老师」块：每人一行「圆角照片 + 简介」，窄屏自动上下堆叠。
+     数据见 data/<语言>/team.yaml 的 advisorsHeading / advisors。 */}}
+{{ if .advisors }}
+<div class="container-fluid anchor pb-5 team-advisors-section">
+  <h1 class="text-center"><span id="advisors"></span>{{ .advisorsHeading }}</h1>
+  <div class="container">
+    {{ range .advisors }}
+    {{ $name := .name }}
+    <div class="row advisor align-items-center">
+      <div class="col-md-3 text-center">
+        {{ with .photo }}
+          {{ with resources.Get . }}
+        <img class="advisor-photo" src="{{ .RelPermalink }}" alt="{{ $name }}" loading="lazy" />
+          {{ end }}
+        {{ end }}
+      </div>
+      <div class="col-md-9">
+        <h3 class="advisor-name">{{ $name }}</h3>
+        <div class="advisor-bio">{{ .bio | markdownify }}</div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}

@@ -111,9 +111,11 @@ params:
         dark: true # enable dark theme. default "true"
         default: system # can be either light, dark or system. default "system"
 
-    # Enable and configure portfolio
-    portfolio:
-      enable: true
+    # 主题给「项目 / 作品集」版块留的开关：projects 版块已整体删除；另外主题 v4.16.0 里
+    # 并没有代码读它（各版块的 JS 一律无条件打进 application.js），所以注释掉不影响产物，
+    # 只是别让配置里留着一个指向已删除版块的开关。
+    # portfolio:
+    #   enable: true
 
     # 博文（posts）关闭：本站不提供博客，只在导航保留「文档」
     # Enable and configure blog posts

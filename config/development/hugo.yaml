@@ -1,0 +1,7 @@
+# 只影响本地预览：`hugo server` 默认跑在 development 环境，这个文件里的设置会覆盖根目录
+# hugo.yaml 的对应项。这里把预览地址固定成根路径 http://localhost:1313/，省得每次记
+# 线上项目站点的 /website/ 前缀。
+#
+# 正式构建（`hugo` / `mise run build`，environment=production）不受这个文件影响，
+# 仍然用根 hugo.yaml 里的 baseURL；部署时那两处又都会被工作流/Netlify 的 `-b` 覆盖。
+baseURL: http://localhost:1313/

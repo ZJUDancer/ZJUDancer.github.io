@@ -17,8 +17,21 @@
 {{ if (index hugo.Data site.Language.Lang).sections }}
 {{ $sections = (index hugo.Data site.Language.Lang).sections }}
 {{ end }}
+{{ $team := (index hugo.Data site.Language.Lang).team }}
 {{/* 这里没有侧栏，侧栏开关按钮由 assets/styles/override.scss 针对本页隐藏 */}}
-<div class="container-fluid section-holder d-flex bg-primary">
+{{/* 注意这里不用 d-flex：首页每个 .section-holder 只包一个版块，所以 d-flex 没问题；
+     本页三块共用一个 holder，加了 d-flex 它们会被排成三列（flex 行），得让它们正常堆叠 */}}
+<div class="container-fluid section-holder bg-primary">
   {{ partial "sections/experiences.html" (index $sections "history") }}
+  {{/* 指导老师、队伍成员跟在时间轴后面，三块共用一个底色，靠统一的间距分段，
+       免得看起来像三张拼起来的纸 */}}
+  {{ with $team }}
+  {{ partial "team/advisors.html" . }}
+  {{ partial "team/members.html" . }}
+  {{ end }}
+  {{/* 工作组（data/<语言>/sections/groups.yaml）：原来排在首页，现在挪到队伍页最下面。
+       首页不渲染、导航栏也不列它（数据里的 hideFromHome / showOnNavbar），
+       所以这里直接拿那份数据渲染主题的 skills 版块（卡片 + 筛选按钮，筛选逻辑与首页时一致）。 */}}
+  {{ partial "sections/skills.html" (index $sections "groups") }}
 </div>
 {{ end }}
