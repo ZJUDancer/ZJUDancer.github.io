@@ -1,0 +1,64 @@
+# section information
+section:
+  # 顶部导航栏里的名字，也是 /sponsors/ 页面的大标题
+  name: 赞助商
+  id: sponsors
+  enable: true
+  weight: 4
+  # 和「队伍」一样：这个版块有自己的页面（见下面的 url），而主题的页脚导航读的正是这个开关——
+  # 留 true 会在页脚留下一个指向首页 #sponsors 的死链，而首页并没有这个版块。
+  showOnNavbar: false
+  # 有自己的页面：顶部导航栏指向它，而不是首页锚点
+  # （由 layouts/partials/navigators/navbar.html 用 site.GetPage 解析，语言前缀与 baseURL 子路径交给 Hugo）
+  url: /sponsors/
+  # 首页不渲染这个版块，赞助商介绍只能从导航栏点进来（由 layouts/index.html 读取）
+  hideFromHome: true
+  # 本地模板：赞助商卡片（layouts/partials/sections/sponsors.html）
+  template: sections/sponsors.html
+
+# 页面正文上方的一句话说明
+intro: ZJUDancer 的备赛、参赛与日常研发都离不开赞助商与合作伙伴的支持。这里介绍目前支持队伍的两家机器人厂商，以及他们提供的比赛平台。
+
+# 卡片上的小标题
+labels:
+  highlights: 与队伍的合作
+  links: 相关链接
+
+# 每家赞助商：
+#   name          公司 / 品牌名，显示为卡片标题
+#   subtitle      一句话定位（可省略）
+#   logo          logo 路径，相对 assets（可省略）
+#   url           官网，logo 与标题都指向它（可省略）
+#   summary       公司简介，支持 Markdown
+#   highlights[]  与队伍的合作要点，支持 Markdown
+#   links[]       相关链接：name / url
+#
+# 中文的 summary / highlight 写成一行：YAML 的折行（>）会在断行处补空格，中英混排时会多出空格。
+sponsors:
+- name: 加速进化（Booster Robotics）
+  subtitle: 人形机器人本体与开发者平台
+  logo: images/sponsors/Booster.webp
+  url: https://www.booster.tech/cn
+  summary: 加速进化（Booster Robotics）专注人形机器人本体与配套的开发者平台，Booster K1 是其面向科研、教育与赛事场景的人形机器人。自 2026 赛季起，队伍全面改用 Booster K1 作为参赛平台：站立身高约 95 cm、整机约 19.5 kg、22 自由度，在 HSL 2026 规则里被列为中型组（Middle，上限 125 cm / 25 kg）的可用平台之一。队伍的行走、踢球与倒地起身动作改用强化学习训练，战术层面也针对 2026 新规则重新适配。
+  highlights:
+  - 平台：Booster K1——站立身高约 95 cm、整机约 19.5 kg、22 自由度，HSL 2026 规则中型组（上限 125 cm / 25 kg）的可用平台之一。
+  - 技术：行走、踢球与倒地起身动作全面改用强化学习训练，战术也针对 2026 新规则重新适配。
+  - 赞助：2026 年起，加速进化成为 ZJUDancer 的赞助商。
+  links:
+  - name: 加速进化官网
+    url: https://www.booster.tech/cn
+
+- name: 高擎机电（HighTorque）
+  subtitle: 人形机器人整机与高扭矩关节模组
+  logo: images/sponsors/HIGHTORQUE.png
+  url: https://www.hightorque.cn/
+  summary: 高擎机电（品牌名「高擎动力」，HighTorque）专注人形机器人整机与高扭矩关节模组的研发，产品线覆盖小型人形机器人平台、关节单元与配套的运动控制软件。2025–2026 赛季，队伍使用其 Mini Pi Plus（Pi+）参加 RoboCup 人形足球联赛（HSL）Small 组：整机高约 68 cm、自重约 15 kg、22 自由度，而高擎动力提供的 RoboCup 开发框架打通了运动规划、行为树决策、视觉感知与机器人之间的通信协调，队伍的战术与感知模块都建立在它之上。
+  highlights:
+  - 平台：Mini Pi Plus（Pi+）——HSL 2026 规则 Small 组（上限 110 cm / 15 kg）列出的平台之一（另有 NAO、Robotis OP3）。
+  - 成绩：2026 年 3 月 RoboCup 德国公开赛（德国科隆）Small 组冠军。5 胜 1 平进入决赛，决赛 4:0 击败上届冠军 Hamburg Bit-Bots；据高擎动力发布，这是中国团队首次在 RoboCup 人形足球国际赛事的 Small 组别夺冠。
+  - 同年 7 月 RoboCup 2026（韩国仁川）首届人形足球联赛世界杯，队伍同样以 Pi+ 出战 Small 组，位列 5–8 名。
+  links:
+  - name: 高擎机电官网
+    url: https://www.hightorque.cn/
+  - name: RoboCup 德国公开赛 2026 成绩
+    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league

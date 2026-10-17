@@ -1,0 +1,25 @@
+{{/* Team 页面的「队伍成员」：一张圆角卡片，里头是上下两个居中分组，每组都是
+     「标签居中 + 名字排在标签下面」——先队长（名字落在「队长」标签正下方），
+     再队员（名字网格，每行 4 个，窄屏自动减列）。
+     数据见 data/<语言>/team.yaml 的 rosterHeading / leadersHeading / leaders / membersHeading / members。 */}}
+<div class="container-fluid anchor pb-5 team-roster-section">
+  <h1 class="text-center"><span id="team-roster"></span>{{ .rosterHeading }}</h1>
+  <div class="container">
+    <div class="roster-card">
+      <div class="roster-block">
+        <span class="roster-label">{{ .leadersHeading }}</span>
+        {{/* 用 div 而不是 p：主题有一条全局的 p{text-align:left;color:...}，
+           p 上的 text-align 会盖掉从卡片继承下来的居中，名字会贴到左边、颜色也和队员那排不一样。 */}}
+        <div class="roster-leaders">{{ delimit .leaders "、" }}</div>
+      </div>
+      <div class="roster-block">
+        <span class="roster-label">{{ .membersHeading }}</span>
+        <ul class="roster-members">
+          {{ range .members }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

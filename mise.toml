@@ -12,19 +12,20 @@ description = "Build Hugo site"
 depends = ["install"]
 run = "hugo --gc --minify"
 
+# 本地预览地址是根路径 http://localhost:1313/：由 config/development/hugo.yaml 固定，
+# 所以 `hugo server`（不管怎么敲、加不加参数）都在根路径，不用记 /website/ 这种前缀。
+# 线上是 GitHub Pages 项目站点，地址带子路径（hugo.yaml 的 baseURL 里那个 /website/），
+# 所以发布前顺手跑一次 `mise run server-subpath`，按线上路径再看一眼——这样能在本地
+# 提前发现「写死的根路径」这类问题（中文首页曾经被算成 /zh-cn/website 而 404 就是这一类）。
 [tasks.server]
-description = "Run hugo server"
+description = "Run hugo server (http://localhost:1313/)"
 depends = "install"
 run = "hugo server -w"
 
-# baseURL 里带着 GitHub Pages 项目站点的子路径，所以 `mise run server` 的预览地址是
-#   http://localhost:1313/website/
-# （和线上路径一致，能提前发现子路径相关的问题；根路径 http://localhost:1313/ 会 404。）
-# 想按根路径预览（例如临时对比、或不想记子路径），用这个任务：
-[tasks.server-root]
-description = "Run hugo server at the site root (without the /website/ prefix)"
+[tasks.server-subpath]
+description = "Run hugo server with the production sub-path (http://localhost:1313/website/)"
 depends = "install"
-run = "hugo server -w -b http://localhost:1313/"
+run = "hugo server -w -b http://localhost:1313/website/"
 
 [tasks.update]
 description = "Update the theme to latest release"

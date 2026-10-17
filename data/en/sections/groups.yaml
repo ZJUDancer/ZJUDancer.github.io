@@ -4,7 +4,11 @@ section:
   id: skills
   enable: true
   weight: 9
-  showOnNavbar: true
+  # This section has no page of its own: it is rendered at the bottom of /team/ by
+  # layouts/team/list.html. It is therefore kept out of the navbar (both the top navbar and
+  # the footer navigation read this flag) and off the home page.
+  showOnNavbar: false
+  hideFromHome: true
   filter: true
   # Can optionally hide the title in sections
   # hideTitle: true

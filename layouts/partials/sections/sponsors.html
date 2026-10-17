@@ -1,0 +1,89 @@
+{{/* 赞助商介绍：一家赞助商一行——左边 logo 卡片，右边公司简介、与队伍的合作要点、相关链接。
+     数据见 data/<语言>/sections/sponsors.yaml（intro / labels / sponsors），
+     字段说明写在该文件顶部。
+     页面是独立页面 /sponsors/（layouts/sponsors/list.html），首页不渲染这部分内容。 */}}
+{{ $sectionID := replace (lower .section.name) " " "-" }}
+{{ if .section.id }}
+  {{ $sectionID = .section.id }}
+{{ end }}
+
+{{ $labels := .labels }}
+
+<div class="container-fluid anchor pb-5 sponsors-section">
+  <h1 class="text-center">
+      <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
+
+  <div class="container">
+    {{ with .intro }}
+      <div class="sponsors-intro text-center">{{ . | markdownify }}</div>
+    {{ end }}
+
+    {{ range .sponsors }}
+      {{ $sponsor := . }}
+      {{/* logo：白底圆角卡片，等比缩放居中（和「关于我们」里的赞助商卡片一个做法，
+           所以每个赞助商只需要一个 logo 文件，深浅两套主题都不用另配图） */}}
+      {{ $logoImage := "" }}
+      {{ with $sponsor.logo }}
+        {{ $logoImage = resources.Get . }}
+      {{ end }}
+      {{ if and $logoImage (not (or (eq $logoImage.MediaType.SubType "svg") (eq $logoImage.MediaType.SubType "gif"))) }}
+        {{ $logoImage = $logoImage.Resize "800x webp" }}
+      {{ end }}
+
+      <div class="row sponsor-entry align-items-center">
+        {{ if $logoImage }}
+          <div class="col-md-4 text-center">
+            {{ if $sponsor.url }}
+              <a class="sponsor-logo-holder" href="{{ $sponsor.url }}" target="_blank" rel="noopener" title="{{ $sponsor.name }}">
+                <img src="{{ $logoImage.RelPermalink }}" alt="{{ $sponsor.name }}" loading="lazy" />
+              </a>
+            {{ else }}
+              <div class="sponsor-logo-holder">
+                <img src="{{ $logoImage.RelPermalink }}" alt="{{ $sponsor.name }}" loading="lazy" />
+              </div>
+            {{ end }}
+          </div>
+        {{ end }}
+
+        <div class="{{ if $logoImage }}col-md-8{{ else }}col-12{{ end }}">
+          <h3 class="sponsor-name">
+            {{ if $sponsor.url }}
+              <a href="{{ $sponsor.url }}" target="_blank" rel="noopener">{{ $sponsor.name }}</a>
+            {{ else }}
+              {{ $sponsor.name }}
+            {{ end }}
+          </h3>
+          {{ with $sponsor.subtitle }}
+            <p class="sponsor-subtitle">{{ . }}</p>
+          {{ end }}
+          {{ with $sponsor.summary }}
+            <div class="sponsor-summary">{{ . | markdownify }}</div>
+          {{ end }}
+
+          {{ with $sponsor.highlights }}
+            <h5 class="sponsor-heading">{{ $labels.highlights }}</h5>
+            <ul class="sponsor-highlights">
+              {{ range . }}
+                <li>{{ . | markdownify }}</li>
+              {{ end }}
+            </ul>
+          {{ end }}
+
+          {{ with $sponsor.links }}
+            <h5 class="sponsor-heading">{{ $labels.links }}</h5>
+            <div class="sponsor-links">
+              {{ range . }}
+                {{ $link := . }}
+                {{ with $link.url }}
+                  <a class="sponsor-link" href="{{ . }}" target="_blank" rel="noopener" title="{{ $link.name }}">
+                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>{{ $link.name }}
+                  </a>
+                {{ end }}
+              {{ end }}
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</div>

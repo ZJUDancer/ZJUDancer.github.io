@@ -37,12 +37,13 @@ mise install
 mise run server
 ```
 
-预览地址是 **http://localhost:1313/website/** —— 因为 `hugo.yaml` 的 `baseURL` 带着 GitHub
-Pages 项目站点的子路径，本地也会按同样的路径提供服务（这样能在本地就发现子路径相关的问题，
-根路径 `http://localhost:1313/` 会 404）。只想按根路径看的话，用：
+预览地址是 **http://localhost:1313/**：`hugo.yaml` 里的 `baseURL` 是线上项目站点地址
+（带 `/website/` 子路径），而 `config/development/hugo.yaml` 把本地预览覆盖成根路径，
+所以 `hugo server` 无论怎么敲都在根路径。**发布前顺手跑一次下面这个任务**，按线上路径
+再看一眼，能在本地提前发现「写死的根路径」这类问题：
 
 ```
-mise run server-root
+mise run server-subpath
 ```
 
 ## 发布（GitHub Pages）
@@ -72,10 +73,15 @@ Pages 已经被现有官网占用，动它就会影响现有站点。**另开一
 | --- | --- |
 | GitHub Pages | 工作流用 `-b` 传入仓库自己的 Pages 地址 |
 | Netlify | `netlify.toml` 用 `-b $URL` / `$DEPLOY_PRIME_URL` 传入 |
-| 本地 `hugo server` | Hugo 自动用 localhost，无需关心 |
+| 本地 `hugo server` / `mise run server` | `config/development/hugo.yaml` 覆盖成 `http://localhost:1313/`（根路径） |
+| 本地 `mise run server-subpath` | 用 `-b http://localhost:1313/website/` 按线上子路径预览 |
 | 本地 `mise run build` | 用 `hugo.yaml` 里的值 |
 
-所以换了仓库名之后，把 `hugo.yaml` 的 `baseURL` 顺手改成真实地址即可，
+拆成两处的理由：本地构建（`mise run build`）要用线上地址，`public/` 里的绝对路径才和线上
+一致；而本地预览想少记一层 `/website/` 前缀。`hugo server` 默认跑 development 环境、
+`hugo` 构建默认跑 production，所以 `config/development/hugo.yaml` 只作用于预览。
+
+换了仓库名之后，把 `hugo.yaml` 的 `baseURL` 顺手改成真实地址即可，
 它只影响本地直接构建出来的产物。
 
 ## Updating theme
@@ -101,7 +107,9 @@ mise run update-to-main
   的 `url` 目前是 `#` 占位，等主页地址定下来后替换即可。
 - `hugo.yaml` 里的 Google Analytics 站点 ID（`G-H4LBG7NDFZ`）需要确认是不是我们自己的属性。
 - `data/en/site.yaml` 的 `description` 目前仍是主题示例文案。
-- 页面上的项目、论文目前仍是示例内容，作为后续改写的参照，暂不删除。
+- 论文（publications）目前仍是示例内容（三篇示例论文 + 四个筛选按钮），作为后续改写的参照，
+  暂不删除；栏目已改名「论文 / Papers」并搬到独立页面 `/publications/`（见下文「论文独立页面」）。
+  项目（projects）版块连同示例图片已整体删除（见下文「页面结构」）。
 - `data/{zh-cn,en}/sections/history.yaml` 的队伍历史依据公开资料整理（RoboCup 官方成绩页、
   各年度 Team Description Paper / Robot Specification、浙江大学新闻与厂商发布）。
   其中「加速进化 Booster K1」这一阶段的起始时间来自队伍内部信息——公开资料里 2026 德国公开赛
@@ -120,6 +128,32 @@ mise run update-to-main
 
 改了主题版本后，`mise run install` 会一并重新生成它们。
 
+## 页面结构（首页与独立页面）
+
+- **首页版块**：关于我们、获奖记录——都由 `data/<语言>/sections/*.yaml` 驱动；
+  写了 `section.hideFromHome: true` 的版块不会出现在首页（见下）。
+- **独立页面：队伍（`/team/`、`/zh-cn/team/`）**：数据是 `sections/history.yaml`（时间轴）
+  加 `data/<语言>/team.yaml`（指导老师、队员名单），模板是 `layouts/team/list.html` 与
+  `layouts/partials/team/*.html`。它只能从导航栏进入：`history.yaml` 里同时写了
+  `hideFromHome: true`（首页不渲染）、`showOnNavbar: false`（页脚不列它）、`url: /team/`
+  （导航栏那一项指向页面本身）。
+- **独立页面：赞助商（`/sponsors/`、`/zh-cn/sponsors/`）**：数据是
+  `data/<语言>/sections/sponsors.yaml`（一句话说明 + 两处小标题 + 赞助商名单），模板是
+  `layouts/sponsors/list.html` 与 `layouts/partials/sections/sponsors.html`。和队伍页一样只能
+  从导航栏进入：`hideFromHome: true`、`showOnNavbar: false`、`url: /sponsors/`。
+- **独立页面：论文（`/publications/`、`/zh-cn/publications/`）**：数据仍是
+  `data/<语言>/sections/publications.yaml`（论文卡片 + 筛选按钮），模板是
+  `layouts/publications/list.html`（正文复用主题自带的 `sections/publications.html`）。
+  同样只能从导航栏进入：`hideFromHome: true`、`showOnNavbar: false`、`url: /publications/`。
+- **工作组（`data/<语言>/sections/groups.yaml`）**：不单独成页，排在 `/team/` 页面最下面，
+  由 `layouts/team/list.html` 直接渲染主题的 `sections/skills.html`（见下文「队伍独立页面」）。
+- **已删除**：项目（projects）版块、示例项目配置与 `assets/images/sections/projects/` 下的示例
+  图片；`hugo.yaml` 里主题的 `portfolio` 开关也一并注释掉了。
+- 想把某个版块也搬成独立页面，照队伍、赞助商、论文这一套再来一遍：加 `content/<名字>/_index.md`
+  （中文版 `_index.zh-cn.md`）、写一个 `layouts/<名字>/list.html` 复用对应的 section partial，
+  再在数据里打开 `hideFromHome`、关掉 `showOnNavbar`、写上 `url`（不想单独成页、只想挪到
+  某个已有页面里的，像工作组那样直接在 `layouts/<页面>/list.html` 里多调一次 partial 即可）。
+
 ## 覆盖的主题模板
 
 改动尽量走「覆盖」而不是改主题源码，方便跟随主题更新。目前覆盖或自定义了这些：
@@ -132,11 +166,13 @@ mise run update-to-main
   里的子路径重新拼接，根部署与子路径部署都正确。**主题升级后请顺手确认上游是否已修好，
   修好之后这个覆盖就可以删掉。**
 - `layouts/index.html`：**首页版块列表**。只多一个判断：跳过写了 `section.hideFromHome: true`
-  的版块（目前只有「队伍历史」，见下文「队伍独立页面」）。其余内容与主题原文件一致。
+  的版块（目前是「队伍历史」「赞助商」「论文」「工作组」，见下文三个独立页面与「队伍独立页面」
+  里的工作组一节）。其余内容与主题原文件一致。
 - `layouts/partials/navigators/navbar.html`：**顶部导航栏**。版块条目改成「先算一份列表再渲染」，
   主列表与「更多」下拉共用，好支持两件事：
   `params.topNavbar.hideHome` 为 true 时不渲染 Home 项（首页本身就是 Home，左上角 logo 也回首页）；
-  版块写了 `section.url`（如 `/team/`）时指向它自己的页面，地址用 `site.GetPage` 拿
+  版块写了 `section.url`（如 `/team/`、`/sponsors/`、`/publications/`）时指向它自己的页面，
+  地址用 `site.GetPage` 拿
   `RelPermalink`，语言前缀与 baseURL 子路径都交给 Hugo。不给 `url` 的版块沿用主题规则
   （`enable` + `showOnNavbar`），另加一个 `hideFromTopNavbar`——写了它只在顶部导航栏隐藏
   （目前是「关于我们」与「获奖记录」，首页与页脚的导航列表照旧）。其余内容与主题原文件一致。
@@ -169,8 +205,76 @@ mise run update-to-main
 - **页面内容**：直接复用首页那份 `layouts/partials/sections/experiences.html`，字段与数据格式
   仍是 `history.yaml` 里的那一套，不需要再维护第二份模板。
 - **名字**：导航栏与页面大标题都取 `section.name`（英文 Team、中文「队伍」）。
-- **样式**：`assets/styles/override.scss` 里的 `body.type-team` 一组规则——主题给内容页的默认
-  版式是「侧栏 + 正文」两栏，这里改回单栏、隐藏侧栏开关按钮，并给顶部留出固定导航栏的高度。
+- **指导老师与队伍成员**：时间轴下面还有两块，数据都在 `data/{en,zh-cn}/team.yaml`——指导老师
+  是「圆角照片 + 简介」（照片放 `assets/images/team/`，渲染时按 3:4 裁切）；队伍成员是一张
+  圆角卡片，队长、队员上下分成两个居中分组，每组都是「标签居中 + 名字排在标签下面」，队员
+  每行 4 个、窄屏依次降到 3 列和 2 列（名字顺序即数据里的顺序）。模板：
+  `layouts/partials/team/advisors.html`、`members.html`。
+- **工作组排在最后**：`data/<语言>/sections/groups.yaml`（硬件组 / 软件组那几张卡片）原来排在
+  首页，现在由 `layouts/team/list.html` 在队伍成员之后多渲染一次主题的 `sections/skills.html`，
+  所以它既不在首页、也不在导航栏（数据里 `hideFromHome: true`、`showOnNavbar: false`，
+  该版块没有自己的页面，因此不写 `url`）。卡片筛选用的 Filterizr 是按
+  `.filtr-skills` / `.filtr-item` / `.skill-filtr-control` 这些选择器工作的，跟首页无关。
+- **四块连成一体**：`layouts/team/list.html` 只用一个 `.section-holder` 包住时间轴、指导老师、
+  队伍成员、工作组，四块共用一个底色，靠统一点的内外边距分段（`override.scss` 里给后三块加了
+  相同的 `padding-top`）。注意别给它加 `d-flex`——首页每个 `.section-holder` 只装一个版块所以
+  无所谓，这里加了会把几块并排成几列。
+- **时间轴的平台 logo**：和「关于我们」里的赞助商卡片同一套做法——白底 + 圆角（见
+  `assets/styles/override.scss` 里的 `.experiences-section .logo-holder`），所以每个阶段只用一个
+  logo 文件，深浅两套主题都不用另配图（模板里也因此去掉了主题的 `light-logo` 写法，那个在
+  深色主题下会被隐藏）。
+- **队伍成员卡片**：整张卡片的标签、名字和名字网格都居中（`.team-roster-section .roster-card`
+  上的 `text-align: center`），两个分组之间用一条淡分隔线断开（`.roster-block + .roster-block`），
+  队员名单用 CSS grid 排（`.roster-members`，桌面 4 列）。名字列表不再占用主题那套「白底 +
+  斑马纹」的全局 `table` 样式，底色改成强调色的浅色，深色主题下另有一组透明度更高的同色值。
+- **样式**：`assets/styles/override.scss` 里的 `body.type-team, body.type-sponsors` 一组规则——
+  主题给内容页的默认版式是「侧栏 + 正文」两栏，这里改回单栏、隐藏侧栏开关按钮，并给顶部留出
+  固定导航栏的高度。
+
+## 赞助商独立页面（/sponsors/）
+
+导航栏里的「赞助商 / Sponsors」是独立页面，用来介绍目前支持队伍的两家机器人厂商
+（加速进化 Booster Robotics、高擎机电 HighTorque），首页不展示：
+
+- **只有导航栏一个入口**：`data/{en,zh-cn}/sections/sponsors.yaml` 里同时写了
+  `hideFromHome: true`（首页不渲染，由覆盖的 `layouts/index.html` 跳过）、
+  `showOnNavbar: false`（页脚不列它，免得留下首页并不存在的 `#sponsors` 锚点）、
+  `url: /sponsors/`（导航栏那一项由 `navbar.html` 用 `site.GetPage` 解析成带语言前缀与
+  baseURL 子路径的地址）。
+- **页面文件**：`content/sponsors/_index.md`（中文版 `_index.zh-cn.md`）加
+  `layouts/sponsors/list.html`，正文由 `layouts/partials/sections/sponsors.html` 渲染——
+  和队伍页同一套做法，所以同样**不要建 `content/zh-cn/` 目录**。
+- **页面内容**：一家赞助商一行——左边是白底圆角的 logo 卡片（hover 时阴影加重，点进官网），
+  右边依次是公司名（点进官网）、一句话定位、公司简介、与队伍的合作要点、相关链接。
+  每条赞助商的字段（`name` / `subtitle` / `logo` / `url` / `summary` / `highlights[]` / `links[]`）
+  写在 yaml 顶部；`labels.highlights`、`labels.links` 是卡片上两个小标题的文案。
+  **加第三家赞助商只要在 `sponsors:` 列表里追加一条**，模板与样式都不用动。
+- **logo**：沿用「关于我们」里赞助商卡片那一套（白底 + 圆角 + logo 等比缩放居中，渲染时统一转
+  webp），所以每个赞助商只需要 `assets/images/sponsors/` 下的一个 logo 文件，深浅两套主题都
+  不用另配图。
+- **样式**：`assets/styles/override.scss` 里的 `.sponsors-section` 一组规则；内容页的单栏版式
+  与顶部留白和队伍页共用同一条规则（`body.type-team, body.type-sponsors`）。
+
+## 论文独立页面（/publications/）
+
+「论文发表」原来排在首页的版块里，现在独立成一个页面，导航栏里的名字是「论文 / Papers」：
+
+- **为什么改名**：这一栏不只放队伍自己发表的论文，还要放推荐给队员读的其它论文，所以不叫
+  「论文发表」。加推荐论文不用改模板——在 `publications:` 里追加一条、给它
+  `categories: ["recommended"]`，再把 `buttons` 里注释掉的「推荐阅读 / Recommended」按钮打开
+  即可（该文件里都写了注释）。
+- **只有导航栏一个入口**：同一份数据里的 `hideFromHome: true`（首页不渲染）、
+  `showOnNavbar: false`（页脚不列它，免得留下首页并不存在的 `#publications` 锚点）、
+  `url: /publications/`（导航栏那一项指向页面本身）。
+- **页面文件**：`content/publications/_index.md`（中文版 `_index.zh-cn.md`）加
+  `layouts/publications/list.html`；正文直接复用主题自带的 `sections/publications.html`
+  （卡片 + 筛选按钮），筛选逻辑是主题打包进来的 Filterizr，按 `.filtr-publications` /
+  `.pub-filtr-item` / `.pub-filtr-control` 这些选择器工作，跟首页无关，所以搬到独立页面照样能用。
+- **一处样式还原**：主题的 `sections/publications.html` 是按「首页版块」写的，标题上带了
+  `h1 > span { margin-top: -55px; padding-bottom: 55px }` 的锚点偏移；独立页面没有锚点可跳，
+  那个负边距会把大标题顶到固定导航栏底下，所以 `override.scss` 里针对 `body.type-publications`
+  把它还原成正常排版（单栏版式、隐藏侧栏按钮与顶部留白和另外两个独立页共用一条规则）。
+- **内容仍是示例**：三篇示例论文与四个筛选按钮还是主题自带的那份，等真实论文整理好再替换。
 
 ## 页脚
 

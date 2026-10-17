@@ -1,0 +1,24 @@
+{{/* 赞助商（Sponsors）独立页面。
+     内容就是 data/<语言>/sections/sponsors.yaml 里那份赞助商名单：这个页面等于把赞助商介绍
+     放到一个只有导航栏才能进的地方（首页那边由 layouts/index.html 跳过 hideFromHome 的版块，
+     导航栏由 section.url 指到这里）。
+     做法与「队伍」页面（layouts/team/list.html）一致，复用同一份 section partial。 */}}
+
+{{ define "navbar" }}
+{{ partial "navigators/navbar.html" . }}
+{{ end }}
+
+{{ define "header" }}
+{{ with .Description }}<meta name="description" content="{{ . }}" />{{ end }}
+{{ end }}
+
+{{ define "content" }}
+{{ $sections := hugo.Data.sections }}
+{{ if (index hugo.Data site.Language.Lang).sections }}
+{{ $sections = (index hugo.Data site.Language.Lang).sections }}
+{{ end }}
+{{/* 这里没有侧栏，侧栏开关按钮由 assets/styles/override.scss 针对本页隐藏（和 /team/ 一样） */}}
+<div class="container-fluid section-holder bg-primary">
+  {{ partial "sections/sponsors.html" (index $sections "sponsors") }}
+</div>
+{{ end }}

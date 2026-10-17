@@ -1,0 +1,74 @@
+# section information
+section:
+  # Used both for the top navbar entry and as the heading of the /sponsors/ page.
+  name: Sponsors
+  id: sponsors
+  enable: true
+  weight: 4
+  # false on purpose (same as "Team"): this section has a page of its own (see `url` below),
+  # and the theme's footer navigation reads this flag — leaving it true would put a dead
+  # "#sponsors" anchor in the footer, because the section is not on the home page.
+  showOnNavbar: false
+  # This section has its own page: the top navbar links to it instead of to a home-page
+  # anchor. layouts/partials/navigators/navbar.html resolves it with site.GetPage, so the
+  # language prefix and the baseURL sub-path are handled by Hugo.
+  url: /sponsors/
+  # Not rendered on the home page any more: the sponsors are reachable from the navbar only.
+  # Read by layouts/index.html.
+  hideFromHome: true
+  # Local template: sponsor cards (layouts/partials/sections/sponsors.html)
+  template: sections/sponsors.html
+
+# One-line introduction above the cards
+intro: ZJUDancer relies on its sponsors and partners for the robots, software and support behind every season. This page introduces the two robotics companies currently backing the team and the competition platforms they provide.
+
+# Small headings used inside the cards
+labels:
+  highlights: With ZJUDancer
+  links: Links
+
+# Each sponsor:
+#   name          company / brand, shown as the card title
+#   subtitle      one-line description (optional)
+#   logo          logo path, relative to assets (optional)
+#   url           website; both the logo and the title link to it (optional)
+#   summary       company description, Markdown supported
+#   highlights[]  what the collaboration means for the team, Markdown supported
+#   links[]       related links: name / url
+sponsors:
+- name: Booster Robotics
+  subtitle: Humanoid robots and a developer platform
+  logo: images/sponsors/Booster.webp
+  url: https://www.booster.tech/cn
+  summary: >
+    Booster Robotics builds humanoid robots together with the developer platform around them; the Booster K1 is its humanoid for research,
+    education and competitions. From the 2026 season the team competes entirely on the Booster K1: about 95 cm standing height, 19.5 kg and
+    22 degrees of freedom, listed in the HSL 2026 rule book among the platforms available in the Middle division (up to 125 cm / 25 kg).
+    Walking, kicking and getting up after a fall are now trained with reinforcement learning, and the tactics were reworked for the new 2026 rules.
+  highlights:
+  - "Platform: Booster K1 — about 95 cm tall, 19.5 kg and 22 degrees of freedom; one of the platforms listed for the Middle division (up to 125 cm / 25 kg) in the HSL 2026 rules."
+  - "Engineering: walking, kicking and getting up after a fall are fully trained with reinforcement learning, with the tactics adapted to the new 2026 rules."
+  - "Sponsorship: Booster Robotics has been a ZJUDancer sponsor since 2026."
+  links:
+  - name: Booster Robotics website
+    url: https://www.booster.tech/cn
+
+- name: High Torque
+  subtitle: Humanoid robots and high-torque joint modules
+  logo: images/sponsors/HIGHTORQUE.png
+  url: https://www.hightorque.cn/
+  summary: >
+    High Torque (高擎机电, also branded 高擎动力) develops humanoid robots and high-torque joint modules, covering a small humanoid platform,
+    joint units and the motion-control software around them. In the 2025–2026 season the team competed on its Mini Pi Plus (Pi+) in the Small
+    division of the RoboCup Humanoid Soccer League: about 68 cm tall, roughly 15 kg and 22 degrees of freedom. High Torque also supplies the
+    RoboCup development framework that ties together motion planning, behaviour trees, vision and inter-robot communication — the team's
+    tactics and perception modules are built on top of it.
+  highlights:
+  - "Platform: Mini Pi Plus (Pi+) — one of the platforms listed by the HSL 2026 rules for the Small division (up to 110 cm / 15 kg), together with NAO and Robotis OP3."
+  - "Result: winner of the Small division at the 2026 RoboCup German Open (Cologne) — five wins and one draw into the final, then 4:0 against the defending champions Hamburg Bit-Bots. According to High Torque, this is the first title by a Chinese team in the Small division of an international RoboCup humanoid soccer competition."
+  - "In July the team also played the Small division of the first Humanoid Soccer League World Cup at RoboCup 2026 (Incheon, Korea), finishing 5th–8th."
+  links:
+  - name: High Torque website
+    url: https://www.hightorque.cn/
+  - name: RoboCup German Open 2026 results
+    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league

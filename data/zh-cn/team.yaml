@@ -1,0 +1,98 @@
+# Team 页面（/team/）「队伍历史」下面两块内容的数据：指导老师、队伍成员。
+# 时间轴不在这里，在 data/zh-cn/sections/history.yaml；这个文件只管人。
+# 渲染模板是 layouts/partials/team/advisors.html（指导老师：圆角照片 + 简介）
+# 和 layouts/partials/team/members.html（队伍成员：一张圆角卡片，队长、队员两个居中分组）。
+# 名单顺序就是页面上的顺序（队员每行放 4 个）。
+
+advisorsHeading: 指导老师
+
+# 每位指导老师：name 姓名、photo 照片（路径相对 assets/）、bio 简介（Markdown）
+advisors:
+- name: 熊蓉
+  photo: images/team/XiongRong.jpg
+  bio: |-
+    **教授、博导**
+
+    - 科技部重点专项智能机器人专家组成员
+    - RoboCup 国际理事会理事
+    - 浙江大学智能系统与控制研究所机器人实验室主任
+    - 浙江大学-悉尼科技大学机器人联合研究中心联执主任
+    - 浙江大学机器人科教实践基地负责人
+    - 浙江省万人计划科技创新领军人才
+    - 浙江省新世纪 151 人才工程第一层次培养人员
+
+- name: 郑兴文
+  photo: images/team/ZhengXingwen.jpg
+  bio: |-
+    **个人简介**
+
+    郑兴文，男，福建仙游人，现为浙江大学百人计划研究员、博士生导师，入选国家高层次青年人才计划、华为-浙江大学启真优秀青年学者；担任浙江大学具身智能专业基层教学组织负责人、RoboCup 中国委员会副主席，以及 IEEE Transactions on Robotics 等多个 SCI 期刊的副编辑（Associate Editor）。
+
+    博士毕业于北京大学（导师：谢广明教授）与荷兰 University of Groningen（导师：曹明教授、Ajay Kottapalli 教授），此前在日本东京大学担任日本学术振兴会（JSPS）外籍特别研究员（合作教授：新井史人教授）；本科毕业于东北大学。主要研究方向为仿生机器人、水下机器人、仿生智能运动、生物感受器启发的仿生智能感知，从事机器人学、传感学、仿生学等领域的交叉研究。
+
+    主持国家自然科学基金委员会（NSFC）、日本学术振兴会（JSPS）等科研基金 3 项，主要参与欧洲研究委员会（ERC）科研基金 1 项；在 Nature Communications、IEEE Transactions on Robotics、National Science Review、Advanced Functional Materials、Soft Robotics 等国际期刊以及 ICRA、IROS 等旗舰会议发表论文 30 余篇（其中封面论文 5 篇），出版中英文专著各一部，获授权专利 20 项，成果得到中央电视台 CCTV 等报道。
+
+    担任中国自动化学会共融机器人专委会委员、中国人工智能学会具身智能专委会委员、中国计算机学会智能机器人专委会执行委员等；曾获国家优秀自费留学生奖学金、北京大学优秀毕业生、IEEE CYBER 2025 最佳会议论文提名奖、MARSS 2024 最佳应用论文提名奖、英国物理学会 IOP Outstanding Reviewer Award 2023 等荣誉。
+
+rosterHeading: 队伍成员
+leadersHeading: 队长
+leaders:
+- 袁昊
+
+membersHeading: 队员
+members:
+- 白希墨
+- 柴浩洋
+- 陈浩宇
+- 陈家俊
+- 陈铭尚
+- 丁翔
+- 方辰
+- 侯召然
+- 胡博文
+- 胡尊昊
+- 黄贤敏
+- 金翔
+- 李翔宇
+- 李彦霖
+- 李业彤
+- 李颖睿
+- 李梓川
+- 梁议心
+- 孟令祎
+- 倪振昊
+- 上官加城
+- 盛开圆
+- 苏玥汶
+- 王楚乔
+- 王瑞
+- 王睿恒
+- 王诗情
+- 王天逸
+- 王文博
+- 王毅然
+- 王紫旭
+- 魏英殊
+- 吴霁蓉
+- 吴俊
+- 肖子锋
+- 许杰
+- 徐理智
+- 杨孜轩
+- 叶恒青
+- 叶轩
+- 余文杰
+- 于笑晗
+- 翟彦棋
+- 张博宣
+- 张不凡
+- 张华册
+- 张简
+- 张蕾
+- 张帅辰
+- 张天羽
+- 张天泽
+- 赵楼晗
+- 周星豪
+- 朱熠正
+- 邹子瑞

@@ -8,7 +8,9 @@
             {{ $logoImage := resources.Get . }}
             {{ if $logoImage }}
                 <div class="logo-holder">
-                    <img class="company-logo light-logo" src="{{ $logoImage.RelPermalink }}" alt="{{ $experience.company }}" />
+                    {{/* 只用一个 logo：它显示在白底圆角框里（和赞助商卡片一样），深浅主题都能看清，
+                         所以不用主题那套 light-logo / dark-logo 的切换（用了 light-logo 在深色主题里会被隐藏） */}}
+                    <img class="company-logo" src="{{ $logoImage.RelPermalink }}" alt="{{ $experience.company }}" />
                 </div>
             {{ end }}
         {{ end }}

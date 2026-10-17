@@ -1,10 +1,20 @@
 # section information
 section:
-  name: 论文发表
+  # 导航栏里的名字，也是 /publications/ 页面的大标题。
+  # 用「论文」而不是「论文发表」：这一栏不只放队伍自己发表的论文，也放推荐给队员读的
+  # 其它论文（怎么加见文件末尾）。
+  name: 论文
   id: publications
   enable: true
   weight: 6
-  showOnNavbar: true
+  # 故意填 false：这个版块有自己的页面（见下面的 url），而主题的页脚导航读的正是这个开关——
+  # 留 true 会在页脚留下一个指向首页 #publications 的死链，而首页已经没有这个版块。
+  showOnNavbar: false
+  # 有自己的页面：顶部导航栏指向它，而不是首页锚点
+  # （由 layouts/partials/navigators/navbar.html 用 site.GetPage 解析，语言前缀与 baseURL 子路径交给 Hugo）
+  url: /publications/
+  # 首页不渲染这个版块，论文只能从导航栏点进来（由 layouts/index.html 读取）
+  hideFromHome: true
   # Can optionally hide the title in sections
   # hideTitle: true
 
@@ -18,8 +28,24 @@ buttons:
   filter: "image-processing"
 - name: 安全
   filter: "security"
+# 想加「推荐阅读」这一类时，取消下面两行注释，并给推荐的论文写 categories: ["recommended"]
+#- name: 推荐阅读
+#  filter: "recommended"
 
 # your publications
+# 这里放论文卡片，顺序就是页面上的顺序。每条：
+#   title        论文标题
+#   publishedIn  期刊 / 会议：name / date / url（url 可省略）
+#   authors[]    作者：name / url（url 可省略）
+#   paper        summary（摘要，支持 Markdown）/ url（原文链接，可省略）
+#   categories   所属筛选分类，要和上面的 buttons 里的 filter 对得上
+#   tags[]       卡片底部的小标签
+#
+# 怎么加「推荐的论文」（不是队伍自己发的）：
+#   1. 就在这个列表里追加一条，authors、publishedIn 照原样填；
+#   2. 给它一个自己的分类，例如 categories: ["recommended"]；
+#   3. 在 buttons 里启用上面注释掉的「推荐阅读」按钮。
+# 模板、导航栏、首页都不用动。
 publications:
 - title: 一篇关于机器学习的示例论文
   publishedIn:

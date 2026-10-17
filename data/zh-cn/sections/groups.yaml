@@ -4,7 +4,10 @@ section:
   id: skills
   enable: true
   weight: 9
-  showOnNavbar: true
+  # 这个版块不单独成页，而是排在 /team/ 页面最下面（layouts/team/list.html 直接渲染它）。
+  # 所以：导航栏不列它（顶部导航栏与页脚导航读的都是这个开关），首页也不渲染它。
+  showOnNavbar: false
+  hideFromHome: true
   filter: true
   # Can optionally hide the title in sections
   # hideTitle: true

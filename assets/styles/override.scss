@@ -359,6 +359,19 @@ i.social-icon-xiaohongshu {
   .history-tag-sep::after {
     content: ': ';
   }
+
+  // 各阶段的平台 logo：和「关于我们」里的赞助商卡片一个做法——白底 + 圆角，
+  // logo 才看得清（深浅两套主题都不用另配一张图）
+  .logo-holder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    padding: 0.35rem 0.7rem;
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
 }
 
 html[data-theme='dark'] {
@@ -375,12 +388,14 @@ html:lang(zh) {
   }
 }
 
-// 队伍（Team，/team/）独立页面：整页只有一条时间轴。
-// 它同时是内容页（body 上带 kind-section / type-team），主题给内容页的默认版式是
-// 「侧栏 + 正文」两栏 flex，这里没有侧栏，所以改回单栏；侧栏开关按钮是主题在非首页
-// 统一渲染的，点了却没有侧栏可开，一并隐藏（和主题对 404 页的处理一样）。
+// 队伍（/team/）、赞助商（/sponsors/）、论文（/publications/）这三个独立页面。
+// 它们同时是内容页（body 上分别带 type-team / type-sponsors / type-publications），主题给
+// 内容页的默认版式是「侧栏 + 正文」两栏 flex，这里没有侧栏，所以改回单栏；侧栏开关按钮是
+// 主题在非首页统一渲染的，点了却没有侧栏可开，一并隐藏（和主题对 404 页的处理一样）。
 // 顶部留出固定导航栏（50px）的高度，免得大标题被压在导航栏下面。
-body.type-team {
+body.type-team,
+body.type-sponsors,
+body.type-publications {
   #sidebar-toggler {
     display: none;
   }
@@ -391,6 +406,156 @@ body.type-team {
 
   .section-holder {
     padding-top: 5rem;
+
+    // 时间轴、指导老师、队伍成员、工作组四块共用一个底色（同一个 .section-holder），
+    // 这里给后面几块加上统一点的上间距，看起来是连着的四段而不是四张纸
+    .team-advisors-section,
+    .team-roster-section,
+    .skills-section {
+      padding-top: 1rem;
+    }
+  }
+}
+
+// 论文页的正文是主题自带的 sections/publications.html，它按「首页版块」的用法给标题加了
+// 锚点偏移（`h1 > span { margin-top: -55px; padding-bottom: 55px }`，好让首页的锚点跳到
+// 固定导航栏下方）。这里是独立页面、又没有锚点可跳，那个负边距只会把大标题顶到导航栏底下，
+// 所以在这个页面里还原成正常排版。
+body.type-publications .section-holder .publications-section h1 > span {
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+// 赞助商（Sponsors，/sponsors/）独立页面：一家赞助商一行，左边 logo 卡片、右边简介。
+// logo 卡片沿用「关于我们」里赞助商卡片那一套——白底 + 圆角 + logo 等比缩放居中，
+// 所以每个赞助商只需要一个 logo 文件，深浅两套主题都不用另配图。
+.sponsors-section {
+  .sponsors-intro {
+    max-width: 48rem;
+    margin: 0.5rem auto 0;
+    opacity: 0.85;
+  }
+
+  .sponsor-entry {
+    margin-top: 2.5rem;
+  }
+
+  .sponsor-logo-holder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 16rem;
+    height: 8rem;
+    padding: 1rem 1.25rem;
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+
+    img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  // 只有能点进官网的 logo 卡片才做 hover 反馈
+  a.sponsor-logo-holder {
+    &:hover,
+    &:focus {
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    }
+  }
+
+  .sponsor-name {
+    margin-bottom: 0.25rem;
+  }
+
+  .sponsor-subtitle {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    opacity: 0.85;
+  }
+
+  .sponsor-summary {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .sponsor-heading {
+    margin: 1.25rem 0 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .sponsor-highlights {
+    margin: 0;
+    padding-left: 1.1rem;
+
+    li + li {
+      margin-top: 0.4rem;
+    }
+
+    // 每条要点是 markdownify 出来的，里面的 <p> 不该再带段间距
+    p {
+      margin: 0;
+    }
+  }
+
+  .sponsor-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.6rem;
+
+    .sponsor-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.95rem;
+      line-height: 1.2;
+      color: inherit;
+      border: 1px solid rgba(get-light-color('muted-text-color'), 0.5);
+      border-radius: 999px;
+      transition: color 0.15s ease, border-color 0.15s ease;
+
+      i {
+        font-size: 0.75rem;
+        opacity: 0.75;
+      }
+
+      &:hover,
+      &:focus {
+        color: get-light-color('accent-color');
+        border-color: get-light-color('accent-color');
+      }
+
+      &:focus-visible {
+        outline: 2px solid get-light-color('accent-color');
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+html[data-theme='dark'] {
+  .sponsors-section {
+    .sponsor-links .sponsor-link {
+      border-color: rgba(get-dark-color('muted-text-color'), 0.5);
+
+      &:hover,
+      &:focus {
+        color: get-dark-color('accent-color');
+        border-color: get-dark-color('accent-color');
+      }
+
+      &:focus-visible {
+        outline-color: get-dark-color('accent-color');
+      }
+    }
   }
 }
 
@@ -422,5 +587,115 @@ body.type-team {
 html[data-theme='dark'] {
   .footer.footer-minimal .container {
     color: get-dark-color('muted-text-color');
+  }
+}
+
+// Team 页面「队伍历史」下面的两块：指导老师、队员名单（layouts/partials/team/*.html）
+.team-advisors-section {
+  .advisor {
+    margin-top: 1.75rem;
+  }
+
+  // 圆角照片：两张源图都是 3:4 的竖图，这里统一裁成同一比例，宽高一致才排得齐
+  .advisor-photo {
+    width: 150px;
+    height: 188px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.18);
+    margin-bottom: 0.75rem;
+  }
+
+  .advisor-name {
+    margin-bottom: 0.35rem;
+  }
+
+  .advisor-bio {
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul {
+      padding-left: 1.15rem;
+    }
+  }
+}
+
+// 队伍成员：一张圆角卡片，里头上下两个居中分组——「队长」「队员」两个标签居中，
+// 名字都排在各自标签下面（队长的名字落在标签正下方，队员是每行 4 个的居中网格）。
+// 不用主题那套「白底 + 斑马纹」的全局 table 样式——改成强调色的浅色底，和卡片一个画风。
+.team-roster-section {
+  .roster-card {
+    padding: 1.5rem 1.5rem 1.75rem;
+    background-color: rgba(get-light-color('accent-color'), 0.06);
+    border: 1px solid rgba(get-light-color('accent-color'), 0.14);
+    border-radius: 14px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    // 标签、名字、网格统一居中
+    text-align: center;
+  }
+
+  // 两个分组之间用一条淡分隔线断开，免得队长和队员糊成一段
+  .roster-block + .roster-block {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(get-light-color('accent-color'), 0.14);
+  }
+
+  .roster-label {
+    display: inline-block;
+    padding: 0.1rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: get-light-color('text-over-accent-color');
+    background-color: get-light-color('accent-color');
+    border-radius: 999px;
+  }
+
+  .roster-leaders {
+    margin: 0.75rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    // 卡片上的居中靠继承，这里再写一遍，免得以后主题改标题类元素时又把队长名字挤到左边
+    text-align: center;
+  }
+
+  // 名字网格：桌面每行 4 个，窄屏依次降到 3 列、2 列
+  .roster-members {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem 0.75rem;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 0.15rem 0.25rem;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .roster-members {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .roster-members {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+html[data-theme='dark'] {
+  .team-roster-section {
+    .roster-card {
+      background-color: rgba(get-dark-color('accent-color'), 0.12);
+      border-color: rgba(get-dark-color('accent-color'), 0.22);
+    }
+
+    .roster-block + .roster-block {
+      border-top-color: rgba(get-dark-color('accent-color'), 0.22);
+    }
   }
 }
