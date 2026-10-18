@@ -28,16 +28,6 @@ jobs:
       - name: Build site
         run: mise run build -b "https://zjudancer.github.io/"
 
-      - name: Switch Pages to GitHub Actions
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.request('PUT /repos/{owner}/{repo}/pages', {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              build_type: 'workflow'
-            });
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
