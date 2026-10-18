@@ -1,0 +1,225 @@
+# section information
+section:
+  name: 媒体
+  id: media
+  enable: true
+  weight: 5
+  # 这个版块有自己的页面，顶部导航栏通过下面的 url 指向它。
+  showOnNavbar: false
+  url: /media/
+  hideFromHome: true
+  template: sections/media.html
+
+# 页面正文上方的一句话说明
+intro: ZJUDancer 的公开报道、队伍动态与影像资料，按时间倒序收录。点击卡片阅读原文。
+
+# 卡片上的固定文案
+labels:
+  read: 阅读原文
+
+# 报道类型
+categories:
+  competition: 赛事报道
+  team: 队伍动态
+  alumni: 人物与校友
+  video: 影像资料
+
+# 按年份分组，组内倒序；date 只写月日，年份由分组标题给出。
+# 每条：title / source / kind / summary / url / image（可选，路径相对 assets/）。
+years:
+- year: 2026
+  items:
+  - date: "07"
+    title: RoboCup 2026：首届人形足球联赛世界杯
+    source: RoboCup HSL
+    kind: competition
+    summary: ZJUDancer 在韩国仁川参加 Small 组比赛，最终位列 5–8 名。
+    url: https://hsl.robocup.org/results-2026/
+
+  - date: "03.20"
+    title: Pi+ 平台助力浙大战队登顶德国公开赛
+    source: 腾讯云开发者社区
+    kind: competition
+    summary: ZJUDancer 以 5 胜 1 平进入决赛，随后 4:1 击败 Hamburg Bit-Bots，夺得 Small 组冠军。
+    url: https://cloud.tencent.com/developer/news/3716257
+    image: images/media/german-open-2026-1.jpg
+
+- year: 2025
+  items:
+  - date: "12"
+    title: ZJUDancer 开源整套比赛代码
+    source: ZJUDancer GitHub
+    kind: team
+    summary: 队伍将整套比赛软件开源，降低新队伍进入 RoboCup 人形组的技术门槛。
+    url: https://github.com/ZJUDancer
+
+  - date: "08.02"
+    title: “中国智造”闪耀机器人世界杯
+    source: 人民日报海外版
+    kind: competition
+    summary: 报道 2025 机器人世界杯，提到浙江 ZJUDancer 在所属组别获得亚军。
+    url: http://paper.people.com.cn/rmrbhwb/pc/content/202508/02/content_30092615.html
+    image: images/media/people-daily-2025.jpg
+
+  - date: "07.22"
+    title: 中国机器人首夺冠军，目标 2050 年击败人类世界杯冠军
+    source: 新浪财经 / 科创板日报
+    kind: competition
+    summary: 盘点 2025 世界杯参赛阵容，介绍 ZJUDancer 以 Robot 2~5 出战 Small 组。
+    url: https://cj.sina.com.cn/articles/view/2868676035/aafc85c301901fwjw
+
+  - date: "07.20"
+    title: 机器人世界杯开踢，中国队伍能否圆梦冠军？
+    source: 中国新闻网 / 搜狐
+    kind: competition
+    summary: 赛前报道中国队伍参赛情况，点名浙江大学 ZJUDancer 参加类人组小型尺寸组。
+    url: https://roll.sohu.com/a/914893605_123753
+    image: images/media/robocup-2025-3.jpg
+
+  - date: "07.02"
+    title: 教授办企业，游刃“研”“产”间
+    source: 浙江日报 / 浙江大学
+    kind: alumni
+    summary: 从 ZJUDancer 走出的朱秋国创办云深处科技，报道回望他在机器人队的起点。
+    url: http://www.news.zju.edu.cn/2025/0702/c86727a3066318/page.htm
+
+  - date: "02.20"
+    title: 为什么是浙大？浙江省委机关报“两问”
+    source: 观察者网
+    kind: alumni
+    summary: 报道浙大创新创业生态，提到朱秋国在熊蓉指导下加入 ZJUDancer 的经历。
+    url: https://www.guancha.cn/ChengShi/2025_02_20_765740.shtml
+
+  - date: "02.20"
+    title: 创新生态造就创新人才
+    source: 浙江大学
+    kind: alumni
+    summary: 校方报道以 ZJUDancer 等创新实践为例，讲述浙大机器人人才培养路径。
+    url: http://www.news.zju.edu.cn/2025/0220/c775a3017207/page.htm
+
+- year: 2024
+  items:
+  - date: "07"
+    title: RoboCup 2024：KidSize 十六强
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: ZJUDancer 在荷兰埃因霍温参加 KidSize 组比赛，晋级十六强。
+    url: https://humanoid.robocup.org/hl-2024/results-rc-hl-2024/kid-and-adult-sizes-games/
+    image: images/media/robocup-2025-1.jpg
+
+- year: 2023
+  items:
+  - date: "05.24"
+    title: ZJUDancer 荣获亚太机器人世界杯天津邀请赛类人组冠军
+    source: 浙江大学控制学院
+    kind: competition
+    summary: 队伍在 2023 亚太机器人世界杯天津国际邀请赛中以明显优势夺得类人组冠军。
+    url: http://www.cse.zju.edu.cn/2023/0524/c73392a2762224/page.htm
+    image: images/media/apac-tianjin-2023.jpg
+
+- year: 2021
+  items:
+  - date: "05.22"
+    title: 冠军出炉！两大机器人世界杯赛事圆满落幕
+    source: 网易 / 天津日报
+    kind: competition
+    summary: ZJUDancer 在 2021 RoboCup 机器人世界杯中国赛类人组卫冕冠军。
+    url: https://www.163.com/dy/article/GAKV7RNV05348LIJ.html
+
+- year: 2020
+  items:
+  - date: "11.19"
+    title: ZJUDancer 荣获 2020 RoboCup 中国赛类人组冠军
+    source: 浙江大学控制学院
+    kind: competition
+    summary: 队伍在南京举行的 2020 RoboCup 机器人世界杯中国赛类人组夺冠，与 ZJUNlict 同届实现“双冠”。
+    url: http://www.cse.zju.edu.cn/2020/1120/c39283a2714518/page.htm
+    image: images/media/china-open-2020.jpg
+
+- year: 2019
+  items:
+  - date: "07"
+    title: RoboCup 2019 KidSize 决赛：Rhoban vs ZJUDancer
+    source: Bilibili
+    kind: video
+    summary: 2019 世界杯 KidSize 决赛录像；ZJUDancer 获得亚军，并在 Drop-In 项目中排名第三。
+    url: https://www.bilibili.com/video/BV1U3411k7BA/
+
+- year: 2018
+  items:
+  - date: "06"
+    title: RoboCup 2018：KidSize 第四名
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: 队伍在加拿大蒙特利尔晋级四强，最终获得 KidSize 第四名，并在 Drop-In 项目中排名第二。
+    url: https://humanoid.robocup.org/hl-2018/results/
+
+- year: 2017
+  items:
+  - date: "08.07"
+    title: 浙大有一群学生，就爱玩机器人
+    source: 钱江晚报 / 网易
+    kind: team
+    summary: 长篇报道 ZJUDancer 连续第三年获得世界杯亚军，以及队员重构胸腔、重写视觉代码的备赛故事。
+    url: https://www.163.com/news/article/CR7B1SBA000187VI.html
+
+  - date: "04.19"
+    title: 浙大机器人足球队在 RoboCup 伊朗公开赛再夺冠
+    source: 浙江大学 / 搜狐
+    kind: competition
+    summary: ZJUDancer 在伊朗公开赛决赛 4:2 战胜 MRL-HSL 夺冠，为名古屋世界杯练兵。
+    url: https://www.sohu.com/a/135107287_329003
+
+- year: 2016
+  items:
+  - date: "07"
+    title: RoboCup 2016：KidSize 亚军
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: ZJUDancer 在德国莱比锡获得 KidSize 亚军，连续第二年站上世界杯领奖台。
+    url: https://humanoid.robocup.org/hl-2016/results/
+
+- year: 2015
+  items:
+  - date: "07"
+    title: RoboCup 2015：KidSize 亚军
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: 队伍在合肥世界杯获得 KidSize 亚军，CIT Brains Kid 夺冠。
+    url: https://humanoid.robocup.org/hl-2015/results/
+
+- year: 2010
+  items:
+  - date: "07.28"
+    title: 浙大 ZJUDancer 机器人队卫冕全国冠军
+    source: 浙江大学
+    kind: competition
+    summary: 队伍在鄂尔多斯以全胜战绩卫冕中国机器人大赛类人组冠军，全程攻入 25 球且一球未失。
+    url: http://www.news.zju.edu.cn/2010/0728/c758a62885/page.htm
+
+- year: 2009
+  items:
+  - date: "07.14"
+    title: 浙大仿人机器人世界杯赛晋级八强
+    source: 浙江大学
+    kind: competition
+    summary: ZJUDancer 在奥地利格拉茨晋级 RoboCup 类人组八强，创造当时中国队伍在该项目的最好成绩。
+    url: http://www.news.zju.edu.cn/2009/0714/c758a62756/page.htm
+
+- year: 2007
+  items:
+  - date: "11.05"
+    title: 浙江大学夺得中国仿人机器人足球赛冠军
+    source: 浙江大学
+    kind: competition
+    summary: “悟空、八戒、沙僧”三台自研仿人机器人在济南夺得中国机器人大赛类人组冠军。
+    url: http://www.news.zju.edu.cn/2007/1105/c775a74011/page.htm
+
+- year: 2006
+  items:
+  - date: "10.11"
+    title: 浙大学子问鼎中国机器人大赛
+    source: 浙江大学
+    kind: team
+    summary: 队伍从 2006 年 7 月开始研发类人机器人，首台机器人命名为“KingKong”，首次参赛即获类人组技术挑战赛亚军。
+    url: http://www.news.zju.edu.cn/2006/1011/c3234a207867/page.htm

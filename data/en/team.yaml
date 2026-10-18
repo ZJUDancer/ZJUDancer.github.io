@@ -1,9 +1,7 @@
 # Content of the two blocks that follow the history timeline on the Team page (/team/).
 # The timeline lives in data/en/sections/history.yaml; this file only holds people.
 # Rendered by layouts/partials/team/advisors.html (advisors: rounded photo + bio)
-# and layouts/partials/team/members.html (roster: one rounded card, with a centre-aligned
-# block per group).
-# The order in the lists is the order on the page (four members per row).
+# and layouts/partials/team/members.html (roster: grouped by team, then by class year).
 
 advisorsHeading: Advisors
 
@@ -33,59 +31,79 @@ leaders:
 - 袁昊
 
 membersHeading: Project Participants
-members:
-- 白希墨
-- 柴浩洋
-- 陈浩宇
-- 陈家俊
-- 陈铭尚
-- 丁翔
-- 方辰
-- 侯召然
-- 胡博文
-- 胡尊昊
-- 黄贤敏
-- 金翔
-- 李翔宇
-- 李彦霖
-- 李业彤
-- 李颖睿
-- 李梓川
-- 梁议心
-- 孟令祎
-- 倪振昊
-- 上官加城
-- 盛开圆
-- 苏玥汶
-- 王楚乔
-- 王瑞
-- 王睿恒
-- 王诗情
-- 王天逸
-- 王文博
-- 王毅然
-- 王紫旭
-- 魏英殊
-- 吴霁蓉
-- 吴俊
-- 肖子锋
-- 许杰
-- 徐理智
-- 杨孜轩
-- 叶恒青
-- 叶轩
-- 余文杰
-- 于笑晗
-- 翟彦棋
-- 张博宣
-- 张不凡
-- 张华册
-- 张简
-- 张蕾
-- 张帅辰
-- 张天羽
-- 张天泽
-- 赵楼晗
-- 周星豪
-- 朱熠正
-- 邹子瑞
+# Group order is the page order; members are grouped by class year within each team.
+memberGroups:
+- name: Decision Making
+  years:
+  - year: Class of 2024
+    members:
+    - 张天羽
+    - 杨孜轩
+    - 丁翔
+    - 倪振昊
+  - year: Class of 2025
+    members:
+    - 肖子锋
+    - 王睿恒
+    - 张天泽
+    - 上官加城
+    - 李昱龙
+    - 阎德淳
+    - 黄伟杰
+  - year: Class of 2026
+    members:
+    - 张腾
+
+- name: Motion Control
+  years:
+  - year: Class of 2024
+    members:
+    - 魏英殊
+    - 李彦霖
+    - 叶恒青
+    - 胡博文
+  - year: Class of 2025
+    members:
+    - 王天逸
+    - 张蕾
+    - 李翔宇
+    - 柴浩洋
+    - 于笑晗
+    - 胡尊昊
+    - 张不凡
+
+- name: Vision
+  years:
+  - year: Class of 2024
+    members:
+    - 周星豪
+    - 赵楼晗
+    - 王睿
+    - 朱曦彤
+  - year: Class of 2025
+    members:
+    - 陈家俊
+    - 王楚乔
+    - 王文博
+    - 白希墨
+    - 陈铭尚
+  - year: Class of 2026
+    members:
+    - 翟彦棋
+
+- name: Mechanical
+  years:
+  - year: Class of 2024
+    members:
+    - 金思睿
+    - 李颖睿
+  - year: Class of 2025
+    members:
+    - 余文杰
+    - 梁议心
+
+- name: Electronics
+  years:
+  - year: Class of 2025
+    members:
+    - 苏玥汶

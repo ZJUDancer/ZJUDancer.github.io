@@ -1,0 +1,73 @@
+{{/* 媒体时间轴：按年份分组，每条报道显示日期、来源、类型、标题和摘要。
+     有图时显示缩略图；没有图片时用来源首字 + 类型图标组成一个图形卡面。
+     数据见 data/<语言>/sections/media.yaml。 */}}
+{{ $sectionID := replace (lower .section.name) " " "-" }}
+{{ if .section.id }}
+  {{ $sectionID = .section.id }}
+{{ end }}
+
+{{ $categories := .categories }}
+{{ $labels := .labels }}
+{{ $icons := dict
+  "competition" "fa-solid fa-trophy"
+  "team" "fa-solid fa-users"
+  "alumni" "fa-solid fa-user-graduate"
+  "video" "fa-solid fa-video"
+}}
+
+<div class="container-fluid anchor pb-5 media-section">
+  <h1 class="text-center"><span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
+
+  <div class="container">
+    {{ with .intro }}
+      <div class="media-intro text-center">{{ . | markdownify }}</div>
+    {{ end }}
+
+    {{ range .years }}
+      <section class="media-year">
+        <h2 class="media-year-title">{{ .year }}</h2>
+        <div class="media-timeline">
+          {{ range .items }}
+            {{ $item := . }}
+            {{ $image := "" }}
+            {{ with $item.image }}
+              {{ $image = resources.Get . }}
+            {{ end }}
+            {{ if and $image (not (or (eq $image.MediaType.SubType "svg") (eq $image.MediaType.SubType "gif"))) }}
+              {{ $image = $image.Fill "720x420 Center webp" }}
+            {{ end }}
+            {{ $kindName := index $categories $item.kind | default $item.kind }}
+            {{ $icon := index $icons $item.kind | default "fa-regular fa-newspaper" }}
+
+            <article class="media-entry">
+              <time class="media-date">{{ $item.date }}</time>
+              <a class="media-card" href="{{ $item.url }}" target="_blank" rel="noopener">
+                {{ if $image }}
+                  <div class="media-thumb">
+                    <img src="{{ $image.RelPermalink }}" alt="{{ $item.title }}" loading="lazy" />
+                  </div>
+                {{ else }}
+                  <div class="media-thumb media-thumb-placeholder media-thumb-{{ $item.kind }}">
+                    <span class="media-placeholder-mark">{{ substr $item.source 0 1 }}</span>
+                    <i class="media-placeholder-icon {{ $icon }}" aria-hidden="true"></i>
+                    <span class="media-placeholder-kind">{{ $kindName }}</span>
+                  </div>
+                {{ end }}
+
+                <div class="media-content">
+                  <div class="media-meta">
+                    <span class="media-source">{{ $item.source }}</span>
+                    <span class="media-kind">{{ $kindName }}</span>
+                  </div>
+                  <h3 class="media-title">{{ $item.title }}</h3>
+                  <p class="media-summary">{{ $item.summary }}</p>
+                  <span class="media-link">{{ $labels.read }}<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+                </div>
+              </a>
+            </article>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  </div>
+</div>

@@ -1,0 +1,21 @@
+{{/* 媒体（Media）独立页面。
+     内容来自 data/<语言>/sections/media.yaml，按年份形成时间轴。
+     做法与「队伍」「赞助商」页面一致：首页不渲染，导航栏通过 section.url 指向这里。 */}}
+
+{{ define "navbar" }}
+{{ partial "navigators/navbar.html" . }}
+{{ end }}
+
+{{ define "header" }}
+{{ with .Description }}<meta name="description" content="{{ . }}" />{{ end }}
+{{ end }}
+
+{{ define "content" }}
+{{ $sections := hugo.Data.sections }}
+{{ if (index hugo.Data site.Language.Lang).sections }}
+{{ $sections = (index hugo.Data site.Language.Lang).sections }}
+{{ end }}
+<div class="container-fluid section-holder bg-primary">
+  {{ partial "sections/media.html" (index $sections "media") }}
+</div>
+{{ end }}

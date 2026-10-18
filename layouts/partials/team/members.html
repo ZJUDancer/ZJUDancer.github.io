@@ -1,7 +1,7 @@
-{{/* Team 页面的「队伍成员」：一张圆角卡片，里头是上下两个居中分组，每组都是
-     「标签居中 + 名字排在标签下面」——先队长（名字落在「队长」标签正下方），
-     再队员（名字网格，每行 4 个，窄屏自动减列）。
-     数据见 data/<语言>/team.yaml 的 rosterHeading / leadersHeading / leaders / membersHeading / members。 */}}
+{{/* Team 页面的「队伍成员」：一张圆角卡片，先队长，再按组别做并列卡片、组内按年级列出队员。
+     每个年级的名字用小号两列排布，组别卡片在窄屏自动减列。
+     数据见 data/<语言>/team.yaml 的 rosterHeading / leadersHeading / leaders /
+     membersHeading / memberGroups。 */}}
 <div class="container-fluid anchor pb-5 team-roster-section">
   <h1 class="text-center"><span id="team-roster"></span>{{ .rosterHeading }}</h1>
   <div class="container">
@@ -14,11 +14,23 @@
       </div>
       <div class="roster-block">
         <span class="roster-label">{{ .membersHeading }}</span>
-        <ul class="roster-members">
-          {{ range .members }}
-          <li>{{ . }}</li>
+        <div class="roster-groups">
+          {{ range .memberGroups }}
+          <section class="roster-group">
+            <h3 class="roster-group-title">{{ .name }}</h3>
+            {{ range .years }}
+            <div class="roster-year">
+              <h4 class="roster-year-title">{{ .year }}</h4>
+              <ul class="roster-members">
+                {{ range .members }}
+                <li>{{ . }}</li>
+                {{ end }}
+              </ul>
+            </div>
+            {{ end }}
+          </section>
           {{ end }}
-        </ul>
+        </div>
       </div>
     </div>
   </div>

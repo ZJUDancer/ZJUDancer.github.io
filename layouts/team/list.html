@@ -29,9 +29,5 @@
   {{ partial "team/advisors.html" . }}
   {{ partial "team/members.html" . }}
   {{ end }}
-  {{/* 工作组（data/<语言>/sections/groups.yaml）：原来排在首页，现在挪到队伍页最下面。
-       首页不渲染、导航栏也不列它（数据里的 hideFromHome / showOnNavbar），
-       所以这里直接拿那份数据渲染主题的 skills 版块（卡片 + 筛选按钮，筛选逻辑与首页时一致）。 */}}
-  {{ partial "sections/skills.html" (index $sections "groups") }}
 </div>
 {{ end }}

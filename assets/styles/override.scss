@@ -388,13 +388,14 @@ html:lang(zh) {
   }
 }
 
-// 队伍（/team/）、赞助商（/sponsors/）这两个独立页面。
-// 它们同时是内容页（body 上分别带 type-team / type-sponsors），主题给
+// 队伍（/team/）、赞助商（/sponsors/）、媒体（/media/）这几个独立页面。
+// 它们同时是内容页（body 上分别带 type-team / type-sponsors / type-media），主题给
 // 内容页的默认版式是「侧栏 + 正文」两栏 flex，这里没有侧栏，所以改回单栏；侧栏开关按钮是
 // 主题在非首页统一渲染的，点了却没有侧栏可开，一并隐藏（和主题对 404 页的处理一样）。
 // 顶部留出固定导航栏（50px）的高度，免得大标题被压在导航栏下面。
 body.type-team,
-body.type-sponsors {
+body.type-sponsors,
+body.type-media {
   #sidebar-toggler {
     display: none;
   }
@@ -406,12 +407,316 @@ body.type-sponsors {
   .section-holder {
     padding-top: 5rem;
 
-    // 时间轴、指导老师、队伍成员、工作组四块共用一个底色（同一个 .section-holder），
-    // 这里给后面几块加上统一点的上间距，看起来是连着的四段而不是四张纸
+    // 时间轴、指导老师、队伍成员三块共用一个底色（同一个 .section-holder），
+    // 这里给后面几块加上统一点的上间距，看起来是连着的三段而不是三张纸
     .team-advisors-section,
-    .team-roster-section,
-    .skills-section {
+    .team-roster-section {
       padding-top: 1rem;
+    }
+  }
+}
+
+// 媒体时间轴（/media/）：按年份分组，每一条左侧是日期和轴线，右侧是有图/无图卡片。
+// 有图时用真实报道或现场照片；没有图时用来源首字 + 类型图标组成卡面，避免留白。
+.media-section {
+  .media-intro {
+    max-width: 48rem;
+    margin: 0.5rem auto 0;
+    opacity: 0.85;
+  }
+
+  .media-year {
+    margin-top: 2.5rem;
+  }
+
+  .media-year-title {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 0 0 1.25rem;
+    font-size: 1.7rem;
+    color: get-light-color('accent-color');
+
+    &::after {
+      flex: 1 1 auto;
+      height: 1px;
+      content: '';
+      background-color: rgba(get-light-color('accent-color'), 0.2);
+    }
+  }
+
+  .media-timeline {
+    position: relative;
+
+    &::before {
+      position: absolute;
+      top: 0.75rem;
+      bottom: 0.75rem;
+      left: 5.75rem;
+      width: 2px;
+      content: '';
+      background-color: rgba(get-light-color('accent-color'), 0.2);
+    }
+  }
+
+  .media-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding-bottom: 1.15rem;
+
+    &::before {
+      position: absolute;
+      top: 1rem;
+      left: 5.75rem;
+      z-index: 1;
+      width: 11px;
+      height: 11px;
+      content: '';
+      background-color: get-light-color('accent-color');
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px get-light-color('bg-primary');
+      transform: translateX(-50%);
+    }
+  }
+
+  .media-date {
+    padding-top: 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(get-light-color('text-color'), 0.65);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .media-card {
+    display: grid;
+    grid-template-columns: 13.5rem minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 0.7rem;
+    color: get-light-color('text-color');
+    text-decoration: none;
+    background-color: get-light-color('bg-primary');
+    border: 1px solid rgba(get-light-color('accent-color'), 0.14);
+    border-radius: 14px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+
+    &:hover,
+    &:focus {
+      color: get-light-color('text-color');
+      text-decoration: none;
+      border-color: rgba(get-light-color('accent-color'), 0.42);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.11);
+      transform: translateY(-2px);
+
+      .media-title {
+        color: get-light-color('accent-color');
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid get-light-color('accent-color');
+      outline-offset: 2px;
+    }
+  }
+
+  .media-thumb {
+    min-height: 8.5rem;
+    overflow: hidden;
+    background-color: rgba(get-light-color('accent-color'), 0.07);
+    border-radius: 10px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .media-thumb-placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    color: get-light-color('text-over-accent-color');
+    text-align: center;
+    background-image: linear-gradient(
+      135deg,
+      get-light-color('accent-color'),
+      rgba(get-light-color('accent-color'), 0.68)
+    );
+  }
+
+  .media-placeholder-mark {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .media-placeholder-icon {
+    margin-top: 0.2rem;
+    font-size: 1rem;
+    opacity: 0.85;
+  }
+
+  .media-placeholder-kind {
+    margin-top: 0.1rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0.9;
+  }
+
+  .media-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: 0.15rem 0.35rem 0.15rem 0;
+  }
+
+  .media-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    margin-bottom: 0.45rem;
+  }
+
+  .media-source {
+    font-size: 0.76rem;
+    color: rgba(get-light-color('text-color'), 0.65);
+  }
+
+  .media-kind {
+    padding: 0.08rem 0.5rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: get-light-color('accent-color');
+    background-color: rgba(get-light-color('accent-color'), 0.09);
+    border-radius: 999px;
+  }
+
+  .media-title {
+    margin: 0 0 0.42rem;
+    font-size: 1.08rem;
+    line-height: 1.35;
+    transition: color 0.15s ease;
+  }
+
+  .media-summary {
+    margin: 0 0 0.55rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: rgba(get-light-color('text-color'), 0.8);
+  }
+
+  .media-link {
+    display: inline-flex;
+    gap: 0.35rem;
+    align-items: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: get-light-color('accent-color');
+
+    i {
+      font-size: 0.68rem;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .media-card {
+      grid-template-columns: 11rem minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .media-timeline::before,
+    .media-entry::before {
+      display: none;
+    }
+
+    .media-entry {
+      display: block;
+      padding-bottom: 1.25rem;
+    }
+
+    .media-date {
+      display: block;
+      padding: 0 0 0.35rem 0.2rem;
+      text-align: left;
+    }
+
+    .media-card {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .media-thumb {
+      min-height: 0;
+      aspect-ratio: 16 / 7;
+    }
+
+    .media-content {
+      padding: 0 0.35rem 0.35rem;
+    }
+  }
+}
+
+html[data-theme='dark'] {
+  .media-section {
+    .media-year-title {
+      color: get-dark-color('accent-color');
+
+      &::after {
+        background-color: rgba(get-dark-color('accent-color'), 0.28);
+      }
+    }
+
+    .media-timeline::before {
+      background-color: rgba(get-dark-color('accent-color'), 0.28);
+    }
+
+    .media-entry::before {
+      background-color: get-dark-color('accent-color');
+      box-shadow: 0 0 0 4px get-dark-color('bg-primary');
+    }
+
+    .media-date,
+    .media-source {
+      color: rgba(get-dark-color('text-color'), 0.66);
+    }
+
+    .media-card {
+      color: get-dark-color('text-color');
+      background-color: get-dark-color('bg-primary');
+      border-color: rgba(get-dark-color('accent-color'), 0.22);
+
+      &:hover,
+      &:focus {
+        color: get-dark-color('text-color');
+
+        .media-title {
+          color: get-dark-color('accent-color');
+        }
+      }
+    }
+
+    .media-kind {
+      color: get-dark-color('accent-color');
+      background-color: rgba(get-dark-color('accent-color'), 0.12);
+    }
+
+    .media-summary {
+      color: rgba(get-dark-color('text-color'), 0.82);
+    }
+
+    .media-link {
+      color: get-dark-color('accent-color');
     }
   }
 }
@@ -611,9 +916,9 @@ html[data-theme='dark'] {
   }
 }
 
-// 队伍成员：一张圆角卡片，里头上下两个居中分组——「队长」「队员」两个标签居中，
-// 名字都排在各自标签下面（队长的名字落在标签正下方，队员是每行 4 个的居中网格）。
-// 不用主题那套「白底 + 斑马纹」的全局 table 样式——改成强调色的浅色底，和卡片一个画风。
+// 队伍成员：先列队长，再把队员按组别做成并列卡片、组内按年级分组。
+// 桌面五组一排，窄屏依次降到三列、两列、单列；名字用小号两列排布。
+// 卡片、圆角、阴影与强调色沿用主题的写法。
 .team-roster-section {
   .roster-card {
     padding: 1.5rem 1.5rem 1.75rem;
@@ -634,8 +939,8 @@ html[data-theme='dark'] {
 
   .roster-label {
     display: inline-block;
-    padding: 0.1rem 0.75rem;
-    font-size: 0.85rem;
+    padding: 0.28rem 1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: get-light-color('text-over-accent-color');
     background-color: get-light-color('accent-color');
@@ -650,29 +955,96 @@ html[data-theme='dark'] {
     text-align: center;
   }
 
-  // 名字网格：桌面每行 4 个，窄屏依次降到 3 列、2 列
-  .roster-members {
+  .roster-groups {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.5rem 0.75rem;
-    margin: 0.9rem 0 0;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  // 每个工作组是一张浅色卡片，五组在桌面上并列
+  .roster-group {
+    min-width: 0;
+    padding: 1rem 0.75rem 1.1rem;
+    background-color: get-light-color('bg-primary');
+    border: 1px solid rgba(get-light-color('accent-color'), 0.16);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .roster-group-title {
+    display: inline-block;
+    margin: 0 0 0.85rem;
+    padding: 0.12rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: get-light-color('text-over-accent-color');
+    background-color: get-light-color('accent-color');
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .roster-year + .roster-year {
+    margin-top: 0.95rem;
+    padding-top: 0.95rem;
+  }
+
+  // 年级比组名稍大，并用两侧细线把层级区分出来
+  .roster-year-title {
+    display: flex;
+    gap: 0.45rem;
+    align-items: center;
+    margin: 0 0 0.55rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: get-light-color('accent-color');
+
+    &::before,
+    &::after {
+      flex: 1 1 auto;
+      height: 1px;
+      content: '';
+      background-color: rgba(get-light-color('accent-color'), 0.22);
+    }
+  }
+
+  // 名字用两列小字排布；人数不足一行时整体居中。
+  .roster-members {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 0.25rem;
+    margin: 0;
     padding: 0;
     list-style: none;
 
     li {
-      padding: 0.15rem 0.25rem;
+      flex: 0 0 calc(50% - 0.125rem);
+      padding: 0;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
     }
   }
 
-  @media (max-width: 991.98px) {
-    .roster-members {
+  @media (max-width: 1199.98px) {
+    .roster-groups {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 575.98px) {
-    .roster-members {
+  @media (max-width: 767.98px) {
+    .roster-groups {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .roster-groups {
+      grid-template-columns: 1fr;
     }
   }
 }
@@ -686,6 +1058,20 @@ html[data-theme='dark'] {
 
     .roster-block + .roster-block {
       border-top-color: rgba(get-dark-color('accent-color'), 0.22);
+    }
+
+    .roster-group {
+      background-color: get-dark-color('bg-primary');
+      border-color: rgba(get-dark-color('accent-color'), 0.22);
+    }
+
+    .roster-year-title {
+      color: get-dark-color('accent-color');
+
+      &::before,
+      &::after {
+        background-color: rgba(get-dark-color('accent-color'), 0.3);
+      }
     }
   }
 }

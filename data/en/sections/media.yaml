@@ -1,0 +1,226 @@
+# section information
+section:
+  name: Media
+  id: media
+  enable: true
+  weight: 5
+  # This section has a page of its own; the top navbar links to it via `url`.
+  showOnNavbar: false
+  url: /media/
+  hideFromHome: true
+  template: sections/media.html
+
+# One-line introduction above the timeline
+intro: Reports, team updates and videos featuring ZJUDancer, newest first. Click a card to read the original story.
+
+# Fixed text used inside the cards
+labels:
+  read: Read original
+
+# Story types
+categories:
+  competition: Match reports
+  team: Team updates
+  alumni: People & alumni
+  video: Video
+
+# Grouped by year, newest first within each year. `date` is month/day only;
+# the year is shown by the group heading.
+# Each item: title / source / kind / summary / url / image (optional, relative to assets/).
+years:
+- year: 2026
+  items:
+  - date: "07"
+    title: "RoboCup 2026: the first Humanoid Soccer League World Cup"
+    source: RoboCup HSL
+    kind: competition
+    summary: ZJUDancer competed in the Small division in Incheon, Korea, and finished 5th–8th.
+    url: https://hsl.robocup.org/results-2026/
+
+  - date: "03.20"
+    title: Pi+ platform helps the ZJU team win the German Open
+    source: Tencent Cloud Developer Community
+    kind: competition
+    summary: ZJUDancer reached the final with five wins and one draw, then beat Hamburg Bit-Bots 4:1 to win the Small division.
+    url: https://cloud.tencent.com/developer/news/3716257
+    image: images/media/german-open-2026-1.jpg
+
+- year: 2025
+  items:
+  - date: "12"
+    title: ZJUDancer open-sources its complete match software
+    source: ZJUDancer GitHub
+    kind: team
+    summary: The team released its full competition software stack to lower the barrier for new RoboCup humanoid teams.
+    url: https://github.com/ZJUDancer
+
+  - date: "08.02"
+    title: Made-in-China robots shine at the Robot World Cup
+    source: People's Daily Overseas Edition
+    kind: competition
+    summary: Coverage of the 2025 Robot World Cup notes that Zhejiang's ZJUDancer finished runner-up in its division.
+    url: http://paper.people.com.cn/rmrbhwb/pc/content/202508/02/content_30092615.html
+    image: images/media/people-daily-2025.jpg
+
+  - date: "07.22"
+    title: China wins its first RoboCup title, aiming to beat a human World Cup champion by 2050
+    source: Sina Finance / STAR Market Daily
+    kind: competition
+    summary: An overview of the 2025 field introduces ZJUDancer competing in the Small division with robots named Robot 2–5.
+    url: https://cj.sina.com.cn/articles/view/2868676035/aafc85c301901fwjw
+
+  - date: "07.20"
+    title: "Robot World Cup kicks off: can Chinese teams win?"
+    source: China News Service / Sohu
+    kind: competition
+    summary: A preview of the Chinese teams names ZJUDancer as Zhejiang University's entry in the small-size humanoid division.
+    url: https://roll.sohu.com/a/914893605_123753
+    image: images/media/robocup-2025-3.jpg
+
+  - date: "07.02"
+    title: A professor building a company between research and production
+    source: Zhejiang Daily / Zhejiang University
+    kind: alumni
+    summary: The story of Deep Robotics founder Zhu Qiuguo traces his start back to ZJUDancer.
+    url: http://www.news.zju.edu.cn/2025/0702/c86727a3066318/page.htm
+
+  - date: "02.20"
+    title: "Why Zhejiang University? Two questions from Zhejiang Daily"
+    source: Guancha
+    kind: alumni
+    summary: A report on ZJU's innovation ecosystem recalls Zhu Qiuguo joining ZJUDancer under Professor Rong Xiong.
+    url: https://www.guancha.cn/ChengShi/2025_02_20_765740.shtml
+
+  - date: "02.20"
+    title: An innovation ecosystem cultivates innovative talent
+    source: Zhejiang University
+    kind: alumni
+    summary: The university profiles ZJUDancer and other hands-on projects as part of its robotics talent pipeline.
+    url: http://www.news.zju.edu.cn/2025/0220/c775a3017207/page.htm
+
+- year: 2024
+  items:
+  - date: "07"
+    title: "RoboCup 2024: Round of 16 in KidSize"
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: ZJUDancer reached the round of 16 in the KidSize competition in Eindhoven, the Netherlands.
+    url: https://humanoid.robocup.org/hl-2024/results-rc-hl-2024/kid-and-adult-sizes-games/
+    image: images/media/robocup-2025-1.jpg
+
+- year: 2023
+  items:
+  - date: "05.24"
+    title: ZJUDancer wins the Humanoid League at RoboCup Asia-Pacific Tianjin
+    source: ZJU College of Control Science and Engineering
+    kind: competition
+    summary: The team won the Humanoid League title at the 2023 RoboCup Asia-Pacific Tianjin International Invitational.
+    url: http://www.cse.zju.edu.cn/2023/0524/c73392a2762224/page.htm
+    image: images/media/apac-tianjin-2023.jpg
+
+- year: 2021
+  items:
+  - date: "05.22"
+    title: Champions crowned as two Robot World Cup events conclude
+    source: NetEase / Tianjin Daily
+    kind: competition
+    summary: ZJUDancer defended its Humanoid League title at the 2021 RoboCup China Open.
+    url: https://www.163.com/dy/article/GAKV7RNV05348LIJ.html
+
+- year: 2020
+  items:
+  - date: "11.19"
+    title: ZJUDancer wins the 2020 RoboCup China Open Humanoid League
+    source: ZJU College of Control Science and Engineering
+    kind: competition
+    summary: The team won the Humanoid League in Nanjing, giving ZJU a double title together with ZJUNlict.
+    url: http://www.cse.zju.edu.cn/2020/1120/c39283a2714518/page.htm
+    image: images/media/china-open-2020.jpg
+
+- year: 2019
+  items:
+  - date: "07"
+    title: "RoboCup 2019 KidSize final: Rhoban vs ZJUDancer"
+    source: Bilibili
+    kind: video
+    summary: Video of the 2019 KidSize final; ZJUDancer finished runner-up and placed third in the Drop-In challenge.
+    url: https://www.bilibili.com/video/BV1U3411k7BA/
+
+- year: 2018
+  items:
+  - date: "06"
+    title: "RoboCup 2018: fourth place in KidSize"
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: The team reached the semi-finals in Montreal, finished fourth in KidSize and placed second in Drop-In.
+    url: https://humanoid.robocup.org/hl-2018/results/
+
+- year: 2017
+  items:
+  - date: "08.07"
+    title: ZJU students who love building robots
+    source: Qianjiang Evening News / NetEase
+    kind: team
+    summary: A feature on ZJUDancer's third consecutive World Cup runner-up finish, including the rebuilt torso and a rewritten vision stack.
+    url: https://www.163.com/news/article/CR7B1SBA000187VI.html
+
+  - date: "04.19"
+    title: ZJU robot football team wins again at RoboCup IranOpen
+    source: Zhejiang University / Sohu
+    kind: competition
+    summary: ZJUDancer beat MRL-HSL 4:2 in the IranOpen final, using the event as preparation for the Nagoya World Cup.
+    url: https://www.sohu.com/a/135107287_329003
+
+- year: 2016
+  items:
+  - date: "07"
+    title: "RoboCup 2016: KidSize runner-up"
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: ZJUDancer finished second in KidSize in Leipzig, returning to the World Cup podium for a second straight year.
+    url: https://humanoid.robocup.org/hl-2016/results/
+
+- year: 2015
+  items:
+  - date: "07"
+    title: "RoboCup 2015: KidSize runner-up"
+    source: RoboCup Humanoid League
+    kind: competition
+    summary: The team finished second in KidSize at the Hefei World Cup, behind CIT Brains Kid.
+    url: https://humanoid.robocup.org/hl-2015/results/
+
+- year: 2010
+  items:
+  - date: "07.28"
+    title: ZJUDancer defends its national title
+    source: Zhejiang University
+    kind: competition
+    summary: ZJUDancer won every match in Ordos to retain the China Robot Competition Humanoid League title, scoring 25 goals without conceding.
+    url: http://www.news.zju.edu.cn/2010/0728/c758a62885/page.htm
+
+- year: 2009
+  items:
+  - date: "07.14"
+    title: ZJU humanoid team reaches World Cup quarter-finals
+    source: Zhejiang University
+    kind: competition
+    summary: ZJUDancer reached the RoboCup Humanoid League quarter-finals in Graz, then China's best result in the event.
+    url: http://www.news.zju.edu.cn/2009/0714/c758a62756/page.htm
+
+- year: 2007
+  items:
+  - date: "11.05"
+    title: ZJU wins the China humanoid robot football championship
+    source: Zhejiang University
+    kind: competition
+    summary: Three self-built humanoid robots, named Wukong, Bajie and Sha Seng, won the Humanoid League in Jinan.
+    url: http://www.news.zju.edu.cn/2007/1105/c775a74011/page.htm
+
+- year: 2006
+  items:
+  - date: "10.11"
+    title: ZJU students win the China Robot Competition
+    source: Zhejiang University
+    kind: team
+    summary: The team began building its humanoid robots in July 2006, named the first one KingKong, and took second place in its first humanoid technical challenge.
+    url: http://www.news.zju.edu.cn/2006/1011/c3234a207867/page.htm
