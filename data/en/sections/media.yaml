@@ -19,6 +19,7 @@ labels:
   viewLabel: View
   viewDetail: Show details
   viewCover: Covers only
+  visitChannel: Visit channel
 
 # Story types
 categories:
@@ -26,6 +27,25 @@ categories:
   team: Team updates
   alumni: People & alumni
   video: Video
+
+# Official video accounts, kept above the timeline so they stay easy to find.
+channels:
+  title: Official video channels
+  intro: Match footage, skills reels and team updates land here first.
+  items:
+  - platform: Bilibili
+    handle: ZJUDancer Robot Football Team
+    description: Match recordings, skills demos and training clips
+    url: https://space.bilibili.com/3546773001866106
+    icon: fab fa-bilibili
+    tone: bilibili
+
+  - platform: YouTube
+    handle: "@ZJUDancer"
+    description: International match footage, qualification videos and finals
+    url: https://www.youtube.com/@ZJUDancer
+    icon: fab fa-youtube
+    tone: youtube
 
 # Grouped by year, newest first within each year. `date` is month/day only;
 # the year is shown by the group heading.

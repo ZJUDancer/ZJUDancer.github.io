@@ -24,6 +24,34 @@
       <div class="media-intro text-center">{{ . | markdownify }}</div>
     {{ end }}
 
+    {{ with .channels }}
+      <section class="media-channels" aria-labelledby="media-channels-title">
+        <div class="media-channels-head">
+          <h2 id="media-channels-title">{{ .title }}</h2>
+          <p>{{ .intro }}</p>
+        </div>
+        <div class="media-channel-grid">
+          {{ range .items }}
+            <a class="media-channel-card media-channel-card--{{ .tone }}" href="{{ .url }}" target="_blank" rel="noopener">
+              <span class="media-channel-icon">
+                <i class="{{ .icon }}" aria-hidden="true"></i>
+              </span>
+              <span class="media-channel-body">
+                <span class="media-channel-platform">
+                  <i class="fa-solid fa-circle-check" aria-hidden="true"></i>{{ .platform }}
+                </span>
+                <span class="media-channel-name">{{ .handle }}</span>
+                <span class="media-channel-desc">{{ .description }}</span>
+              </span>
+              <span class="media-channel-cta">
+                {{ $labels.visitChannel }}<i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+              </span>
+            </a>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
     <div class="media-toolbar">
       <span class="media-toolbar-label">{{ $labels.viewLabel }}</span>
       <div class="media-view-switch" role="group" aria-label="{{ $labels.viewLabel }}">

@@ -30,8 +30,6 @@ summary: "Supported by the State Key Laboratory of Industrial Control Technology
 #   * The entry named "Email" gets a mailto: prefix from the theme template,
 #     so keep that name as is.
 #   * Icons are FontAwesome classes (the theme bundles the full FontAwesome 6).
-#     Xiaohongshu has no official FontAwesome icon; it uses the custom
-#     social-icon-xiaohongshu class defined in assets/styles/override.scss.
 #   * url: "#" is a placeholder — replace it once the real profile URL is known.
 socialLinks:
 - name: Email
@@ -49,15 +47,6 @@ socialLinks:
 - name: Bilibili
   icon: "fab fa-bilibili"
   url: "https://space.bilibili.com/3546773001866106?spm_id_from=333.337.0.0" 
-
-- name: Xiaohongshu
-  icon: "social-icon-xiaohongshu"
-  url: "#" # TODO: add the Xiaohongshu (RED) profile URL
-
-- name: X
-  icon: "fab fa-x-twitter"
-  url: "#" # TODO: add the X (Twitter) profile URL
-
 
 # Show your badges
 # You can show your verifiable certificates from https://www.credly.com.

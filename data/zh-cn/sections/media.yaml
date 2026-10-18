@@ -19,6 +19,7 @@ labels:
   viewLabel: 浏览方式
   viewDetail: 展开细节
   viewCover: 只看封面
+  visitChannel: 前往频道
 
 # 报道类型
 categories:
@@ -26,6 +27,25 @@ categories:
   team: 队伍动态
   alumni: 人物与校友
   video: 影像资料
+
+# 官方影像账号：放在时间轴上方，和报道列表分开，避免账号入口被年份淹没。
+channels:
+  title: 官方影像频道
+  intro: 比赛录像、技能展示和队伍日常，会先在这里更新。
+  items:
+  - platform: Bilibili
+    handle: ZJUDancer机器人足球队
+    description: 比赛录像、技能展示与队内训练片段
+    url: https://space.bilibili.com/3546773001866106
+    icon: fab fa-bilibili
+    tone: bilibili
+
+  - platform: YouTube
+    handle: "@ZJUDancer"
+    description: 国际赛事录像、资格视频与历年决赛
+    url: https://www.youtube.com/@ZJUDancer
+    icon: fab fa-youtube
+    tone: youtube
 
 # 按年份分组，组内倒序；date 只写月日，年份由分组标题给出。
 # 每条：title / source / kind / summary / url / image（可选，路径相对 assets/）。
