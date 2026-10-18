@@ -1,0 +1,33 @@
+{{/* 文档正文是中文，但为了让 page bundle 正确挂载同目录的图片和 PDF，
+     内容放在默认语言目录下。这里固定 html lang，避免被标成英文。 */}}
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <title>{{ .Page.Title }}</title>
+    {{- partial "header.html" . -}}
+    {{- partial "opengraph.html" . -}}
+    {{- partial "twitter_cards.html" . -}}
+    {{ block "header" . }} {{ end }}
+    {{- partial "analytics.html" . -}}
+    {{ with resources.Get "scripts/core/theme-scheme.js" | fingerprint }}
+    <script integrity="{{ .Data.Integrity }}">
+     {{ .Content | safeJS }}
+    </script>
+    {{ end }}
+  </head>
+
+  <body class="type-{{ .Page.Type }} kind-{{ .Page.Kind }}" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      {{ block "navbar" . }} {{ end }}
+      {{ block "sidebar" . }} {{ end }}
+      {{ block "content" . }} {{ end }}
+      {{ block "toc" . }} {{ end }}
+    </div>
+
+    {{ $footerTemplate := site.Params.footer.template | default "footer.html" }}
+    {{- partial $footerTemplate . -}}
+    {{ partial "scripts.html" . }}
+    {{ block "scripts" . }} {{ end }}
+    {{- partial "misc/support.html" . -}}
+  </body>
+</html>

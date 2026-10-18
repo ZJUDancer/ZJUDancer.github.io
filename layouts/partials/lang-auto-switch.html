@@ -17,7 +17,13 @@
   对应的地址按「baseURL 的子路径 + 语言前缀 + 页面的语言无关路径」拼出来，
   根目录部署和子路径部署（GitHub Pages 项目站点）都成立。
 */}}
-{{ if and hugo.IsMultilingual (site.Params.autoLanguageSwitch | default true) }}
+{{ $skipAutoSwitch := false }}
+{{ with .FirstSection }}
+  {{ if eq .Params.autoLanguageSwitch false }}
+    {{ $skipAutoSwitch = true }}
+  {{ end }}
+{{ end }}
+{{ if and hugo.IsMultilingual (site.Params.autoLanguageSwitch | default true) (not $skipAutoSwitch) }}
   {{ if ne .Kind "404" }}
     {{ $defaultLang := hugo.Sites.Default.Language.Lang }}
     {{ $basePath := (urls.Parse site.BaseURL).Path | default "/" }}

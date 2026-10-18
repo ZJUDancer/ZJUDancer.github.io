@@ -13,6 +13,7 @@ ZJUDancer 战队官网，基于 Hugo 静态站点生成器与 Toha 主题构建�
 - **内容数据化、天然多语言**：首页各版块（关于我们、组别、论文、项目、经历、奖项等）由 `data/<语言>/sections/*.yaml` 配置驱动，中英文分别放在 `data/zh-cn` 与 `data/en` 下。
 - **沿用原站素材与品牌**：logo、队徽、首页背景图、赞助商 logo 等继续使用原站点图片，交由 Hugo Pipes 自动完成 webp 转换与响应式裁剪。
 - **改动以覆盖方式实现**：通过 `layouts/partials/` 覆盖主题模板、`assets/styles/override.scss` 覆盖样式，尽量不改主题源码，方便后续跟随主题更新。
+- **文档已迁入本站**：原 `new_website` 分支的 `docs/documents`、`docs/tutorials` 已整理到 `content/docs/`，图片和 PDF 作为页面资源随页面一起发布；导航里的「文档」不再外链主题文档站。
 - **统一的工具链与部署**：用 mise 管理 hugo-extended / go / node 版本，本地 `mise run server` 预览、`mise run build` 构建；GitHub Pages 负责正式发布（见下文「发布」），Netlify 保留用于预览。
 
 Attributions:
@@ -45,6 +46,16 @@ mise run server
 ```
 mise run server-subpath
 ```
+
+## 文档维护
+
+文档页面在 `content/docs/` 下，分「代码阅读」和「操作指南」两组：
+
+- 每篇文档是一个 Hugo page bundle：目录里的 `index.md` 是正文，同目录的 png / jpg / pdf 是附件；
+- front matter 里的 `title`、`description`、`weight` 决定标题、摘要和侧栏顺序；
+- 新增一篇文章只需建目录并添加 `index.md`，文档列表和左侧导航会自动出现；
+- 文档页由 `layouts/docs/` 渲染，Mermaid 代码块和 KaTeX 公式分别由 `hugo.yaml` 里的 `features.flowchart`、`features.math` 开启；
+- 文档目前只有中文版，中英文导航都指向 `/docs/`，文档区会跳过按系统语言自动跳转，避免跳到不存在的 `/zh-cn/docs/`。
 
 ## 发布（GitHub Pages）
 

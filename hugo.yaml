@@ -236,18 +236,18 @@ params:
     embedpdf:
       enable: false
 
-    # Enable this to create flowcharts using shortcodes.
+    # 文档里的 `mermaid` 代码块由 layouts/_default/_markup/render-codeblock-mermaid.html
+    # 转成 Mermaid 容器；这里负责把 Mermaid 的 JS 打进应用包。
     flowchart:
-      enable: false
+      enable: true
       services:
-        # Uncomment for `mermaid` shortcode.
         mermaid:
           # For config options, see: https://mermaid-js.github.io/mermaid/#/Setup?id=configuration
           theme: forest
 
-    # Enable this to create mathematic expressions using `$$` blocks
+    # IO 模块文档里有行内与块级公式，因此启用 KaTeX。
     math:
-      enable: false
+      enable: true
       services:
         # https://katex.org/docs/autorender.html#api for more configurations
         katex:

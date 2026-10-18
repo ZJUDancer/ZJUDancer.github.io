@@ -1,0 +1,66 @@
+{{ define "navbar" }}
+{{ partial "navigators/navbar.html" . }}
+{{ end }}
+
+{{ define "sidebar" }}
+{{ partial "docs/sidebar.html" . }}
+{{ end }}
+
+{{ define "content" }}
+<section class="content-section docs-content-section" id="content-section">
+  <div class="content docs-single-content">
+    <article class="docs-article">
+      <nav class="docs-breadcrumb" aria-label="面包屑">
+        <a href="{{ .FirstSection.RelPermalink }}">{{ .FirstSection.Title }}</a>
+        {{- with .CurrentSection }}
+          {{- if ne .RelPermalink $.FirstSection.RelPermalink }}
+            <span aria-hidden="true">/</span>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{- end }}
+        {{- end }}
+      </nav>
+
+      <header class="docs-article-header">
+        <h1>{{ .Title }}</h1>
+        {{- with .Description }}
+          <p class="docs-lead">{{ . }}</p>
+        {{- end }}
+        {{ partial "docs/downloads.html" . }}
+      </header>
+
+      <div class="post-content docs-post-content" id="post-content">
+        {{ .Content }}
+      </div>
+
+      <nav class="docs-pager" aria-label="文档翻页">
+        {{- with .PrevInSection }}
+          <a class="docs-pager-prev" href="{{ .RelPermalink }}">
+            <span>上一篇</span>
+            <strong>{{ .Title }}</strong>
+          </a>
+        {{- end }}
+        {{- with .NextInSection }}
+          <a class="docs-pager-next" href="{{ .RelPermalink }}">
+            <span>下一篇</span>
+            <strong>{{ .Title }}</strong>
+          </a>
+        {{- end }}
+      </nav>
+    </article>
+  </div>
+</section>
+{{ end }}
+
+{{ define "toc" }}
+{{- if .TableOfContents }}
+<section class="toc-section" id="toc-section">
+  <div class="toc-holder">
+    <h5 class="text-center ps-3">目录</h5>
+    <hr>
+    <div class="toc">
+      {{ .TableOfContents }}
+    </div>
+  </div>
+</section>
+{{- end }}
+{{ end }}

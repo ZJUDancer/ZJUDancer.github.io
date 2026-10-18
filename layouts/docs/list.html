@@ -1,0 +1,68 @@
+{{ define "navbar" }}
+{{ partial "navigators/navbar.html" . }}
+{{ end }}
+
+{{ define "sidebar" }}
+{{ partial "docs/sidebar.html" . }}
+{{ end }}
+
+{{ define "content" }}
+<section class="content-section docs-content-section" id="content-section">
+  <div class="content docs-list-content">
+    <header class="docs-page-header">
+      <nav class="docs-breadcrumb" aria-label="面包屑">
+        <a href="{{ .FirstSection.RelPermalink }}">{{ .FirstSection.Title }}</a>
+        {{- with .CurrentSection }}
+          {{- if ne .RelPermalink $.FirstSection.RelPermalink }}
+            <span aria-hidden="true">/</span>
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{- end }}
+        {{- end }}
+      </nav>
+      <h1>{{ .Title }}</h1>
+      {{- with .Description }}
+        <p class="docs-lead">{{ . }}</p>
+      {{- end }}
+    </header>
+
+    {{- with .Content }}
+      <div class="post-content docs-intro">
+        {{ . }}
+      </div>
+    {{- end }}
+
+    {{- if .Sections }}
+      <div class="docs-card-grid docs-card-grid-sections">
+        {{- range .Sections.ByWeight }}
+          <a class="docs-card" href="{{ .RelPermalink }}">
+            <span class="docs-card-kicker">{{ len .RegularPages }} 篇文档</span>
+            <h2>{{ .Title }}</h2>
+            {{- with .Description }}
+              <p>{{ . }}</p>
+            {{- end }}
+            <span class="docs-card-action">进入目录 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </a>
+        {{- end }}
+      </div>
+    {{- end }}
+
+    {{- $pages := where .RegularPages.ByWeight "Params.hidden" "!=" true }}
+    {{- if $pages }}
+      <div class="docs-card-grid">
+        {{- range $pages }}
+          <a class="docs-card" href="{{ .RelPermalink }}">
+            <span class="docs-card-kicker">{{ .CurrentSection.Title }}</span>
+            <h2>{{ .Title }}</h2>
+            {{- with .Description }}
+              <p>{{ . }}</p>
+            {{- end }}
+            <span class="docs-card-action">阅读 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+          </a>
+        {{- end }}
+      </div>
+    {{- end }}
+  </div>
+</section>
+{{ end }}
+
+{{ define "toc" }}{{ end }}

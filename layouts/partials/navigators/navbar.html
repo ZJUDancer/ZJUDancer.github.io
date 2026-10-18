@@ -168,8 +168,12 @@
         {{ end }}
         {{ range $customMenus }}
             {{ if (not .hideFromNavbar) }}
+              {{ $menuURL := .url }}
+              {{ if not (or (hasPrefix $menuURL "http://") (hasPrefix $menuURL "https://") (hasPrefix $menuURL "mailto:") (hasPrefix $menuURL "#")) }}
+                {{ $menuURL = strings.TrimPrefix "/" $menuURL | relURL }}
+              {{ end }}
               <li class="nav-item">
-                <a class="nav-link" href="{{ .url }}">{{ .name }}</a>
+                <a class="nav-link" href="{{ $menuURL }}">{{ .name }}</a>
               </li>
             {{ end }}
         {{ end }}

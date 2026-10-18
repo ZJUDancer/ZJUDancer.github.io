@@ -15,7 +15,10 @@ description: ZJUDancer Team Official Website.
 # they will be separated by a divider from the main menus.
 customMenus:
 - name: Docs
-  url: https://toha-docs.hugo-themes.com/posts/
+  # The team documentation is currently Chinese-only, so both language
+  # versions link to the same /docs/ section.
+  # The navbar applies relURL to internal links (see navbar.html).
+  url: /docs/
   # specify whether to hide the menu item from top navbar or not.
   hideFromNavbar: false
   # specify whether to show the menu item in footer or not.

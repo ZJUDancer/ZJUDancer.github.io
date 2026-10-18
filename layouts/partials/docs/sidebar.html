@@ -1,0 +1,30 @@
+{{- $docs := .FirstSection -}}
+{{- $current := . -}}
+<section class="sidebar-section docs-sidebar-section" id="sidebar-section">
+  <div class="sidebar-holder">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-tree docs-sidebar-tree">
+        <a class="docs-sidebar-title" href="{{ $docs.RelPermalink }}">{{ $docs.Title }}</a>
+        <p class="docs-sidebar-note">内部资料与操作指南</p>
+        <a class="docs-home-link" href="{{ "zh-cn/" | relURL }}">返回中文首页</a>
+        <nav class="docs-nav" aria-label="文档目录">
+          {{- range $docs.Sections.ByWeight }}
+            {{- $group := . }}
+            <div class="docs-nav-group">
+              <a class="docs-nav-group-title{{ if eq $current.CurrentSection.RelPermalink $group.RelPermalink }} active{{ end }}"
+                href="{{ $group.RelPermalink }}">{{ $group.Title }}</a>
+              <ul>
+                {{- range where $group.RegularPages.ByWeight "Params.hidden" "!=" true }}
+                  <li>
+                    <a class="{{ if eq .RelPermalink $current.RelPermalink }}active{{ end }}"
+                      href="{{ .RelPermalink }}">{{ .Title }}</a>
+                  </li>
+                {{- end }}
+              </ul>
+            </div>
+          {{- end }}
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
