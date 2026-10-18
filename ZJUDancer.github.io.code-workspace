@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "ZJUDancer.github.io",
+			"path": "."
+		}
+	],
+	"settings": {
+		"github.copilot.chat.codeGeneration.useInstructionFiles": true
+	}
+}

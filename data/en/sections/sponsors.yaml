@@ -20,7 +20,7 @@ section:
   template: sections/sponsors.html
 
 # One-line introduction above the cards
-intro: ZJUDancer relies on its sponsors and partners for the robots, software and support behind every season. This page introduces the two robotics companies currently backing the team and the competition platforms they provide.
+intro: ZJUDancer relies on its sponsors and partners for the robots, software and support behind every season. This page introduces the robotics company currently backing the team and the competition platform it provides.
 
 # Small headings used inside the cards
 labels:
@@ -52,23 +52,3 @@ sponsors:
   links:
   - name: Booster Robotics website
     url: https://www.booster.tech/cn
-
-- name: High Torque
-  subtitle: Humanoid robots and high-torque joint modules
-  logo: images/sponsors/HIGHTORQUE.png
-  url: https://www.hightorque.cn/
-  summary: >
-    High Torque (高擎机电, also branded 高擎动力) develops humanoid robots and high-torque joint modules, covering a small humanoid platform,
-    joint units and the motion-control software around them. In the 2025–2026 season the team competed on its Mini Pi Plus (Pi+) in the Small
-    division of the RoboCup Humanoid Soccer League: about 68 cm tall, roughly 15 kg and 22 degrees of freedom. High Torque also supplies the
-    RoboCup development framework that ties together motion planning, behaviour trees, vision and inter-robot communication — the team's
-    tactics and perception modules are built on top of it.
-  highlights:
-  - "Platform: Mini Pi Plus (Pi+) — one of the platforms listed by the HSL 2026 rules for the Small division (up to 110 cm / 15 kg), together with NAO and Robotis OP3."
-  - "Result: winner of the Small division at the 2026 RoboCup German Open (Cologne) — five wins and one draw into the final, then 4:0 against the defending champions Hamburg Bit-Bots. According to High Torque, this is the first title by a Chinese team in the Small division of an international RoboCup humanoid soccer competition."
-  - "In July the team also played the Small division of the first Humanoid Soccer League World Cup at RoboCup 2026 (Incheon, Korea), finishing 5th–8th."
-  links:
-  - name: High Torque website
-    url: https://www.hightorque.cn/
-  - name: RoboCup German Open 2026 results
-    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league

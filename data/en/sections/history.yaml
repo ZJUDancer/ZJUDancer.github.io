@@ -90,29 +90,8 @@ experiences:
   - time: "2025-12"
     text: Released all of the team's code, lowering the barrier for new Chinese university teams entering RoboCup humanoid competitions.
 
-- name: High Torque Stage
-  company: High Torque (高擎动力)
-  companyUrl: https://www.hightorque.cn/
-  logo: images/sponsors/HIGHTORQUE.png
-  model: Mini Pi Plus (Pi+), HSL Small Division
-  time: 2025 – 2026
-  overview: >
-    For the 2026 season the team switched to the High Torque Mini Pi Plus platform in the Small division of the Humanoid Soccer League.
-    Under the HSL 2026 rules the Small division is limited to 110 cm and 15 kg, and the rule book lists NAO, Robotis OP3 and Hightorque Pi+
-    as the platforms for that division. Mini Pi Plus is about 68 cm tall, weighs about 15 kg and has 22 degrees of freedom; High Torque also
-    supplies a RoboCup development framework covering motion planning, behaviour trees, vision and inter-robot communication.
-  events:
-  - time: "2026-03"
-    text: "Won the Small division of the RoboCup German Open (Cologne, Germany): five wins and one draw to reach the final, then 4:0 against the defending champions Hamburg Bit-Bots. According to High Torque, this is the first title by a Chinese team in the Small division of an international RoboCup humanoid soccer competition."
-    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league
-  - time: "2026-07"
-    text: RoboCup 2026 (Incheon, Korea) — the first Humanoid Soccer League World Cup, formed by merging the Humanoid League and the Standard Platform League. A 4:1 play-in win over ICHIRO ITS and a 2:7 quarter-final loss to Invic placed the team 5th–8th in the Small division.
-    url: https://hsl.robocup.org/results-2026/
-
-# The exact date of the switch to the Booster K1 is based on team-internal information: public
-# sources show High Torque Pi+ at both the 2026 German Open and RoboCup 2026 (Incheon) in the Small
-# division (HSL lists Pi+ under Small and Booster K1 under Middle), so K1 is recorded here as the
-# platform of the new season after the Incheon World Cup. Adjust `time` if the date differs.
+# The start date of the Booster K1 stage is based on team-internal information.
+# Adjust `time` if the date differs.
 - name: Booster Robotics Stage
   company: Booster Robotics (加速进化)
   companyUrl: https://www.booster.tech/cn

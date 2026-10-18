@@ -17,7 +17,7 @@ section:
   template: sections/sponsors.html
 
 # 页面正文上方的一句话说明
-intro: ZJUDancer 的备赛、参赛与日常研发都离不开赞助商与合作伙伴的支持。这里介绍目前支持队伍的两家机器人厂商，以及他们提供的比赛平台。
+intro: ZJUDancer 的备赛、参赛与日常研发都离不开赞助商与合作伙伴的支持。这里介绍目前支持队伍的机器人厂商，以及其提供的比赛平台。
 
 # 卡片上的小标题
 labels:
@@ -47,18 +47,3 @@ sponsors:
   links:
   - name: 加速进化官网
     url: https://www.booster.tech/cn
-
-- name: 高擎机电（HighTorque）
-  subtitle: 人形机器人整机与高扭矩关节模组
-  logo: images/sponsors/HIGHTORQUE.png
-  url: https://www.hightorque.cn/
-  summary: 高擎机电（品牌名「高擎动力」，HighTorque）专注人形机器人整机与高扭矩关节模组的研发，产品线覆盖小型人形机器人平台、关节单元与配套的运动控制软件。2025–2026 赛季，队伍使用其 Mini Pi Plus（Pi+）参加 RoboCup 人形足球联赛（HSL）Small 组：整机高约 68 cm、自重约 15 kg、22 自由度，而高擎动力提供的 RoboCup 开发框架打通了运动规划、行为树决策、视觉感知与机器人之间的通信协调，队伍的战术与感知模块都建立在它之上。
-  highlights:
-  - 平台：Mini Pi Plus（Pi+）——HSL 2026 规则 Small 组（上限 110 cm / 15 kg）列出的平台之一（另有 NAO、Robotis OP3）。
-  - 成绩：2026 年 3 月 RoboCup 德国公开赛（德国科隆）Small 组冠军。5 胜 1 平进入决赛，决赛 4:0 击败上届冠军 Hamburg Bit-Bots；据高擎动力发布，这是中国团队首次在 RoboCup 人形足球国际赛事的 Small 组别夺冠。
-  - 同年 7 月 RoboCup 2026（韩国仁川）首届人形足球联赛世界杯，队伍同样以 Pi+ 出战 Small 组，位列 5–8 名。
-  links:
-  - name: 高擎机电官网
-    url: https://www.hightorque.cn/
-  - name: RoboCup 德国公开赛 2026 成绩
-    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league

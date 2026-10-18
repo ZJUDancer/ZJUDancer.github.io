@@ -74,24 +74,7 @@ experiences:
   - time: "2025-12"
     text: 开源全部代码，推动降低国内高校新队伍参加 RoboCup 类人组比赛的门槛。
 
-- name: 高擎动力阶段
-  company: 高擎动力（HIGH TORQUE）
-  companyUrl: https://www.hightorque.cn/
-  logo: images/sponsors/HIGHTORQUE.png
-  model: Mini Pi Plus（Pi+，HSL Small 组）
-  time: 2025 – 2026
-  overview: 2026 赛季改用高擎动力 Mini Pi Plus 平台参加 HSL（人形足球联赛）Small 组。按 HSL 2026 规则，Small 组机器人上限 110 cm / 15 kg，规则中列出的该组平台示例正是 NAO、Robotis OP3 与 Hightorque Pi+。整机高约 68 cm、自重约 15 kg、22 自由度，高擎动力同时提供了打通运动规划、行为树决策、视觉感知与通信协调的 RoboCup 开发框架。
-  events:
-  - time: "2026-03"
-    text: RoboCup 德国公开赛（德国科隆）Small 组冠军：5 胜 1 平进入决赛，决赛 4:0 击败上届冠军 Hamburg Bit-Bots。据高擎动力发布，这是中国团队首次在 RoboCup 人形机器人足球国际赛事的 Small 组别夺冠。
-    url: https://robocup.de/germanopen-2026/ergebnisse/major/humanoid-soccer-league
-  - time: "2026-07"
-    text: RoboCup 2026（韩国仁川）——首届人形足球联赛世界杯（由原 Humanoid League 与 Standard Platform League 合并而来）。附加赛 4:1 胜 ICHIRO ITS，1/4 决赛 2:7 负于 Invic，位列 Small 组 5–8 名。
-    url: https://hsl.robocup.org/results-2026/
-
-# 平台切换到 Booster K1 的时间点以队伍内部信息为准：公开资料里 2026 德国公开赛与 RoboCup 2026（仁川）
-# Small 组用的都是高擎 Pi+（HSL 规则把 Pi+ 归在 Small 组、Booster K1 归在中型组），因此这里把 K1 记为
-# 仁川世界杯之后的新赛季平台。若时间点有出入，改这里的 time 即可。
+# 切换到 Booster K1 的时间点以队伍内部信息为准。若时间点有出入，改这里的 time 即可。
 - name: 加速进化阶段
   company: 加速进化（Booster Robotics）
   companyUrl: https://www.booster.tech/cn

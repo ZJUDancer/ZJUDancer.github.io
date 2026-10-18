@@ -388,14 +388,13 @@ html:lang(zh) {
   }
 }
 
-// 队伍（/team/）、赞助商（/sponsors/）、论文（/publications/）这三个独立页面。
-// 它们同时是内容页（body 上分别带 type-team / type-sponsors / type-publications），主题给
+// 队伍（/team/）、赞助商（/sponsors/）这两个独立页面。
+// 它们同时是内容页（body 上分别带 type-team / type-sponsors），主题给
 // 内容页的默认版式是「侧栏 + 正文」两栏 flex，这里没有侧栏，所以改回单栏；侧栏开关按钮是
 // 主题在非首页统一渲染的，点了却没有侧栏可开，一并隐藏（和主题对 404 页的处理一样）。
 // 顶部留出固定导航栏（50px）的高度，免得大标题被压在导航栏下面。
 body.type-team,
-body.type-sponsors,
-body.type-publications {
+body.type-sponsors {
   #sidebar-toggler {
     display: none;
   }
@@ -415,15 +414,6 @@ body.type-publications {
       padding-top: 1rem;
     }
   }
-}
-
-// 论文页的正文是主题自带的 sections/publications.html，它按「首页版块」的用法给标题加了
-// 锚点偏移（`h1 > span { margin-top: -55px; padding-bottom: 55px }`，好让首页的锚点跳到
-// 固定导航栏下方）。这里是独立页面、又没有锚点可跳，那个负边距只会把大标题顶到导航栏底下，
-// 所以在这个页面里还原成正常排版。
-body.type-publications .section-holder .publications-section h1 > span {
-  margin-top: 0;
-  padding-bottom: 0;
 }
 
 // 赞助商（Sponsors，/sponsors/）独立页面：一家赞助商一行，左边 logo 卡片、右边简介。

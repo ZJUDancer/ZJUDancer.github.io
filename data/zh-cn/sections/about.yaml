@@ -63,11 +63,6 @@ badges:
   size: large
 
 - type: sponsor
-  name: HIGH TORQUE
-  url: "https://www.hightorque.cn/" 
-  logo: /images/sponsors/HIGHTORQUE.png
-
-- type: sponsor
   name: Booster
   url: "https://www.booster.tech/cn" 
   logo: /images/sponsors/Booster.webp
