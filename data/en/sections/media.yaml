@@ -16,6 +16,9 @@ intro: Reports, team updates and videos featuring ZJUDancer, newest first. Click
 # Fixed text used inside the cards
 labels:
   read: Read original
+  viewLabel: View
+  viewDetail: Show details
+  viewCover: Covers only
 
 # Story types
 categories:
@@ -37,6 +40,13 @@ years:
     summary: ZJUDancer competed in the Small division in Incheon, Korea, and finished 5th–8th.
     url: https://hsl.robocup.org/results-2026/
 
+  - date: "04.20"
+    title: "2026 RoboCup China Open: ZJUDancer advances from the Small group"
+    source: Chinese Association of Automation
+    kind: competition
+    summary: The official group-stage qualification list confirms ZJUDancer's place in the Small division knockout rounds.
+    url: https://rcccaa.drct-caa.org.cn/article_info.php?id=123
+
   - date: "03.20"
     title: Pi+ platform helps the ZJU team win the German Open
     source: Tencent Cloud Developer Community
@@ -44,6 +54,21 @@ years:
     summary: ZJUDancer reached the final with five wins and one draw, then beat Hamburg Bit-Bots 4:1 to win the Small division.
     url: https://cloud.tencent.com/developer/news/3716257
     image: images/media/german-open-2026-1.jpg
+
+  - date: "03.18"
+    title: Chinese and German universities take the honours at the German Open
+    source: German Study Abroad / WeChat
+    kind: competition
+    summary: An on-site report on the German Open, where ZJUDancer beat Hamburg Bit-Bots 4:1 in the final, with photos from the arena.
+    url: https://mp.weixin.qq.com/s?__biz=MzAwNDg0Njg2NQ==&mid=2649539426&idx=1&sn=6b57015613caea39ef8a00a7fd9ecc8e
+    image: images/media/wechat-german-open-2026.jpg
+
+  - date: "03.15"
+    title: "RoboCup German Open 2026: ZJUDancer wins the title"
+    source: RoboCup HSL
+    kind: competition
+    summary: The official results page shows ZJUDancer going 3-1-0 in the group, beating Berlin United 1–0 in the semi-final and Hamburg Bit-Bots 4–1 in the final.
+    url: https://hsl.robocup.org/2026-robocup-german-open/
 
 - year: 2025
   items:
@@ -61,6 +86,14 @@ years:
     summary: Coverage of the 2025 Robot World Cup notes that Zhejiang's ZJUDancer finished runner-up in its division.
     url: http://paper.people.com.cn/rmrbhwb/pc/content/202508/02/content_30092615.html
     image: images/media/people-daily-2025.jpg
+
+  - date: "07.25"
+    title: "RoboCup 2025 Salvador: NUbots vs ZJUDancer"
+    source: NUbots / YouTube
+    kind: video
+    summary: Pitch-side footage of ZJUDancer's Small division match against NUbots at the 2025 World Cup in Salvador.
+    url: https://www.youtube.com/watch?v=uyDVqbK4yIs
+    image: images/media/youtube-2025-salvador.jpg
 
   - date: "07.22"
     title: China wins its first RoboCup title, aiming to beat a human World Cup champion by 2050
@@ -84,6 +117,22 @@ years:
     summary: The story of Deep Robotics founder Zhu Qiuguo traces his start back to ZJUDancer.
     url: http://www.news.zju.edu.cn/2025/0702/c86727a3066318/page.htm
 
+  - date: "05.05"
+    title: "2025 RoboCup China Open Humanoid final: ZJUDancer 1–2 TH-MOS"
+    source: ZJUDancer Bilibili
+    kind: video
+    summary: Full recording of the 2025 China Open Humanoid League final, where ZJUDancer lost 1–2 to Tsinghua's TH-MOS.
+    url: https://www.bilibili.com/video/BV12vVrz2EUL/
+    image: images/media/bili-2025-china-final.jpg
+
+  - date: "03.07"
+    title: ZJUDancer 2025 qualification video
+    source: wang314 / YouTube
+    kind: video
+    summary: A pre-season qualification video showing ball localization and walking toward the ball ahead of the 2025 World Cup.
+    url: https://www.youtube.com/watch?v=xBzYvDxYTIc
+    image: images/media/youtube-2025-qualification.jpg
+
   - date: "02.20"
     title: "Why Zhejiang University? Two questions from Zhejiang Daily"
     source: Guancha
@@ -106,10 +155,25 @@ years:
     kind: competition
     summary: ZJUDancer reached the round of 16 in the KidSize competition in Eindhoven, the Netherlands.
     url: https://humanoid.robocup.org/hl-2024/results-rc-hl-2024/kid-and-adult-sizes-games/
-    image: images/media/robocup-2025-1.jpg
+
+  - date: "07"
+    title: "RoboCup 2024: KURA vs ZJUDancer"
+    source: Zaky Askar Sonia / YouTube
+    kind: video
+    summary: Match footage from the 2024 KidSize competition in Eindhoven between KURA and ZJUDancer.
+    url: https://www.youtube.com/watch?v=hmU8WWDS3wY
+    image: images/media/youtube-2024-kura-match.jpg
 
 - year: 2023
   items:
+  - date: "12.13"
+    title: ZJUDancer soccer playing skills
+    source: Bilibili
+    kind: video
+    summary: A skills reel showing localization, walking to the ball and shooting during team practice.
+    url: https://www.bilibili.com/video/BV1Uc41117Fb/
+    image: images/media/bili-2023-skills.jpg
+
   - date: "05.24"
     title: ZJUDancer wins the Humanoid League at RoboCup Asia-Pacific Tianjin
     source: ZJU College of Control Science and Engineering
@@ -120,6 +184,14 @@ years:
 
 - year: 2021
   items:
+  - date: "05.24"
+    title: ZJUDancer defends the Humanoid League title at the 2021 RoboCup China Open
+    source: Sina News / CNR
+    kind: competition
+    summary: The closing report confirms ZJUDancer's Humanoid League title and quotes team member Liu Jiangpin on competing in Tianjin.
+    url: https://news.sina.com.cn/o/2021-05-24/doc-ikmyaawc7184918.shtml
+    image: images/media/sina-2021-tianjin.png
+
   - date: "05.22"
     title: Champions crowned as two Robot World Cup events conclude
     source: NetEase / Tianjin Daily
@@ -129,6 +201,13 @@ years:
 
 - year: 2020
   items:
+  - date: "12.12"
+    title: ZJU robot soccer team dazzles at 2020 RoboCup China Competition
+    source: Zhejiang University (English)
+    kind: competition
+    summary: The university's English site reports ZJUNlict and ZJUDancer winning the Small Size and Humanoid KidSize leagues, and profiles ZJUDancer's autonomous robotics work.
+    url: https://www.zju.edu.cn/english/_t874/2020/1212/c19573a2231049/page.htm
+
   - date: "11.19"
     title: ZJUDancer wins the 2020 RoboCup China Open Humanoid League
     source: ZJU College of Control Science and Engineering
@@ -139,6 +218,14 @@ years:
 
 - year: 2019
   items:
+  - date: "07.07"
+    title: ZJUDancer takes KidSize runner-up at RoboCup 2019
+    source: ZJU College of Control Science and Engineering
+    kind: competition
+    summary: The college's official recap of RoboCup 2019, where ZJUNlict defended the Small Size title and ZJUDancer finished second in KidSize.
+    url: http://www.cse.zju.edu.cn/2019/0707/c39353a2693430/page.htm
+    image: images/media/cse-2019-runner-up.jpg
+
   - date: "07"
     title: "RoboCup 2019 KidSize final: Rhoban vs ZJUDancer"
     source: Bilibili
@@ -155,6 +242,14 @@ years:
     summary: The team reached the semi-finals in Montreal, finished fourth in KidSize and placed second in Drop-In.
     url: https://humanoid.robocup.org/hl-2018/results/
 
+  - date: "06"
+    title: "2018 KidSize third-place match: Barelang FC vs ZJUDancer"
+    source: Barelang FC / YouTube
+    kind: video
+    summary: Barelang FC won the third-place match on penalties, 4–3, leaving ZJUDancer fourth overall.
+    url: https://www.youtube.com/watch?v=22MWLSFS2Y4
+    image: images/media/youtube-2018-third-place.jpg
+
 - year: 2017
   items:
   - date: "08.07"
@@ -163,6 +258,14 @@ years:
     kind: team
     summary: A feature on ZJUDancer's third consecutive World Cup runner-up finish, including the rebuilt torso and a rewritten vision stack.
     url: https://www.163.com/news/article/CR7B1SBA000187VI.html
+
+  - date: "07.31"
+    title: "RoboCup 2017 KidSize final: ZJUDancer vs Rhoban"
+    source: Rhoban Officiel / YouTube
+    kind: video
+    summary: Full recording of the 2017 Nagoya final, where ZJUDancer finished runner-up for the third consecutive year.
+    url: https://www.youtube.com/watch?v=UStWRR1r4aU
+    image: images/media/youtube-2017-final.jpg
 
   - date: "04.19"
     title: ZJU robot football team wins again at RoboCup IranOpen
@@ -173,6 +276,14 @@ years:
 
 - year: 2016
   items:
+  - date: "07.13"
+    title: "RoboCup 2016 KidSize final: Rhoban vs ZJUDancer"
+    source: Rhoban Officiel / YouTube
+    kind: video
+    summary: Full recording of the 2016 Leipzig final, where ZJUDancer finished runner-up.
+    url: https://www.youtube.com/watch?v=d8UQGfvfTlE
+    image: images/media/youtube-2016-final.jpg
+
   - date: "07"
     title: "RoboCup 2016: KidSize runner-up"
     source: RoboCup Humanoid League
@@ -189,8 +300,36 @@ years:
     summary: The team finished second in KidSize at the Hefei World Cup, behind CIT Brains Kid.
     url: https://humanoid.robocup.org/hl-2015/results/
 
+- year: 2014
+  items:
+  - date: "02.16"
+    title: ZJUDancer 2014 World Cup qualification video
+    source: ZJUDancer / YouTube
+    kind: video
+    summary: The team's qualification video for RoboCup 2014, showing walking, localization and shooting on a standard KidSize field.
+    url: https://www.youtube.com/watch?v=PhlA4Btuauc
+    image: images/media/youtube-2014-qualification.jpg
+
+- year: 2013
+  items:
+  - date: "01.21"
+    title: ZJUDancer 2013 World Cup qualification video
+    source: ZJUDancer / YouTube
+    kind: video
+    summary: An early qualification video showing the team's KidSize robots in match conditions.
+    url: https://www.youtube.com/watch?v=BzEzoR6S45A
+    image: images/media/youtube-2013-qualification.jpg
+
 - year: 2010
   items:
+  - date: "08.01"
+    title: All ZJUDancer goals at the 2010 China Open
+    source: ZJUDancer / YouTube
+    kind: video
+    summary: A goals compilation from the 2010 China Open, including a 16–0 result.
+    url: https://www.youtube.com/watch?v=VwWJyQatD1Q
+    image: images/media/youtube-2010-goals.jpg
+
   - date: "07.28"
     title: ZJUDancer defends its national title
     source: Zhejiang University

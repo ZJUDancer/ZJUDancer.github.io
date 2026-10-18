@@ -425,6 +425,65 @@ body.type-media {
     opacity: 0.85;
   }
 
+  .media-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.15rem;
+  }
+
+  .media-toolbar-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: rgba(get-light-color('text-color'), 0.55);
+  }
+
+  .media-view-switch {
+    display: inline-flex;
+    gap: 0.2rem;
+    padding: 0.22rem;
+    background-color: rgba(get-light-color('accent-color'), 0.07);
+    border: 1px solid rgba(get-light-color('accent-color'), 0.15);
+    border-radius: 999px;
+  }
+
+  .media-view-toggle {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(get-light-color('text-color'), 0.66);
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+    i {
+      font-size: 0.72rem;
+    }
+
+    &:hover {
+      color: get-light-color('accent-color');
+    }
+
+    &:focus-visible {
+      outline: 2px solid get-light-color('accent-color');
+      outline-offset: 2px;
+    }
+
+    &.is-active {
+      color: get-light-color('accent-color');
+      background-color: get-light-color('bg-primary');
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
+    }
+  }
+
   .media-year {
     margin-top: 2.5rem;
   }
@@ -628,6 +687,96 @@ body.type-media {
     }
   }
 
+  // 只看封面：把时间轴收成按年份分组的封面网格，标题压在封面底部，
+  // 不再显示日期、摘要和「阅读原文」，适合快速扫一遍所有影像。
+  &[data-media-view='cover'] {
+    .media-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+      gap: 1rem;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    .media-entry {
+      display: block;
+      padding-bottom: 0;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    .media-date {
+      display: none;
+    }
+
+    .media-card {
+      position: relative;
+      display: block;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .media-thumb {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      border-radius: 0;
+
+      img {
+        position: absolute;
+        inset: 0;
+      }
+    }
+
+    .media-content {
+      position: absolute;
+      inset: auto 0 0;
+      display: block;
+      padding: 2.6rem 0.85rem 0.7rem;
+      color: #fff;
+      pointer-events: none;
+      background-image: linear-gradient(
+        to top,
+        rgba(8, 15, 25, 0.82),
+        rgba(8, 15, 25, 0.26) 58%,
+        transparent
+      );
+    }
+
+    .media-meta,
+    .media-summary,
+    .media-link {
+      display: none;
+    }
+
+    .media-title {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .media-card:hover,
+    .media-card:focus {
+      .media-title {
+        color: #fff;
+      }
+    }
+
+    .media-placeholder-mark {
+      font-size: 1.9rem;
+    }
+  }
+
   @media (max-width: 991.98px) {
     .media-card {
       grid-template-columns: 11rem minmax(0, 1fr);
@@ -665,10 +814,50 @@ body.type-media {
       padding: 0 0.35rem 0.35rem;
     }
   }
+
+  @media (max-width: 575.98px) {
+    &[data-media-view='cover'] {
+      .media-timeline {
+        grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+        gap: 0.65rem;
+      }
+
+      .media-content {
+        padding: 1.8rem 0.55rem 0.5rem;
+      }
+
+      .media-title {
+        font-size: 0.78rem;
+      }
+    }
+  }
 }
 
 html[data-theme='dark'] {
   .media-section {
+    .media-toolbar-label {
+      color: rgba(get-dark-color('text-color'), 0.58);
+    }
+
+    .media-view-switch {
+      background-color: rgba(get-dark-color('accent-color'), 0.12);
+      border-color: rgba(get-dark-color('accent-color'), 0.24);
+    }
+
+    .media-view-toggle {
+      color: rgba(get-dark-color('text-color'), 0.7);
+
+      &:hover {
+        color: get-dark-color('accent-color');
+      }
+
+      &.is-active {
+        color: #67e8f9;
+        background-color: rgba(get-dark-color('accent-color'), 0.22);
+        box-shadow: inset 0 0 0 1px rgba(103, 232, 249, 0.3);
+      }
+    }
+
     .media-year-title {
       color: get-dark-color('accent-color');
 

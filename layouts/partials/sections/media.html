@@ -1,4 +1,5 @@
 {{/* 媒体时间轴：按年份分组，每条报道显示日期、来源、类型、标题和摘要。
+     顶部按钮可在「展开细节」和「只看封面」两种视图之间切换，选择会记在 localStorage。
      有图时显示缩略图；没有图片时用来源首字 + 类型图标组成一个图形卡面。
      数据见 data/<语言>/sections/media.yaml。 */}}
 {{ $sectionID := replace (lower .section.name) " " "-" }}
@@ -15,13 +16,25 @@
   "video" "fa-solid fa-video"
 }}
 
-<div class="container-fluid anchor pb-5 media-section">
+<div class="container-fluid anchor pb-5 media-section" data-media-view="detail">
   <h1 class="text-center"><span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
 
   <div class="container">
     {{ with .intro }}
       <div class="media-intro text-center">{{ . | markdownify }}</div>
     {{ end }}
+
+    <div class="media-toolbar">
+      <span class="media-toolbar-label">{{ $labels.viewLabel }}</span>
+      <div class="media-view-switch" role="group" aria-label="{{ $labels.viewLabel }}">
+        <button type="button" class="media-view-toggle is-active" data-media-view="detail" aria-pressed="true">
+          <i class="fa-solid fa-list-ul" aria-hidden="true"></i><span>{{ $labels.viewDetail }}</span>
+        </button>
+        <button type="button" class="media-view-toggle" data-media-view="cover" aria-pressed="false">
+          <i class="fa-solid fa-images" aria-hidden="true"></i><span>{{ $labels.viewCover }}</span>
+        </button>
+      </div>
+    </div>
 
     {{ range .years }}
       <section class="media-year">
@@ -71,3 +84,68 @@
     {{ end }}
   </div>
 </div>
+
+<script>
+  (function () {
+    var sections = document.querySelectorAll('.media-section');
+    if (!sections.length) {
+      return;
+    }
+
+    var storageKey = 'zjuedancer-media-view';
+    var allowedViews = ['detail', 'cover'];
+    var savedView = 'detail';
+    var requestedView = '';
+
+    try {
+      requestedView = new URLSearchParams(window.location.search).get('view') || '';
+    } catch (error) {
+      requestedView = '';
+    }
+
+    if (allowedViews.indexOf(requestedView) !== -1) {
+      savedView = requestedView;
+    } else {
+      try {
+        savedView = window.localStorage.getItem(storageKey) || 'detail';
+      } catch (error) {
+        savedView = 'detail';
+      }
+    }
+
+    if (allowedViews.indexOf(savedView) === -1) {
+      savedView = 'detail';
+    }
+
+    Array.prototype.forEach.call(sections, function (section) {
+      if (section.getAttribute('data-media-view-ready') === 'true') {
+        return;
+      }
+      section.setAttribute('data-media-view-ready', 'true');
+
+      var buttons = section.querySelectorAll('.media-view-toggle');
+      var applyView = function (view) {
+        section.setAttribute('data-media-view', view);
+        Array.prototype.forEach.call(buttons, function (button) {
+          var active = button.getAttribute('data-media-view') === view;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+      };
+
+      applyView(savedView);
+
+      Array.prototype.forEach.call(buttons, function (button) {
+        button.addEventListener('click', function () {
+          var view = button.getAttribute('data-media-view');
+          applyView(view);
+          try {
+            window.localStorage.setItem(storageKey, view);
+          } catch (error) {
+            /* 隐私模式下 localStorage 可能不可写，视图切换本身仍然有效。 */
+          }
+        });
+      });
+    });
+  })();
+</script>

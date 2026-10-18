@@ -16,6 +16,9 @@ intro: ZJUDancer 的公开报道、队伍动态与影像资料，按时间倒序
 # 卡片上的固定文案
 labels:
   read: 阅读原文
+  viewLabel: 浏览方式
+  viewDetail: 展开细节
+  viewCover: 只看封面
 
 # 报道类型
 categories:
@@ -36,6 +39,13 @@ years:
     summary: ZJUDancer 在韩国仁川参加 Small 组比赛，最终位列 5–8 名。
     url: https://hsl.robocup.org/results-2026/
 
+  - date: "04.20"
+    title: 2026 中国赛类人组小组出线：ZJUDancer 晋级
+    source: 中国自动化学会
+    kind: competition
+    summary: 官方公布足球机器人类人组小组出线名单，ZJUDancer 进入 Small 组淘汰赛。
+    url: https://rcccaa.drct-caa.org.cn/article_info.php?id=123
+
   - date: "03.20"
     title: Pi+ 平台助力浙大战队登顶德国公开赛
     source: 腾讯云开发者社区
@@ -43,6 +53,21 @@ years:
     summary: ZJUDancer 以 5 胜 1 平进入决赛，随后 4:1 击败 Hamburg Bit-Bots，夺得 Small 组冠军。
     url: https://cloud.tencent.com/developer/news/3716257
     image: images/media/german-open-2026-1.jpg
+
+  - date: "03.18"
+    title: 中德高校纷纷夺冠！机器人“打架”好燃！
+    source: 德国留学那点事 / 微信
+    kind: competition
+    summary: 现场报道德国公开赛：ZJUDancer 决赛 4:1 战胜 Hamburg Bit-Bots 夺冠，文中含赛场与观众照片。
+    url: https://mp.weixin.qq.com/s?__biz=MzAwNDg0Njg2NQ==&mid=2649539426&idx=1&sn=6b57015613caea39ef8a00a7fd9ecc8e
+    image: images/media/wechat-german-open-2026.jpg
+
+  - date: "03.15"
+    title: RoboCup 2026 德国公开赛：ZJUDancer 夺冠
+    source: RoboCup HSL
+    kind: competition
+    summary: 官方赛果页显示 ZJUDancer 小组赛 3 胜 1 平，半决赛 1:0 胜 Berlin United，决赛 4:1 胜 Hamburg Bit-Bots。
+    url: https://hsl.robocup.org/2026-robocup-german-open/
 
 - year: 2025
   items:
@@ -60,6 +85,14 @@ years:
     summary: 报道 2025 机器人世界杯，提到浙江 ZJUDancer 在所属组别获得亚军。
     url: http://paper.people.com.cn/rmrbhwb/pc/content/202508/02/content_30092615.html
     image: images/media/people-daily-2025.jpg
+
+  - date: "07.25"
+    title: RoboCup 2025 萨尔瓦多：NUbots vs ZJUDancer
+    source: NUbots / YouTube
+    kind: video
+    summary: 2025 世界杯小型组赛场影像，由 NUbots 从场边记录的对阵 ZJUDancer 的半场录像。
+    url: https://www.youtube.com/watch?v=uyDVqbK4yIs
+    image: images/media/youtube-2025-salvador.jpg
 
   - date: "07.22"
     title: 中国机器人首夺冠军，目标 2050 年击败人类世界杯冠军
@@ -83,6 +116,22 @@ years:
     summary: 从 ZJUDancer 走出的朱秋国创办云深处科技，报道回望他在机器人队的起点。
     url: http://www.news.zju.edu.cn/2025/0702/c86727a3066318/page.htm
 
+  - date: "05.05"
+    title: 2025 RoboCup 中国赛类人组决赛：ZJUDancer 1–2 TH-MOS
+    source: ZJUDancer Bilibili
+    kind: video
+    summary: 2025 中国赛类人组决赛全场录像，ZJUDancer 在决赛中 1:2 负于清华 TH-MOS。
+    url: https://www.bilibili.com/video/BV12vVrz2EUL/
+    image: images/media/bili-2025-china-final.jpg
+
+  - date: "03.07"
+    title: ZJUDancer 2025 参赛资格视频
+    source: wang314 / YouTube
+    kind: video
+    summary: 世界杯前的资格视频，展示机器人对未知足球位置的定位与朝球行走能力。
+    url: https://www.youtube.com/watch?v=xBzYvDxYTIc
+    image: images/media/youtube-2025-qualification.jpg
+
   - date: "02.20"
     title: 为什么是浙大？浙江省委机关报“两问”
     source: 观察者网
@@ -105,10 +154,25 @@ years:
     kind: competition
     summary: ZJUDancer 在荷兰埃因霍温参加 KidSize 组比赛，晋级十六强。
     url: https://humanoid.robocup.org/hl-2024/results-rc-hl-2024/kid-and-adult-sizes-games/
-    image: images/media/robocup-2025-1.jpg
+
+  - date: "07"
+    title: RoboCup 2024：KURA vs ZJUDancer
+    source: Zaky Askar Sonia / YouTube
+    kind: video
+    summary: 2024 埃因霍温 KidSize 组比赛录像，记录 KURA 与 ZJUDancer 的场上交手。
+    url: https://www.youtube.com/watch?v=hmU8WWDS3wY
+    image: images/media/youtube-2024-kura-match.jpg
 
 - year: 2023
   items:
+  - date: "12.13"
+    title: ZJUDancer Soccer Playing Skills
+    source: Bilibili
+    kind: video
+    summary: 队伍技能展示视频，记录机器人在训练场上的基础动作与射门。
+    url: https://www.bilibili.com/video/BV1Uc41117Fb/
+    image: images/media/bili-2023-skills.jpg
+
   - date: "05.24"
     title: ZJUDancer 荣获亚太机器人世界杯天津邀请赛类人组冠军
     source: 浙江大学控制学院
@@ -119,6 +183,14 @@ years:
 
 - year: 2021
   items:
+  - date: "05.24"
+    title: 2021 RoboCup 中国赛落幕，ZJUDancer 卫冕类人组冠军
+    source: 新浪新闻 / 央广网
+    kind: competition
+    summary: 赛事闭幕报道确认 ZJUDancer 卫冕类人组冠军，并引用了队员刘将品对天津赛场的评价。
+    url: https://news.sina.com.cn/o/2021-05-24/doc-ikmyaawc7184918.shtml
+    image: images/media/sina-2021-tianjin.png
+
   - date: "05.22"
     title: 冠军出炉！两大机器人世界杯赛事圆满落幕
     source: 网易 / 天津日报
@@ -128,6 +200,13 @@ years:
 
 - year: 2020
   items:
+  - date: "12.12"
+    title: 浙大机器人足球队闪耀 2020 RoboCup 中国赛（英文报道）
+    source: 浙江大学英文网
+    kind: competition
+    summary: 学校英文站报道 ZJUNlict 与 ZJUDancer 分获小型组、类人组冠军，并介绍 ZJUDancer 的自主机器人技术。
+    url: https://www.zju.edu.cn/english/_t874/2020/1212/c19573a2231049/page.htm
+
   - date: "11.19"
     title: ZJUDancer 荣获 2020 RoboCup 中国赛类人组冠军
     source: 浙江大学控制学院
@@ -138,6 +217,14 @@ years:
 
 - year: 2019
   items:
+  - date: "07.07"
+    title: 喜讯！ZJUNlict 卫冕 RoboCup 小型组世界冠军，ZJUDancer 荣获小仿人组亚军
+    source: 浙江大学控制学院
+    kind: competition
+    summary: 学院官方回顾 2019 世界杯：ZJUNlict 卫冕小型组冠军，ZJUDancer 获得 KidSize 亚军。
+    url: http://www.cse.zju.edu.cn/2019/0707/c39353a2693430/page.htm
+    image: images/media/cse-2019-runner-up.jpg
+
   - date: "07"
     title: RoboCup 2019 KidSize 决赛：Rhoban vs ZJUDancer
     source: Bilibili
@@ -154,6 +241,14 @@ years:
     summary: 队伍在加拿大蒙特利尔晋级四强，最终获得 KidSize 第四名，并在 Drop-In 项目中排名第二。
     url: https://humanoid.robocup.org/hl-2018/results/
 
+  - date: "06"
+    title: 2018 KidSize 三四名决赛：Barelang FC vs ZJUDancer
+    source: Barelang FC / YouTube
+    kind: video
+    summary: 三四名决赛点球大战录像；Barelang FC 以 4:3 胜出，ZJUDancer 最终获得第四名。
+    url: https://www.youtube.com/watch?v=22MWLSFS2Y4
+    image: images/media/youtube-2018-third-place.jpg
+
 - year: 2017
   items:
   - date: "08.07"
@@ -162,6 +257,14 @@ years:
     kind: team
     summary: 长篇报道 ZJUDancer 连续第三年获得世界杯亚军，以及队员重构胸腔、重写视觉代码的备赛故事。
     url: https://www.163.com/news/article/CR7B1SBA000187VI.html
+
+  - date: "07.31"
+    title: RoboCup 2017 KidSize 决赛：ZJUDancer vs Rhoban
+    source: Rhoban Officiel / YouTube
+    kind: video
+    summary: 2017 名古屋世界杯 KidSize 决赛全场录像，ZJUDancer 连续第三年获得亚军。
+    url: https://www.youtube.com/watch?v=UStWRR1r4aU
+    image: images/media/youtube-2017-final.jpg
 
   - date: "04.19"
     title: 浙大机器人足球队在 RoboCup 伊朗公开赛再夺冠
@@ -172,6 +275,14 @@ years:
 
 - year: 2016
   items:
+  - date: "07.13"
+    title: RoboCup 2016 KidSize 决赛：Rhoban vs ZJUDancer
+    source: Rhoban Officiel / YouTube
+    kind: video
+    summary: 2016 莱比锡世界杯 KidSize 决赛全场录像，ZJUDancer 获得亚军。
+    url: https://www.youtube.com/watch?v=d8UQGfvfTlE
+    image: images/media/youtube-2016-final.jpg
+
   - date: "07"
     title: RoboCup 2016：KidSize 亚军
     source: RoboCup Humanoid League
@@ -188,8 +299,36 @@ years:
     summary: 队伍在合肥世界杯获得 KidSize 亚军，CIT Brains Kid 夺冠。
     url: https://humanoid.robocup.org/hl-2015/results/
 
+- year: 2014
+  items:
+  - date: "02.16"
+    title: ZJUDancer 2014 世界杯参赛资格视频
+    source: ZJUDancer / YouTube
+    kind: video
+    summary: 2014 世界杯前的资格视频，展示机器人在标准 KidSize 场地上的行走、定位与射门。
+    url: https://www.youtube.com/watch?v=PhlA4Btuauc
+    image: images/media/youtube-2014-qualification.jpg
+
+- year: 2013
+  items:
+  - date: "01.21"
+    title: ZJUDancer 2013 世界杯参赛资格视频
+    source: ZJUDancer / YouTube
+    kind: video
+    summary: 早期参赛资格视频，记录 KidSize 机器人在比赛环境中的表现。
+    url: https://www.youtube.com/watch?v=BzEzoR6S45A
+    image: images/media/youtube-2013-qualification.jpg
+
 - year: 2010
   items:
+  - date: "08.01"
+    title: 2010 中国公开赛 ZJUDancer 全部进球
+    source: ZJUDancer / YouTube
+    kind: video
+    summary: 2010 中国公开赛进球集锦，包含一场 16:0 的比赛。
+    url: https://www.youtube.com/watch?v=VwWJyQatD1Q
+    image: images/media/youtube-2010-goals.jpg
+
   - date: "07.28"
     title: 浙大 ZJUDancer 机器人队卫冕全国冠军
     source: 浙江大学
