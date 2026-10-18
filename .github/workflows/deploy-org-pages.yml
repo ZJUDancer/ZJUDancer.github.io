@@ -1,8 +1,12 @@
 name: Deploy ZJUDancer.github.io
 
 # Publish the organization site from the Hugo source on faster_website.
-# The repository-level Pages source must be "GitHub Actions"; the workflow
-# switches it once before uploading the first artifact.
+# The repository-level Pages source is "GitHub Actions".
+#
+# Do not add a PUT /pages step here: the workflow GITHUB_TOKEN cannot change
+# repository Pages settings ("Resource not accessible by integration").
+# The github-pages environment protection rule also rejects faster_website,
+# so this job intentionally does not bind that environment.
 on:
   push:
     branches: [faster_website]
