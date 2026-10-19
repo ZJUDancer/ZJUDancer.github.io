@@ -1288,6 +1288,50 @@ html[data-theme='dark'] {
   }
 }
 
+// Team 页标题下方的队伍合照（可选，由 history.yaml 的 heroImage 控制）。
+.team-hero {
+  max-width: 62rem;
+  margin: 1.25rem auto 2.5rem;
+  padding: 0 0.75rem;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+  }
+
+  figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.78rem;
+    color: rgba(get-light-color('text-color'), 0.6);
+    text-align: center;
+  }
+
+  @media (max-width: 767.98px) {
+    margin: 0.9rem auto 1.8rem;
+    padding: 0 0.5rem;
+
+    img {
+      border-radius: 14px;
+    }
+  }
+}
+
+html[data-theme='dark'] {
+  .team-hero {
+    img {
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    figcaption {
+      color: rgba(get-dark-color('text-color'), 0.65);
+    }
+  }
+}
+
 // Team 页面「队伍历史」下面的两块：指导老师、队员名单（layouts/partials/team/*.html）
 .team-advisors-section {
   .advisor {

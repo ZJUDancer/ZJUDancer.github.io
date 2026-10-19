@@ -18,6 +18,12 @@ section:
 
 # 时间轴上方的一句话说明
 intro: 
+
+# 队伍页标题下方的合照（可选，路径相对 assets/）
+heroImage: images/site/team.jpg
+heroAlt: ZJUDancer 队员合影
+heroCaption: ZJUDancer 队员合影
+
 # 卡片上的字段名
 labels:
   platform: 平台

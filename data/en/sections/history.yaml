@@ -23,6 +23,11 @@ section:
 # One-line introduction above the timeline
 intro: 
 
+# Optional team photo shown below the page title (path relative to assets/).
+heroImage: images/site/team.jpg
+heroAlt: ZJUDancer team photo
+heroCaption: ZJUDancer team photo
+
 # Field names used on the cards
 labels:
   platform: Platform

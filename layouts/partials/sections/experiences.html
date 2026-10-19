@@ -16,6 +16,22 @@
         <span id="{{ $sectionID }}"></span>{{ .section.name }}</h1>
   {{ end }}
 
+  {{ $heroImage := .heroImage }}
+  {{ $heroAlt := .heroAlt | default "ZJUDancer team photo" }}
+  {{ $heroCaption := .heroCaption }}
+  {{ with $heroImage }}
+    {{ $image := resources.Get . }}
+    {{ if $image }}
+      {{ $image = $image.Fill "1600x900 Center webp" }}
+      <figure class="team-hero">
+        <img src="{{ $image.RelPermalink }}" alt="{{ $heroAlt }}" loading="eager" />
+        {{ with $heroCaption }}
+          <figcaption>{{ . }}</figcaption>
+        {{ end }}
+      </figure>
+    {{ end }}
+  {{ end }}
+
   <div class="container timeline text-justify">
     {{ with .intro }}
       <p class="history-intro text-center">{{ . | markdownify }}</p>
