@@ -35,6 +35,10 @@ membersHeading: Project Participants
 memberGroups:
 - name: Decision Making
   years:
+  - year: Class of 2023
+    members:
+    - 王诗情
+    - 张简
   - year: Class of 2024
     members:
     - 张天羽
@@ -43,25 +47,32 @@ memberGroups:
     - 倪振昊
   - year: Class of 2025
     members:
-    - 肖子锋
+    - 肖子峰
     - 王睿恒
     - 张天泽
     - 上官加城
     - 李昱龙
     - 阎德淳
     - 黄伟杰
-  - year: Class of 2026
+  - year: Graduate students
     members:
     - 张腾
 
 - name: Motion Control
   years:
+  - year: Class of 2023
+    members:
+    - 李业彤
+    - 方辰
+    - 盛开圆
+    - 陈浩宇
   - year: Class of 2024
     members:
     - 魏英殊
     - 李彦霖
     - 叶恒青
     - 胡博文
+    - 朱熠正
   - year: Class of 2025
     members:
     - 王天逸
@@ -71,15 +82,27 @@ memberGroups:
     - 于笑晗
     - 胡尊昊
     - 张不凡
+  - year: Graduate students
+    members:
+    - 吴霁蓉
+    - 侯召然
+    - 王毅然 (25–26 captain)
 
 - name: Vision
   years:
+  - year: Class of 2023
+    members:
+    - 吴俊
+    - 王贤宇
+    - 王紫旭
+    - 邹子瑞
   - year: Class of 2024
     members:
     - 周星豪
     - 赵楼晗
     - 王睿
     - 朱曦彤
+    - 张博宣
   - year: Class of 2025
     members:
     - 陈家俊
@@ -87,15 +110,25 @@ memberGroups:
     - 王文博
     - 白希墨
     - 陈铭尚
+    - 金翔
+    - 王瑞
   - year: Class of 2026
     members:
     - 翟彦棋
+  - year: Graduate students
+    members:
+    - 叶轩
+    - 许杰
 
 - name: Mechanical
   years:
+  - year: Class of 2023
+    members:
+    - 徐理智
   - year: Class of 2024
     members:
     - 金思睿
+    - 李嘉豪
     - 李颖睿
   - year: Class of 2025
     members:
@@ -104,6 +137,14 @@ memberGroups:
 
 - name: Electronics
   years:
+  - year: Class of 2023
+    members:
+    - 张华册
+    - 李梓川
+  - year: Class of 2024
+    members:
+    - 苗翔宇
   - year: Class of 2025
     members:
+    - 周奕辰
     - 苏玥汶
